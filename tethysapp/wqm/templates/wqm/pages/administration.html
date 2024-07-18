@@ -1,5 +1,18 @@
 {% extends "wqm/base.html" %}
+{% load static %}
 
 {% block content %}
-<p>administration</p>
+
+{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link href="{% static 'wqm/css/pages/administration.css' %}" rel="stylesheet" />
+
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+
 {% endblock %}
