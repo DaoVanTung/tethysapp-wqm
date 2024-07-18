@@ -34,7 +34,25 @@
 }
 
 .content-box {
-    background-color: #7094e2;
     width: calc(100% - 320px);
     height: 100%;
+}
+
+.content-box__content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 16px;
+    font-size: 14px;
+}
+
+div.dt-container .dt-search input {
+    width: 320px;
+    outline: none;
+}
+
+.btn.btn-success {
+    /* border-radius: 2px; */
+    padding: 4px 8px;
+    margin-right: 4px;
 }

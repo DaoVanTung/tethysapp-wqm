@@ -88,3 +88,13 @@ body>div:first-child {
     margin-top: 48px;
     height: calc(100% - 48px);
 }
+
+.content-box__content div.dt-container .dt-input {
+    border-radius: 0;
+    margin-left: 8px;
+}
+
+.alert.alert-info {
+    border-radius: 0;
+    margin-bottom: 6px;
+}

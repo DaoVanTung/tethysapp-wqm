@@ -1,3 +1,13 @@
-<div>
-    <p>License</p>
+<div class="content-box__content" id="content-box__license">
+    <div class="alert alert-info" role="alert">
+        <b>Tổng số Giấy phép: <span id="licenses-total"></span></b> - Còn hạn: <span id="licenses-valid"></span> - Sắp hết hạn: <span id="licenses-expiring-soon"></span> - Hết hạn: <span id="licenses-expired"></span>
+      </div>
+    <table id="licenses-table" class="table table-bordered" cellspacing="8" width="100%"></table>
+</div>
+
+<div class="content-box__content d-none" id="content-box__license-detail">
+    <div>
+        <button type="button" class="btn" onclick="on_close_license_detail_click()"><i class="bi bi-x"></i></button>
+        Chi tiết Giấy phép
+    </div>
 </div>

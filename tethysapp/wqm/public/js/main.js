@@ -17,3 +17,18 @@ $(document).ready(function () {
         $(active_menu_id).addClass('active');
     }
 });
+
+const $loading = $('#loading-component');
+
+function addLoading($element) {
+    if ($loading.length) {
+        const $cloneLoading = $($loading.prop('content')).clone();
+        $element.append($cloneLoading);
+    }
+}
+
+function removeLoading($element) {
+    $element.find('.loading').each(function() {
+        $(this).remove();
+    });
+}
