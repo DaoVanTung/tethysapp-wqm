@@ -1,18 +1,37 @@
-{% extends "wqm/base.html" %}
-{% load static %}
+{% extends "wqm/base.html" %} {% load static %} {% block content %}
+<div class="menu-box">
+    <div class="menu-box__item active" id="menu-license">
+        <i class="bi bi-file-earmark-fill"></i>
+        <p>Giấy phép Tài nguyên nước</p>
+    </div>
+    <div class="menu-box__item" id="menu-sensor">
+        <i class="bi bi-hdd-network-fill"></i>
+        <p>Thiết lập cảm biến</p>
+    </div>
+    <div class="menu-box__item" id="menu-config">
+        <i class="bi bi-gear-wide-connected"></i>
+        <p>Cấu hình</p>
+    </div>
+</div>
 
-{% block content %}
+<div class="content-box" id="content-menu-license">
+{% include 'wqm/components/administration/license.html' %}
+</div>
 
-{% endblock %}
+<div class="content-box d-none" id="content-menu-sensor">
+    {% include 'wqm/components/administration/sensor.html' %}
+</div>
 
-{% block styles %}
-{{ block.super }}
+<div class="content-box d-none" id="content-menu-config">
+    {% include 'wqm/components/administration/config.html' %}
+</div>
+
+{% endblock %} {% block styles %} {{ block.super }}
 <link href="{% static 'wqm/css/pages/administration.css' %}" rel="stylesheet" />
 
-{% endblock %}
+{% endblock %} 
 
-
-{% block scripts %}
-{{ block.super }}
+{% block scripts %} {{ block.super }} 
+<script src="{% static 'wqm/js/pages/administration.js' %}" type="text/javascript"></script>
 
 {% endblock %}
