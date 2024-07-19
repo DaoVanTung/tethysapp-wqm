@@ -56,3 +56,59 @@ div.dt-container .dt-search input {
     padding: 4px 8px;
     margin-right: 4px;
 }
+
+#licenses-table .btn {
+    padding: 4px 8px;
+    font-size: 14px;
+}
+
+#content-box__license-detail {
+    padding-top: 0;
+}
+
+#content-box__license-detail .btn {
+    padding: 0px 0px 10px 0px;
+}
+
+#content-box__license-detail .btn i{
+    font-size: 28px;
+}
+
+#content-box__license-detail #license-map {
+    width: 100%;
+    height: calc(100% - 54px);
+    position: relative;
+}
+
+#point-data {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    width: 480px;
+    overflow: auto;
+
+}
+
+#point-data tr td:first-child {
+    width: 160px;
+}
+
+.point-data__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#point-data__close-btn {
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+#point-data table {
+    margin-bottom: 0;
+}

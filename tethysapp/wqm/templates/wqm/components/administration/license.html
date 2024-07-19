@@ -1,13 +1,54 @@
 <div class="content-box__content" id="content-box__license">
     <div class="alert alert-info" role="alert">
-        <b>Tổng số Giấy phép: <span id="licenses-total"></span></b> - Còn hạn: <span id="licenses-valid"></span> - Sắp hết hạn: <span id="licenses-expiring-soon"></span> - Hết hạn: <span id="licenses-expired"></span>
-      </div>
+        <b>Tổng số Giấy phép: <span id="licenses-total"></span></b> - Còn hạn: <span id="licenses-valid"></span> - Sắp
+        hết hạn: <span id="licenses-expiring-soon"></span> - Hết hạn: <span id="licenses-expired"></span>
+    </div>
     <table id="licenses-table" class="table table-bordered" cellspacing="8" width="100%"></table>
 </div>
 
-<div class="content-box__content d-none" id="content-box__license-detail">
+<div class="content-box__content  d-none" id="content-box__license-detail">
     <div>
         <button type="button" class="btn" onclick="on_close_license_detail_click()"><i class="bi bi-x"></i></button>
-        Chi tiết Giấy phép
+        <b style="font-size: 16px; margin-left: 4px;">Chi tiết Giấy phép</b>
+    </div>
+
+    <table class="table table-bordered wqi-lookup-show-item text-center" id="wqi-lookup-table">
+        <thead>
+            <tr>
+                <td scope="col"><b>Số hiệu văn bản</b></td>
+                <td scope="col"><b>Ngày ban hành</b></td>
+                <td scope="col"><b>Ngày hết hạn</b></td>
+                <td scope="col"><b>Loại giấy phép</b></td>
+                <td scope="col"><b>Tên tổ chức/cá nhân</b></td>
+                <td scope="col"><b>Số điểm khai thác</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="license-so-hieu"></td>
+                <td id="license-ngay-ban-hanh"></td>
+                <td id="license-ngay-het-han"></td>
+                <td id="license-loai-giay-phep"></td>
+                <td id="license-ten-to-chuc"></td>
+                <td id="license-diem-khai-thac"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div id="license-map">
+        <div id="point-data" class="d-none">
+            <div class="point-data__nav">
+                <h6>Thông tin điểm khai thác</h6>
+                <div id="point-data__close-btn">
+                  <i class="bi bi-x"></i>
+                </div>
+              </div>
+
+            <table class="table table-bordered table-striped">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
