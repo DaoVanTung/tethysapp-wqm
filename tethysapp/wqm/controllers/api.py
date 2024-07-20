@@ -7,7 +7,6 @@ DB_NAME = 'wqm'
 USERNAME = 'postgres'
 PASSWORD = 'Tecotec@2023#66'
 
-
 @controller(url='/api/licenses')
 def get_licenses(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
@@ -17,13 +16,13 @@ def get_licenses(request):
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()
-        # Lấy tên các cột
+
+    # Lấy tên các cột
     colnames = [desc[0] for desc in cur.description]
 
     # Chuyển đổi dữ liệu thành danh sách các từ điển
     result_list = [dict(zip(colnames, row)) for row in rows]
 
-    # print(result_list)
     # Đóng kết nối và cursor sau khi hoàn thành
     cur.close()
     conn.close()
@@ -31,7 +30,7 @@ def get_licenses(request):
     return JsonResponse({'data': result_list})
 
 @controller(url='/api/licenses/{id}/water_exploitation_points')
-def get_licenses(request, id):
+def get_license_water_exploitation_points(request, id):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 
@@ -39,13 +38,13 @@ def get_licenses(request, id):
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()
-        # Lấy tên các cột
+
+    # Lấy tên các cột
     colnames = [desc[0] for desc in cur.description]
 
     # Chuyển đổi dữ liệu thành danh sách các từ điển
     result_list = [dict(zip(colnames, row)) for row in rows]
 
-    # print(result_list)
     # Đóng kết nối và cursor sau khi hoàn thành
     cur.close()
     conn.close()

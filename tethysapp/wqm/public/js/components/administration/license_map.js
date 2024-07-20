@@ -1,10 +1,13 @@
+var water_exploitation_points;
+
 $("#point-data__close-btn").on('click', function () {
     $("#point-data").addClass('d-none');
 });
 
 function on_view_license_button_click(license_id) {
-    $('#content-box__license-detail').removeClass('d-none');
+    console.log(license_id);
     $('#content-box__license').addClass('d-none');
+    $('#content-box__license-detail').removeClass('d-none');
 
     // Thêm và áp dụng filter để lọc điểm khai thác của license_id
     map.setFilter('diem_khai_thac_nuoc_layer', ['==', ['get', 'giay_phep_tai_nguyen_nuoc_id'], license_id]);
@@ -21,10 +24,13 @@ function on_view_license_button_click(license_id) {
     $("#license-ten-to-chuc").text(license_data["ten_to_chuc_ca_nhan"]);
     $("#license-diem-khai-thac").text('');
 
-    map.once('idle', function () {
-        var features = map.queryRenderedFeatures({ layers: ["diem_khai_thac_nuoc_layer"] });
-        $("#license-diem-khai-thac").text(features.length);
-    
+    $.ajax({
+        'url': `/apps/wqm/api/licenses/${license_id}/water_exploitation_points`,
+        'method': 'GET',
+        'success': function (res) {
+            water_exploitation_points = res['data'];
+            $("#license-diem-khai-thac").text(water_exploitation_points.length);
+        }
     });
 }
 
@@ -56,6 +62,9 @@ var map = new maplibregl.Map({
                 source: "becagisSource",
                 minzoom: 0,
                 maxzoom: 22,
+                paint: {
+                    'raster-opacity': 0.4
+                }
             }
         ],
     },
@@ -138,8 +147,9 @@ function show_point_data(properties) {
     $('#point-data tbody').append(newRow);
 
     var newRow = $('<tr>');
+    var luu_luong = properties.luu_luong_khai_thac === undefined ? 'Không xác định' : properties.luu_luong_khai_thac + ' m³/ngày';
     newRow.append('<td>Lưu lượng cho phép</td>');
-    newRow.append(`<td>${properties.luu_luong_khai_thac} m³/ngày</td>`);
+    newRow.append(`<td>${luu_luong} </td>`);
     $('#point-data tbody').append(newRow);
 
     var newRow = $('<tr>');
@@ -151,5 +161,95 @@ function show_point_data(properties) {
     newRow.append('<td>Phương thức khai thác</td>');
     newRow.append(`<td>${properties.phuong_thuc_khai_thac}</td>`);
     $('#point-data tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    var che_do_khai_thac = properties.che_do_khai_thac === undefined ? 'Không xác định' : properties.che_do_khai_thac;
+    newRow.append('<td>Chế độ khai thác</td>');
+    newRow.append(`<td>${che_do_khai_thac} </td>`);
+    $('#point-data tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    var nguon_nuoc_khai_thac = properties.nguon_nuoc_khai_thac === undefined ? 'Không xác định' : properties.nguon_nuoc_khai_thac;
+    newRow.append('<td>Nguồn nước khai thác</td>');
+    newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
+    $('#point-data tbody').append(newRow);
+
+    $("#total-flow-text").text('150.5 m³');
+    $("#total-flow-analysis").text('Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.');
+
+    draw_water_flow_chart();
+}
+
+
+var myChart;
+
+function draw_water_flow_chart() {
+
+    const data = {
+        1: 6.82,
+        2: 5.83,
+        3: 5.73,
+        4: 8.24,
+        5: 7.62,
+        6: 1.25,
+        7: 6.01,
+        8: 7.28,
+        9: 5.92,
+        10: 6.76,
+        11: 10.47,
+        12: 6.41,
+        13: 2.87,
+        14: 5.01,
+        15: 5.22,
+        16: 5.34,
+        17: 5.17,
+        18: 8.92,
+        19: 11.53,
+        20: 5.78,
+        21: 6.16,
+        22: 5.85,
+        23: 6.79,
+        24: 5.93
+    };
+    const labels = Object.keys(data);
+    const values = Object.values(data);
+
+    var chartElement = document.getElementById("total-fow-chart").getContext("2d");
+    try {
+        myChart.destroy();
+    } catch (e) { }
+
+    myChart = new Chart(chartElement, {
+        type: 'line',
+        data: {
+            labels: labels, // Trục x: giờ
+            datasets: [{
+                label: 'Lưu lượng nước',
+                data: values, // Trục y: lưu lượng
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1,
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Giờ'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Lưu lượng'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 
 }

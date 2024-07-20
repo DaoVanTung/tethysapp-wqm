@@ -7,4 +7,3 @@ def administration(request):
     context = {}
 
     return render(request, 'wqm/pages/administration.html', context)
-

@@ -22,7 +22,6 @@ function analysis_licenses() {
     $('#licenses-expired').text(licenses_expired);
 }
 
-
 function fill_licenses_to_table() {
     let data = licenses_cache;
 
@@ -34,24 +33,23 @@ function fill_licenses_to_table() {
 
     licenses_table = $('#licenses-table').DataTable({
         data: data,
-        // searching: false,
         language: {
             zeroRecords: 'Không có kết quả tìm kiếm phù hợp',
-            "lengthMenu": "Số giấy phép cho mỗi trang _MENU_", // Tùy chỉnh text "entries per page"
+            "lengthMenu": "Số giấy phép cho mỗi trang _MENU_",
             "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ giấy phép",
             "search": "Tìm kiếm",
         },
+
+        searching: false,
         pageLength: 25,
-        order: [[1, 'asc']],
-        columnDefs: [
-            { targets: 0, visible: false } // Ẩn cột id
-        ],
+        order: [[0, 'asc']],
+        columnDefs: [],
         columns: [
             {
                 "targets": 0,
                 title: "STT",
                 "render": function (data, type, full, meta) {
-                    return meta.row + 1; // Trả về số thứ tự
+                    return meta.row + 1;
                 }
             },
             {
