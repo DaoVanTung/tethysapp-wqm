@@ -39,6 +39,46 @@ function on_close_license_detail_click() {
     $('#content-box__license-detail').addClass('d-none');
 }
 
+
+// Fake data
+let geojson = 
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [105.468424, 10.257405]
+      },
+      "properties": {
+        "id": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [105.432899, 10.241806]
+      },
+      "properties": {
+        "id": 2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [105.421154, 10.165152]
+      },
+      "properties": {
+        "id": 3
+      }
+    }
+  ]
+};
+
+
 // Hiện bản đồ
 var map = new maplibregl.Map({
     container: 'license-map',
@@ -49,6 +89,10 @@ var map = new maplibregl.Map({
                 type: "raster",
                 tiles: ["https://maps.becagis.vn/tiles/basemap/light/{z}/{x}/{y}.png"],
                 tileSize: 256,
+            },
+            'myGeoJSONSource': {
+                type: 'geojson',
+                data: geojson,
             },
             "diem_khai_thac_nuoc": {
                 type: "vector",
@@ -78,7 +122,6 @@ var map = new maplibregl.Map({
 
 map.addControl(new maplibregl.NavigationControl());
 
-
 map.on("load", async function () {
     const imagePromises = [
         map.loadImage("/static/wqm/images/diem_quan_trac.png"),
@@ -86,7 +129,7 @@ map.on("load", async function () {
     ];
 
     Promise.all(imagePromises).then(images => {
-        map.addImage("diem_xa_thai", images[0].data);
+        map.addImage("diem_quan_trac", images[0].data);
         map.addImage("diem_khai_thac_nuoc", images[1].data);
 
         // Thêm layer polygon sau khi đã tải xong ảnh
@@ -102,6 +145,16 @@ map.on("load", async function () {
                 },
             }
         );
+
+        map.addLayer({
+            id: 'myGeoJSONLayer',
+            type: "symbol",
+            source: "myGeoJSONSource",
+            layout: {
+                "icon-image": "diem_quan_trac",
+                "icon-size": 0.4,
+            },
+        });
 
         // Thay đổi con trỏ chuột khi di chuyển qua điểm
         map.on("mouseenter", "diem_khai_thac_nuoc_layer", function () {
