@@ -16,10 +16,10 @@ function analysis_licenses() {
         }
     });
 
-    $('#licenses-total').text(licenses_total);
-    $('#licenses-valid').text(licenses_valid);
-    $('#licenses-expiring-soon').text(licenses_expiring_soon);
-    $('#licenses-expired').text(licenses_expired);
+    $('#licenses-total').text(licenses_total.toLocaleString());
+    $('#licenses-valid').text(licenses_valid.toLocaleString());
+    $('#licenses-expiring-soon').text(licenses_expiring_soon.toLocaleString());
+    $('#licenses-expired').text(licenses_expired.toLocaleString());
 }
 
 function fill_licenses_to_table() {
@@ -99,6 +99,7 @@ function fill_licenses_to_table() {
             {
                 data: "id",
                 title: "",
+                width: '86px',
                 searchable: false,
                 orderable: false,
                 render: (data, type, row) => {

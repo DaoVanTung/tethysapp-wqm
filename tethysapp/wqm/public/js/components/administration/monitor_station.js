@@ -13,8 +13,8 @@ function fill_monitor_station_to_table() {
         data: data,
         language: {
             zeroRecords: 'Không có kết quả tìm kiếm phù hợp',
-            "lengthMenu": "Số giấy phép cho mỗi trang _MENU_",
-            "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ giấy phép",
+            "lengthMenu": "Số điểm quan trắc cho mỗi trang _MENU_",
+            "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ điểm quan trắc",
             "search": "Tìm kiếm",
         },
 
@@ -26,14 +26,15 @@ function fill_monitor_station_to_table() {
             {
                 "targets": 0,
                 title: "STT",
+                width: '120px',
                 "render": function (data, type, full, meta) {
                     return meta.row + 1;
-                }
+                },
             },
             {
                 data: "ma_tram",
                 title: "Mã trạm",
-                width: '180px',
+                width: '160px',
                 render: (data, type, row) => {
                     return data;
                 },
@@ -57,19 +58,20 @@ function fill_monitor_station_to_table() {
             {
                 data: "id",
                 title: "Điểm khai thác liên quan",
+                width: '400px',
                 render: (data, type, row, meta) => {
 
                     if (meta.row != 1) {
                         return '';
                     }
                     return `
-                    <ul>
-                    <li>Trạm cấp nước tập trung Khu vực Tân Mỹ</li>
-                    <li>Trong khuôn viên cúa Trạm cấp nước thị trấn Phú Lộc</li>
-                    <li>Hệ cấp nước tập trung Trà Set</li>
-                    <li>Trạm cấp nước Tắc Cậu</li>
-                    </ul>
-                    `;
+                        <ul>
+                        <li>Trạm cấp nước tập trung Khu vực Tân Mỹ</li>
+                        <li>Trong khuôn viên cúa Trạm cấp nước thị trấn Phú Lộc</li>
+                        <li>Hệ cấp nước tập trung Trà Set</li>
+                        <li>Trạm cấp nước Tắc Cậu</li>
+                        </ul>
+                        `;
                 },
             },
             {
@@ -128,13 +130,13 @@ function fill_monitor_station_to_table() {
                 title: "",
                 searchable: false,
                 orderable: false,
-                width: '160px',
+                width: '78px',
                 render: (data, type, row) => {
                     return `
-                    <div class='d-flex'>
-                        <button type="button" class="btn btn-link" onclick="show_modal_ms_detail('${data}')" data-bs-toggle="modal" data-bs-target="#ms-detail-modal">Chi tiết</button>
-                    </div>
-                    `;
+                        <div class='d-flex'>
+                            <button type="button" class="btn btn-link" onclick="show_modal_ms_detail('${data}')" data-bs-toggle="modal" data-bs-target="#ms-detail-modal">Chi tiết</button>
+                        </div>
+                        `;
                 },
             },
         ]
