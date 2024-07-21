@@ -1,4 +1,4 @@
-<div class="content-box__content" id="content-box__monitor-station">
+<div class="content-box__content  d-none" id="content-box__monitor-station">
     <h6>Danh sách Điểm quan trắc</h6>
     <div>
         <div class="filter-box">
@@ -24,23 +24,90 @@
                 </select>
             </div>
             <div class="filter-box__item filter-box__buttons">
-                <button class="btn btn-success">
+                <button class="btn btn-success" onclick="on_change_tab('content-box__monitor-station-add')">
                     <i class="bi bi-plus-square"></i>
                     Thêm mới
                 </button>
 
-                <button class="btn btn-info">
+                <button class="btn btn-info" onclick="on_change_tab('content-box__monitor-station-map')">
                     <i class="bi bi-map"></i>
                     Xem trên bản đồ
                 </button>
             </div>
         </div>
-        <table id="licenses-table" class="table table-bordered" cellspacing="8" width="100%"></table>
+        <table id="monitor-station-table" class="table table-bordered" cellspacing="8" width="100%"></table>
     </div>
 
 </div>
 
 
-<div class="content-box__content d-none" id="content-box__monitor-station-add">
+<div class="content-box__content" id="content-box__monitor-station-add">
+    <div>
+        <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-add')"><i class="bi bi-x"></i></button>
+        <b style="font-size: 16px; margin-left: 4px;">Thêm mới điểm quan trắc</b>
+    </div>
+
+    <form id="add-ms-form">
+        <div class="row">
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-code" class="form-label">Mã trạm</label>
+                <input type="text" name="ms-code" id="ms-code" class="form-control">
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-number" class="form-label">Số hiệu</label>
+                <input type="text" name="ms-number" id="ms-number" class="form-control">
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-location" class="form-label">Vị trí</label>
+                <input type="text" name="ms-location" id="ms-location" class="form-control">
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-province" class="form-label">Tỉnh</label>
+                <select id="ms-province" class="form-select">
+                    <option selected value="1">Tỉnh Trà Vinh</option>
+                    <option value="2">Tỉnh Vĩnh Long</option>
+                </select>
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-long" class="form-label">Kinh độ</label>
+                <input type="number" name="ms-long" id="ms-long" class="form-control">
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-lat" class="form-label">Vĩ độ</label>
+                <input type="number" name="ms-lat" id="ms-lat" class="form-control">
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-type" class="form-label">Loại trạm</label>
+                <select id="ms-type" class="form-select" aria-label="Chọn loại trạm">
+                    <option selected value="1">Điểm quan trắc nước mặt</option>
+                    <option value="2">Điểm quan trắc nước dưới đất</option>
+                </select>
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-config" class="form-label">Cấu hình</label>
+                <select id="ms-config" class="form-select" aria-label="Chọn cấu hình">
+                    <option selected value="1">Điểm quan trắc nước mặt</option>
+                    <option value="2">Điểm quan trắc nước dưới đất</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-flex" style="justify-content: end;">
+            <button type="submit" class="btn btn-success btn-block mt-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                    <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                    <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                  </svg>
+                Lưu
+        </button>
+        </div>
+    </form>
     
+</div>
+
+<div class="content-box__content d-none" id="content-box__monitor-station-map">
+    <div>
+        <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-map')"><i class="bi bi-x"></i></button>
+        <b style="font-size: 16px; margin-left: 4px;">Bản đồ Điểm quan trắc</b>
+    </div>
+
 </div>

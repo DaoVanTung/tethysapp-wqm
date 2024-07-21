@@ -38,8 +38,22 @@ $.ajax({
     'success': function (res) {
         licenses_cache = res['data'];
         licenses_total = licenses_cache.length;
-        console.log(licenses_cache);
+
         fill_licenses_to_table();
         analysis_licenses();
+    }
+});
+
+
+// Lấy danh sách điểm quan trắc
+var monitor_station_cache = [];
+var monitor_station_table = null;
+
+$.ajax({
+    'url': '/apps/wqm/api/monitoring_stations/',
+    'method': 'GET',
+    'success': function (res) {
+        monitor_station_cache = res['data'];
+        fill_monitor_station_to_table();
     }
 });

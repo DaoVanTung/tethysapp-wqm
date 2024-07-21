@@ -62,17 +62,17 @@ div.dt-container .dt-search input {
     font-size: 14px;
 }
 
-#content-box__license-detail {
+#content-box__license-detail, #content-box__monitor-station-add, #content-box__monitor-station-map {
     padding-top: 0;
     display: flex;
     flex-direction: column;
 }
 
-#content-box__license-detail .btn {
+.content-box__content .btn {
     padding: 0px 0px 8px 0px;
 }
 
-#content-box__license-detail .btn i{
+.content-box__content .btn i{
     font-size: 28px;
 }
 
@@ -149,12 +149,24 @@ div.dt-container .dt-search input {
 
 
 .filter-box__item.filter-box__buttons button {
-    height: 38px;
+    height: 36px;
     border-radius: 0px;
     font-size: 14px;
     color: #fff;
+    padding: 4px 8px;
 }
 
 .filter-box__item.filter-box__buttons button i{
     margin-right: 4px;
+    font-size: 16px;
+}
+
+#add-ms-form input, #add-ms-form select {
+    border-radius: 0;
+}
+
+#add-ms-form .btn {
+    border-radius: 0px;
+    padding: 4px 20px;
+    font-size: 14px;
 }
