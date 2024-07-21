@@ -1,4 +1,4 @@
-<div class="content-box__content  d-none" id="content-box__monitor-station">
+<div class="content-box__content" id="content-box__monitor-station">
     <h6>Danh sách Điểm quan trắc</h6>
     <div>
         <div class="filter-box">
@@ -10,9 +10,19 @@
                 <label for="monitor-province">Tỉnh</label>
                 <select id="monitor-province" class="form-control" aria-label="Default select example">
                     <option selected>Tất cả</option>
-                    <option value="1">Còn hạn</option>
-                    <option value="2">Sắp hết hạn</option>
-                    <option value="3">Hết hạn</option>
+                    <option value="1">Tỉnh Trà Vinh</option>
+                    <option value="2">Tỉnh An Giang</option>
+                    <option value="3">Tỉnh Bạc Liêu</option>
+                    <option value="4">Tỉnh Bến Tre</option>
+                    <option value="5">Tỉnh Cà Mau</option>
+                    <option value="6">Tỉnh Đồng Tháp</option>
+                    <option value="7">Tỉnh Hậu Giang</option>
+                    <option value="8">Tỉnh Kiên Giang</option>
+                    <option value="9">Tỉnh Long An</option>
+                    <option value="10">Tỉnh Sóc Trăng</option>
+                    <option value="11">Tỉnh Tiền Giang</option>
+                    <option value="12">Tỉnh Vĩnh Long</option>
+                    <option value="13">Thành phố Cần Thơ</option>
                 </select>
             </div>
             <div class="filter-box__item">
@@ -37,11 +47,9 @@
         </div>
         <table id="monitor-station-table" class="table table-bordered" cellspacing="8" width="100%"></table>
     </div>
-
 </div>
 
-
-<div class="content-box__content " id="content-box__monitor-station-add">
+<div class="content-box__content d-none" id="content-box__monitor-station-add">
     <div>
         <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-add')"><i class="bi bi-x"></i></button>
         <b style="font-size: 16px; margin-left: 4px;">Thêm mới điểm quan trắc</b>
@@ -51,30 +59,41 @@
         <div class="row">
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-code" class="form-label">Mã trạm</label>
-                <input type="text" name="ms-code" id="ms-code" class="form-control">
+                <input type="text" name="ms-code" id="ms-code" class="form-control" />
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-number" class="form-label">Số hiệu</label>
-                <input type="text" name="ms-number" id="ms-number" class="form-control">
+                <input type="text" name="ms-number" id="ms-number" class="form-control" />
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-location" class="form-label">Vị trí</label>
-                <input type="text" name="ms-location" id="ms-location" class="form-control">
+                <input type="text" name="ms-location" id="ms-location" class="form-control" />
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-province" class="form-label">Tỉnh</label>
                 <select id="ms-province" class="form-select">
-                    <option selected value="1">Tỉnh Kiên Giang</option>
-                    <option value="2">Tỉnh Vĩnh Long</option>
+                    <option selected value="1">Tỉnh Trà Vinh</option>
+                    <option value="2">Tỉnh An Giang</option>
+                    <option value="3">Tỉnh Bạc Liêu</option>
+                    <option value="4">Tỉnh Bến Tre</option>
+                    <option value="5">Tỉnh Cà Mau</option>
+                    <option value="6">Tỉnh Đồng Tháp</option>
+                    <option value="7">Tỉnh Hậu Giang</option>
+                    <option value="8">Tỉnh Kiên Giang</option>
+                    <option value="9">Tỉnh Long An</option>
+                    <option value="10">Tỉnh Sóc Trăng</option>
+                    <option value="11">Tỉnh Tiền Giang</option>
+                    <option value="12">Tỉnh Vĩnh Long</option>
+                    <option value="13">Thành phố Cần Thơ</option>
                 </select>
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-long" class="form-label">Kinh độ</label>
-                <input type="number" name="ms-long" id="ms-long" class="form-control">
+                <input type="number" name="ms-long" id="ms-long" class="form-control" />
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-lat" class="form-label">Vĩ độ</label>
-                <input type="number" name="ms-lat" id="ms-lat" class="form-control">
+                <input type="number" name="ms-lat" id="ms-lat" class="form-control" />
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-type" class="form-label">Loại trạm</label>
@@ -132,21 +151,21 @@
                             <td>MPN</td>
                         </tr>
                     </tbody>
-                  </table>
+                </table>
             </div>
-
         </div>
         <div class="d-flex" style="justify-content: end;">
             <button type="submit" class="btn btn-success btn-block mt-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
-                    <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
-                    <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
-                  </svg>
+                    <path
+                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"
+                    />
+                    <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
+                </svg>
                 Lưu
-        </button>
+            </button>
         </div>
     </form>
-    
 </div>
 
 <div class="content-box__content d-none" id="content-box__monitor-station-map">
@@ -170,6 +189,29 @@
 
             <p class="mt-2 mb-2"><b>Biểu đồ Giá trị WQI tại điểm quan trắc trong 30 ngày qua</b></p>
             <canvas id="wqi-chart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ms-detail-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 >Thông tin điểm quan trắc</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <tbody></tbody>
+                </table>
+
+                <p class="mt-2 mb-2"><b>Biểu đồ Giá trị WQI tại điểm quan trắc trong 30 ngày qua</b></p>
+                <canvas id="wqi-detail-chart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
         </div>
     </div>
 </div>

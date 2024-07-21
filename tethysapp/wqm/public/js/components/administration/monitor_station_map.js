@@ -214,6 +214,5 @@ function draw_wqi_chart() {
             }
         }
     });
-
-
 }
+

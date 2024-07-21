@@ -216,3 +216,24 @@ div.dt-container .dt-search input {
 #ms-data table {
     margin-bottom: 8px;
 }
+
+.modal {
+    background-color: rgba(204,204,204,0.5);
+}
+.modal-backdrop {
+    display: none;
+}
+
+#ms-detail-modal .modal-content{
+    font-size: 14px;
+    border-radius: 0;
+}
+
+#ms-detail-modal .modal-content h6{
+    margin: 0;
+}
+
+#ms-detail-modal .modal-content button{
+    font-size: 10px;
+    border-radius: 0;
+}
