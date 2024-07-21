@@ -1,11 +1,10 @@
-
+let today = new Date();
+let next_30_day = new Date();
+next_30_day.setDate(today.getDate() + 30);
 
 function analysis_licenses() {
     licenses_cache.forEach(element => {
         let end_date = new Date(Date.parse(element['ngay_het_han']));
-        let today = new Date();
-        let next_30_day = new Date();
-        next_30_day.setDate(today.getDate() + 30);
 
         if (end_date < today) {
             licenses_expired += 1;
@@ -76,8 +75,15 @@ function fill_licenses_to_table() {
                 width: '160px',
                 render: (data, type, row) => {
                     if (data == null) return "";
-                    let datetime = new Date(Date.parse(data));
-                    return datetime.toLocaleDateString("vi-VN");
+                    let end_date = new Date(Date.parse(data));
+
+                    if (end_date < today) {
+                        return `<span style="color: #000;">${end_date.toLocaleDateString("vi-VN")}</span>`;
+                    } else if (end_date > today && end_date < next_30_day) {
+                        return `<span style="color: orange;">${end_date.toLocaleDateString("vi-VN")}</span>`;
+                    } else {
+                        return `<span style="color: green;">${end_date.toLocaleDateString("vi-VN")}</span>`;
+                    }
                 },
             },
             {

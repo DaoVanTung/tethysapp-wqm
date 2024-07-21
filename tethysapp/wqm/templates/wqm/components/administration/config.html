@@ -1,3 +1,87 @@
-<div>
-    <p>Config</p>
+<div class="content-box__content" id="content-box__config">
+    <div class="config-control">
+        <h6 class="config-control__heading">Chỉ số Chất lượng nước</h6>
+        <div class="config-control__content">
+            <table class="table table-bordered" id="wqi-lookup-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Tiêu đề</th>
+                        <th scope="col">Mô tả</th>
+                        <th scope="col">Giá trị thấp nhất</th>
+                        <th scope="col">Giá trị cao nhất</th>
+                        <th scope="col">Màu sắc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div class="config-update-button-box">
+                <button class="btn btn-outline-primary" type="button" id="wqi-lookup-update-btn">
+                    <span class="fw-medium text-uppercase">Cập nhật</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="config-control">
+        <h6 class="config-control__heading">Gửi thông báo</h6>
+        <div class="config-control__content">
+            <table class="table table-bordered" id="notify-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Email gửi</th>
+                        <th scope="col">Mật khẩu</th>
+                        <th scope="col">Email nhận</th>
+                        <th scope="col">Chủ đề</th>
+                        <th scope="col">Token</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col">hotro@wqm.vn</td>
+                        <td scope="col">123456</td>
+                        <td scope="col">quanly@wqm.vn</td>
+                        <td scope="col">Cảnh báo chỉ số ô nhiễm nước</td>
+                        <td scope="col">
+                            <textarea name="" id="" readonly>eyJ4NXQiOiJNV0l5TkRJNVlqRTJaV1kxT0RNd01XSTNOR1ptTVRZeU5UTTJOVFZoWlRnMU5UTTNaVE5oTldKbVpERTFPVEE0TldFMVlUaGxNak5sTldFellqSXlZUSIsImtpZCI6Ik1XSXlOREk1WWpFMlpXWTFPRE13TVdJM05HWm1NVFl5TlRNMk5UVmhaVGcxTlRNM1pUTmhOV0ptWkRFMU9UQTROV0UxWVRobE1qTmxOV0V6WWpJeVlRX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI4MmY2NTg3OC0zOGNmLTRiZWMtYmY1Zi04ZmIwYzY3ODk5YTEiLCJhdXQiOiJBUFBMSUNBVElPTiIsImF1ZCI6Im53Z2V5TjFrUDJMd2tfSHpHOFlKUnRTcnBoUWEiLCJuYmYiOjE3MTkyMTMzMTUsImF6cCI6Im53Z2V5TjFrUDJMd2tfSHpHOFlKUnRTcnBoUWEiLCJzY29wZSI6ImRlZmF1bHQiLCJpc3MiOiJodHRwczpcL1wvYXBpbS5ta2RjLmNvbS52bjo0NDNcL29hdXRoMlwvdG9rZW4iLCJleHAiOjE3MTkyMTY5MTUsImlhdCI6MTcxOTIxMzMxNSwianRpIjoiOGU1OTk1ZmQtM2I3NC00NmI1LTk1YTQtNTVhNTZlZGFhZjI4IiwiY2xpZW50X2lkIjoibndnZXlOMWtQMkx3a19Iekc4WUpSdFNycGhRYSJ9.GFl2fkmNJWfPPfSvgypth0kTDCCNJ-S1Z6QRw7ak_af1RDHYpGVDaJvw01Z2Sc55MSdtfQDuo846vRQVDL6N18UAzZ0AnOy4hGOs4ImAgBOwlOBIb1INmTRdeMkbW1_0tmv7nKKIs5F3F0src0NYNLUvr8Hlb3NZGzrEu2DX1P5t8AczRB-iiUf10FIqBGio-qwvXZQF2X-qegilMwDB19P3pBoPJObzy7vz2CESql3Pcm2YyuqkxDW6es6ot-ZfLsRuImjNCtwfYY1lyVSgg8SaHg2NdpRnOWwCG-FaOtCUdvvDStcXDkMkUk_bfVf9vMK3ylWAFcNPCTiZYuvFeQ</textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="config-update-button-box">
+                <button class="btn btn-outline-primary" type="button" id="notify-update-btn">
+                    <span class="fw-medium text-uppercase">Cập nhật</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="config-control">
+        <h6 class="config-control__heading">Thông số quan trắc</h6>
+        <div class="config-control__content">
+            <table class="table table-bordered" id="params-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã thông số</th>
+                        <th scope="col">Tên thông số</th>
+                        <th scope="col">Đơn vị đo</th>
+                        <th scope="col">Giá trị thấp nhất</th>
+                        <th scope="col">Giá trị cao nhất</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div class="config-update-button-box">
+                <button class="btn btn-outline-primary" type="button" id="params-update-btn">
+                    <span class="fw-medium text-uppercase">Cập nhật</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
 </div>
