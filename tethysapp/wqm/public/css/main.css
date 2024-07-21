@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-size: 14px;
 }
 
 p {
@@ -97,4 +98,14 @@ body>div:first-child {
 .alert.alert-info {
     border-radius: 0;
     margin-bottom: 6px;
+}
+
+.maplibregl-compact {
+    display: none !important;
+}
+
+.tag-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
 }

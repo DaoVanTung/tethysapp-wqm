@@ -2,17 +2,106 @@
 {% load static %}
 
 {% block content %}
-<iframe class="dashboard-box" src="https://dashboard.mkdc.vn/superset/dashboard/p/wo4GgpRvPzX?standalone=3&show_filters=0" frameborder="0"></iframe>
+
+<div class="alert alert-warning">
+    <div class="">
+        <p class="title">Bảng tổng quan</p>
+
+        <p class="sub-title">Tần suất: 24h/lần (Cập nhật lần cuối lúc 07:00 21/07/2024)</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-success" id="sync-btn">
+            <i class="bi bi-arrow-repeat"></i>
+            Đồng bộ
+        </button>
+    </div>
+</div>
+
+<div class="content__main">
+    <iframe class="dashboard-box"
+        src="https://dashboard.mkdc.vn/superset/dashboard/p/wo4GgpRvPzX?standalone=3&show_filters=0"
+        frameborder="0"></iframe>
+
+    <div id="wqi-map-box">
+        <div id="wqi-map"></div>
+
+        <div id="point-data" class="d-none">
+            <div class="point-data__nav">
+                <h6>Thông tin điểm khai thác</h6>
+                <div id="point-data__close-btn">
+                    <i class="bi bi-x"></i>
+                </div>
+                
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <tbody><tr><td>Mã trạm</td><td>87-NM07</td></tr><tr><td>Số hiệu</td><td>NM07</td></tr><tr><td>Vị trí</td><td>Rạch Thông Tây</td></tr><tr><td>Kinh độ</td><td>105.749533333333 </td></tr><tr><td>Vĩ độ</td><td>10.3245666666667 </td></tr><tr><td>Loại trạm</td><td>Quan trắc nước mặt</td></tr><tr><td>Trạng thái</td><td>Đang hoạt động </td></tr></tbody>
+            </table>
+            <p>Chỉ số chất lượng nước hiện tại: <b id="wqi-text">69</b></p>
+            <canvas id="wqi-chart"></canvas>
+        </div>
+
+        <div id="legend-map" class="legend">
+            <p class="mb-2"><b>Điểm quan trắc chất lượng nước</b></p>
+
+            <div class="legend-item">
+                <div class="tag-circle" style="background: #802323;"></div>
+                <span class="legend-text">Ô nhiễm rất nặng</span>
+            </div>
+
+            <div class="legend-item">
+                <div class="tag-circle" style="background: #fe0000;"></div>
+                <span class="legend-text">Kém</span>
+            </div>
+
+            <div class="legend-item">
+                <div class="tag-circle" style="background: #f4b083;"></div>
+                <span class="legend-text">Xấu</span>
+            </div>
+
+            <div class="legend-item">
+                <div class="tag-circle" style="background: #ffff00;"></div>
+                <span class="legend-text">Trung bình</span>
+            </div>
+
+            <div class="legend-item">
+                <div class="tag-circle" style="background: #00af50;"></div>
+                <span class="legend-text">Tốt</span>
+            </div>
+
+            <div class="legend-item">
+                <div class="tag-circle" style="background: #01b0f1;"></div>
+                <span class="legend-text">Rất tốt</span>
+            </div>
+
+            <div class="time-demension">
+                <button id="play-button" class="btn play-button"><i class="bi bi-play"></i></button>
+                <div id="slider-container" class="slider-container">
+                    <div id="slider" class="slider"></div>
+                    <div id="slider-tooltip" class="slider-tooltip">
+                        <span id="slider-tooltip-text"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block styles %}
 {{ block.super }}
+<link href="{% static 'wqm/vendors/maplibre-gl@4.3.1/maplibre-gl.css' %}" rel="stylesheet" />
 <link href="{% static 'wqm/css/pages/home.css' %}" rel="stylesheet" />
-
 {% endblock %}
 
 
 {% block scripts %}
 {{ block.super }}
+<script src="{% static 'wqm/vendors/maplibre-gl@4.3.1/maplibre-gl.js' %}" type="text/javascript"></script>
+<script src="{% static 'wqm/vendors/chartjs@3.0.0/chart.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'wqm/js/pages/home.js' %}" type="text/javascript"></script>
 
 {% endblock %}

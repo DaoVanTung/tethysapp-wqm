@@ -40,44 +40,6 @@ function on_close_license_detail_click() {
 }
 
 
-// Fake data
-let geojson = 
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [105.468424, 10.257405]
-      },
-      "properties": {
-        "id": 1
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [105.432899, 10.241806]
-      },
-      "properties": {
-        "id": 2
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [105.421154, 10.165152]
-      },
-      "properties": {
-        "id": 3
-      }
-    }
-  ]
-};
-
 
 // Hiện bản đồ
 var map = new maplibregl.Map({
