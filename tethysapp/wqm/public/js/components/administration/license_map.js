@@ -234,10 +234,9 @@ function show_point_data(properties) {
 }
 
 
-var myChart;
+var water_flow_chart;
 
 function draw_water_flow_chart() {
-
     const data = {
         1: 6.82,
         2: 5.83,
@@ -267,12 +266,12 @@ function draw_water_flow_chart() {
     const labels = Object.keys(data);
     const values = Object.values(data);
 
-    var chartElement = document.getElementById("total-fow-chart").getContext("2d");
+    var chartElement = document.getElementById("total-flow-chart").getContext("2d");
     try {
-        myChart.destroy();
+        water_flow_chart.destroy();
     } catch (e) { }
 
-    myChart = new Chart(chartElement, {
+    water_flow_chart = new Chart(chartElement, {
         type: 'line',
         data: {
             labels: labels, // Trục x: giờ
@@ -299,6 +298,11 @@ function draw_water_flow_chart() {
                         text: 'Lưu lượng'
                     },
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // Ẩn nhãn trên cùng
                 }
             }
         }

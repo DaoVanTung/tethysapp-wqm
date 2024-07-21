@@ -1,3 +1,7 @@
+.maplibregl-compact {
+    display: none !important;
+}
+
 .menu-box {
     /* width: 21%; */
     background-color: #1F325C;
@@ -135,7 +139,7 @@ div.dt-container .dt-search input {
     border-radius: 0px;
 }
 
-#total-fow-chart {
+#total-flow-chart {
     flex: 1;
     width: 100%;
     margin: 4px 0;
@@ -169,4 +173,46 @@ div.dt-container .dt-search input {
     border-radius: 0px;
     padding: 4px 20px;
     font-size: 14px;
+}
+
+#ms-map {
+    position: relative;
+    width: 100%;
+    flex: 1;
+}
+
+
+#ms-data {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    /* bottom: 8px; */
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    width: 480px;
+    overflow: auto;
+}
+
+#ms-data tr td:first-child {
+    width: 160px;
+}
+
+.ms-data__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#ms-data__close-btn {
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+#ms-data table {
+    margin-bottom: 8px;
 }
