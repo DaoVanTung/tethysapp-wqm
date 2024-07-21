@@ -80,10 +80,10 @@ body>div:first-child {
     font-size: 14px;
 }
 
-.nav-bar__item:hover, .nav-bar__item.active {
+/* .nav-bar__item:hover, .nav-bar__item.active {
     background-color: #fff;
     color: #13213E;
-}
+} */
 
 .content {
     margin-top: 48px;

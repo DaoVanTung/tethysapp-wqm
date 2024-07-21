@@ -26,7 +26,7 @@ var ms_map = new maplibregl.Map({
                 minzoom: 0,
                 maxzoom: 22,
                 paint: {
-                    'raster-opacity': 0.4
+                    'raster-opacity': 0.7
                 }
             }
         ],

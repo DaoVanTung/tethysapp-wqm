@@ -234,7 +234,7 @@ var map = new maplibregl.Map({
                 minzoom: 0,
                 maxzoom: 22,
                 paint: {
-                    'raster-opacity': 0.7
+                    'raster-opacity': 0.8
                 }
             },
             {
@@ -269,7 +269,7 @@ map.on("mouseleave", "result_layer", function () {
 });
 
 map.on("click", function (e) {
-    var features = map.queryRenderedFeatures({ layers: ["result_layer"] });
+    var features = map.queryRenderedFeatures(e.point, { layers: ["result_layer"] });
     if (!features.length) {
         return;
     }

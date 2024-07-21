@@ -26,7 +26,7 @@ function fill_monitor_station_to_table() {
             {
                 "targets": 0,
                 title: "STT",
-                width: '120px',
+                width: '50px',
                 "render": function (data, type, full, meta) {
                     return meta.row + 1;
                 },
@@ -76,7 +76,7 @@ function fill_monitor_station_to_table() {
             },
             {
                 data: "id",
-                title: "Giám sát",
+                title: "Chỉ số WQI 30 ngày gần nhất",
                 searchable: false,
                 orderable: false,
                 render: (data, type, row, meta) => {
