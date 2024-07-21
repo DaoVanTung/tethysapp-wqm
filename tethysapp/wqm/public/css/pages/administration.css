@@ -140,3 +140,21 @@ div.dt-container .dt-search input {
     width: 100%;
     margin: 4px 0;
 }
+
+.filter-box__item.filter-box__buttons {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+
+.filter-box__item.filter-box__buttons button {
+    height: 38px;
+    border-radius: 0px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.filter-box__item.filter-box__buttons button i{
+    margin-right: 4px;
+}
