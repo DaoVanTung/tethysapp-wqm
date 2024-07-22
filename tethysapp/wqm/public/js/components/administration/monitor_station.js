@@ -40,24 +40,15 @@ function fill_monitor_station_to_table() {
                 },
             },
             {
-                data: "kinh_do",
-                title: "Kinh độ",
-                width: '160px',
-                render: (data, type, row) => {
-                    return data;
-                },
-            },
-            {
-                data: "vi_do",
-                title: "Vĩ độ",
-                width: '160px',
+                data: "vi_tri",
+                title: "Vị trí",
                 render: (data, type, row) => {
                     return data;
                 },
             },
             {
                 data: "id",
-                title: "Điểm khai thác liên quan",
+                title: "Điểm khai thác nước liên quan",
                 width: '400px',
                 render: (data, type, row, meta) => {
 
@@ -79,6 +70,7 @@ function fill_monitor_station_to_table() {
                 title: "Chỉ số WQI 30 ngày gần nhất",
                 searchable: false,
                 orderable: false,
+                width: '400px',
                 render: (data, type, row, meta) => {
                     if (meta.row != 1) {
                         return '';

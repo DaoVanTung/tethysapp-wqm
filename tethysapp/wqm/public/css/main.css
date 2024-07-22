@@ -109,3 +109,32 @@ body>div:first-child {
     height: 12px;
     border-radius: 50%;
 }
+
+.dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+
+.legend {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 10;
+    width: 300px;
+}
+
+.legend-item {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.legend-text {
+    margin-left: 8px;
+}
+

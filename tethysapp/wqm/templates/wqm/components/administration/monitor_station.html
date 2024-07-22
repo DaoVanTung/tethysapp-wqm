@@ -1,3 +1,4 @@
+{% load static %}
 <div class="content-box__content" id="content-box__monitor-station">
     <div class="alert alert-info" role="alert">
         <b>Danh sách Điểm quan trắc</b>
@@ -54,19 +55,28 @@
 
 <div class="content-box__content d-none" id="content-box__monitor-station-add">
     <div>
-        <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-add')"><i class="bi bi-x"></i></button>
+        <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-add')"><i
+                class="bi bi-x"></i></button>
         <b style="font-size: 16px; margin-left: 4px;">Thêm mới điểm quan trắc</b>
     </div>
 
     <form id="add-ms-form">
         <div class="row">
-            <div class="col-md-6 form-item mb-3">
+            <div class="col-md-3 form-item mb-3">
                 <label for="ms-code" class="form-label">Mã trạm</label>
                 <input type="text" name="ms-code" id="ms-code" class="form-control" />
             </div>
-            <div class="col-md-6 form-item mb-3">
+            <div class="col-md-3 form-item mb-3">
                 <label for="ms-number" class="form-label">Số hiệu</label>
                 <input type="text" name="ms-number" id="ms-number" class="form-control" />
+            </div>
+            <div class="col-md-3 form-item mb-3">
+                <label for="ms-long" class="form-label">Kinh độ</label>
+                <input type="number" name="ms-long" id="ms-long" class="form-control" />
+            </div>
+            <div class="col-md-3 form-item mb-3">
+                <label for="ms-lat" class="form-label">Vĩ độ</label>
+                <input type="number" name="ms-lat" id="ms-lat" class="form-control" />
             </div>
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-location" class="form-label">Vị trí</label>
@@ -90,14 +100,7 @@
                     <option value="13">Thành phố Cần Thơ</option>
                 </select>
             </div>
-            <div class="col-md-6 form-item mb-3">
-                <label for="ms-long" class="form-label">Kinh độ</label>
-                <input type="number" name="ms-long" id="ms-long" class="form-control" />
-            </div>
-            <div class="col-md-6 form-item mb-3">
-                <label for="ms-lat" class="form-label">Vĩ độ</label>
-                <input type="number" name="ms-lat" id="ms-lat" class="form-control" />
-            </div>
+
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-type" class="form-label">Loại trạm</label>
                 <select id="ms-type" class="form-select" aria-label="Chọn loại trạm">
@@ -106,12 +109,70 @@
                 </select>
             </div>
             <div class="col-md-6 form-item mb-3">
+                <label for="ms-type" class="form-label">Điểm khai thác nước</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle"
+                        style="background-color: #fff; border: 1px solid #dee2e6; color: #000; height: 33.5px; width: 100%; text-align: start;"
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Điểm khai thác
+                    </button>
+                    <ul class="dropdown-menu" style="width: 100%; border-radius: 0; padding: 8px;">
+                        <li>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                <label class="form-check-label" for="dropdownCheck">
+                                    Trạm cấp nước Nguyễn Văn Hết
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                <label class="form-check-label" for="dropdownCheck">
+                                    Trung tâm Nước sạch và Vệ sinh môi trường nông thôn
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                <label class="form-check-label" for="dropdownCheck">
+                                    Trạm cấp nước ấp Đông Thạnh
+
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                <label class="form-check-label" for="dropdownCheck">
+                                    Công ty CP thủy sản Hải Sáng
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                <label class="form-check-label" for="dropdownCheck">
+                                    Trạm cấp nước tập trung khu vực Bình Thường B, phường Long Tuyền
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 form-item mb-3">
                 <label for="ms-config" class="form-label">Cấu hình</label>
                 <select id="ms-config" class="form-select" aria-label="Chọn cấu hình">
                     <option selected value="1">Cấu hình điểm quan trắc Trạm Rạch Giá</option>
                     <option value="2">Cấu hình điểm quan trắc Trạm Trần Đề</option>
                 </select>
+                <p style="font-size: 10px; color: #6d6d6d; margin-top: 4px;">Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Corporis ipsam ea repellendus exercitationem maxime voluptatibus esse quos iusto
+                    distinctio molestias in reiciendis perferendis fuga reprehenderit, nostrum, aperiam quod error quam!
+                </p>
             </div>
+
 
             <p class="mb-2"><b>Bảng thông số theo cấu hình</b></p>
             <div class="form-item">
@@ -159,11 +220,12 @@
         </div>
         <div class="d-flex" style="justify-content: end;">
             <button type="submit" class="btn btn-success btn-block mt-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-floppy-fill" viewBox="0 0 16 16">
                     <path
-                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"
-                    />
-                    <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
+                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
+                    <path
+                        d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
                 </svg>
                 Lưu
             </button>
@@ -173,7 +235,8 @@
 
 <div class="content-box__content d-none" id="content-box__monitor-station-map">
     <div>
-        <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-map')"><i class="bi bi-x"></i></button>
+        <button type="button" class="btn" onclick="on_close_btn_click('content-box__monitor-station-map')"><i
+                class="bi bi-x"></i></button>
         <b style="font-size: 16px; margin-left: 4px;">Bản đồ Điểm quan trắc</b>
     </div>
 
@@ -193,6 +256,24 @@
             <p class="mt-2 mb-2"><b>Biểu đồ Giá trị WQI tại điểm quan trắc trong 30 ngày qua</b></p>
             <canvas id="wqi-chart"></canvas>
         </div>
+
+        <div class="legend">
+            <p class="mb-2"><b>Chú thích</b></p>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_khai_thac_nuoc.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm khai thác nước</span>
+            </div>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_quan_trac.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm quan trắc nước</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -201,7 +282,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 >Thông tin điểm quan trắc</h6>
+                <h6>Thông tin điểm quan trắc</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

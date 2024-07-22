@@ -2,6 +2,8 @@ $("#ms-data__close-btn").on('click', function () {
     $("#ms-data").addClass('d-none');
 });
 
+
+
 // Hiện bản đồ
 var ms_map = new maplibregl.Map({
     container: 'ms-map',
@@ -16,6 +18,10 @@ var ms_map = new maplibregl.Map({
             "diem_quan_trac": {
                 type: "vector",
                 tiles: ["https://martin.mkdc.vn/table.public.diem_quan_trac.geom/{z}/{x}/{y}"],
+            },
+            "diem_khai_thac": {
+                type: "vector",
+                tiles: ["https://martin.mkdc.vn/table.public.diem_khai_thac_nuoc.geom/{z}/{x}/{y}"],
             },
         },
         layers: [
@@ -45,10 +51,31 @@ ms_map.addControl(new maplibregl.NavigationControl());
 ms_map.on("load", async function () {
     const imagePromises = [
         ms_map.loadImage("/static/wqm/images/diem_quan_trac.png"),
+        ms_map.loadImage("/static/wqm/images/diem_khai_thac_nuoc.png"),
+
     ];
 
     Promise.all(imagePromises).then(images => {
         ms_map.addImage("diem_quan_trac_icon", images[0].data);
+        ms_map.addImage("diem_khai_thac_icon", images[1].data);
+
+
+
+        ms_map.addLayer(
+            {
+                id: "diem_khai_thac_layer",
+                type: "symbol",
+                source: "diem_khai_thac",
+                "source-layer": "table.public.diem_khai_thac_nuoc.geom",
+                layout: {
+                    "icon-image": "diem_khai_thac_icon",
+                    "icon-size": 0.4,
+                },
+
+
+                filter: [">=", ["to-number", ["get", "luu_luong_khai_thac"]], 3000]
+            }
+        );
 
         // Thêm layer polygon sau khi đã tải xong ảnh
         ms_map.addLayer(
@@ -169,7 +196,7 @@ function draw_wqi_chart() {
         '2024-06-30': 19,
         '2024-07-01': 45
     };
-    
+
     const labels = Object.keys(data);
     const values = Object.values(data);
 
@@ -181,7 +208,7 @@ function draw_wqi_chart() {
     wqi_chart = new Chart(chartElement, {
         type: 'line',
         data: {
-            labels: labels, 
+            labels: labels,
             datasets: [{
                 label: 'WQI',
                 data: values,
