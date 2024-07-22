@@ -143,7 +143,7 @@ map.on("load", async function () {
                 "source-layer": "table.public.diem_khai_thac_nuoc.geom",
                 layout: {
                     "icon-image": "diem_khai_thac_nuoc",
-                    "icon-size": 0.4,
+                    "icon-size": 1,
                 },
             }
         );

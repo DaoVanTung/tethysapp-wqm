@@ -182,6 +182,8 @@
                         <th>Mã thông số</th>
                         <th>Tên thông số</th>
                         <th>Đơn vị đo</th>
+                        <th>Giá trị ngưỡng</th>
+
                     </thead>
                     <tbody>
                         <tr>
@@ -189,30 +191,35 @@
                             <td>pH</td>
                             <td>Độ pH</td>
                             <td></td>
+                            <td>0 - 14</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>COD</td>
                             <td>Nhu cầu oxy sinh hoá</td>
                             <td>mgO2/l</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>DO</td>
                             <td>Nhiệt độ</td>
                             <td>Độ C</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>4</td>
                             <td>Hg</td>
                             <td>Thủy ngân</td>
                             <td>µg/L</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>5</td>
                             <td>Coliform</td>
                             <td>Coliform</td>
                             <td>MPN</td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -253,7 +260,19 @@
                 <tbody></tbody>
             </table>
 
-            <p class="mt-2 mb-2"><b>Biểu đồ Giá trị WQI tại điểm quan trắc trong 30 ngày qua</b></p>
+            <div style="display: flex; justify-content: space-between;">
+                <p class="mt-2 mb-2"><b>Giá trị WQI 30 ngày gần nhất</b></p>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      30 ngày
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">7 ngày</a></li>
+                      <li><a class="dropdown-item" href="#">30 ngày</a></li>
+                      <li><a class="dropdown-item" href="#">3 tháng</a></li>
+                    </ul>
+                  </div>
+            </div>
             <canvas id="wqi-chart"></canvas>
         </div>
 
@@ -290,7 +309,19 @@
                     <tbody></tbody>
                 </table>
 
-                <p class="mt-2 mb-2"><b>Biểu đồ Giá trị WQI tại điểm quan trắc trong 30 ngày qua</b></p>
+                <div style="display: flex; justify-content: space-between;">
+                    <p class="mt-2 mb-2"><b>Giá trị WQI 30 ngày gần nhất</b></p>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          30 ngày
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">7 ngày</a></li>
+                          <li><a class="dropdown-item" href="#">30 ngày</a></li>
+                          <li><a class="dropdown-item" href="#">3 tháng</a></li>
+                        </ul>
+                      </div>
+                </div>
                 <canvas id="wqi-detail-chart"></canvas>
             </div>
             <div class="modal-footer">

@@ -138,3 +138,21 @@ body>div:first-child {
     margin-left: 8px;
 }
 
+.smtp-box__item {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.smtp-box__item label {
+    width: 10%;
+}
+
+.smtp-box__item input, .smtp-box__item textarea {
+    width: 90%;
+    max-width: 500px;
+    border-radius: 0;
+}
+
+.config-control__heading {
+    margin: 12px 0 16px 0;
+}

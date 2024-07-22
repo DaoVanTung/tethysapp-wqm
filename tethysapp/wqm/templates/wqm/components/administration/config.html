@@ -83,29 +83,29 @@
             </table> -->
 
             <div class="mb-2 row">
-                <div class="filter-box__item row-3">
-                    <label style="font-size: 12px; font-weight: bold;" for="keyword">Người gửi</label>
-                    <input class="form-control" id="keyword" value="hotro@wqm.vn" readonly />
+                <div class="smtp-box__item row-3">
+                    <label style="font-size: 12px; font-weight: bold;" for="keyword">Mail Server</label>
+                    <input class="form-control" value="hotro@wqm.vn" readonly />
                 </div>
-                <div class="filter-box__item row-3">
+                <div class="smtp-box__item row-3">
                     <label style="font-size: 12px; font-weight: bold;" for="keyword">Mật khẩu</label>
-                    <input class="form-control" id="keyword" value="password" readonly />
+                    <input class="form-control" type="password" value="password" readonly />
                 </div>
-                <div class="filter-box__item row-3">
+                <div class="smtp-box__item row-3">
                     <label style="font-size: 12px; font-weight: bold;" for="keyword">Chủ đề</label>
-                    <input class="form-control" id="keyword" value="THÔNG BÁO CHỈ SỐ CHẤT LƯỢNG NƯỚC" readonly />
+                    <input class="form-control" value="THÔNG BÁO CHỈ SỐ CHẤT LƯỢNG NƯỚC" readonly />
                 </div>
-                <div class="filter-box__item row-3">
+                <div class="smtp-box__item row-3">
                     <label style="font-size: 12px; font-weight: bold;" for="keyword">Token</label>
-                    <input class="form-control" id="keyword" value="eyJ4NXQiOiJNV0l5TkRJNVlqRTJaV1kxT0RNd01XSTNOR1ptTVRZeU5UTTJOVFZoWlRnMU5UTTNaVE5oTldKbVpERTFPVEE0TldFMVlUaGxNak5sTldFellqSXlZUSIsImtpZCI6Ik1XSXlOREk1WWpFMlpXWTFPRE13TVdJM05HWm1NVFl5TlRNMk5UVmhaVGcxTlRNM1pUTmhOV0ptWkRFMU9UQTROV0UxWVRobE1qTmxOV0V6WWpJeVlRX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ" readonly />
+                    <textarea style="border-radius: 0;" name="" id="" class="form-control" value="quanly@wqm.vn" readonly>eyJ4NXQiOiJNV0l5TkRJNVlqRTJaV1kxT0RNd01XSTNOR1ptTVRZeU5UTTJOVFZoWlRnMU5UTTNaVE5oTldKbVpERTFPVEE0TldFMVlUaGxNak5sTldFellqSXlZUSIsImtpZCI6Ik1XSXlOREk1WWpFMlpXWTFPRE13TVdJM05HWm1NVFl5TlRNMk5UVmhaVGcxTlRNM1pUTmhOV0ptWkRFMU9UQTROV0UxWVRobE1qTmxOV0V6WWpJeVlRX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ</textarea>
                 </div>
             </div>
             <div class="d-flex mb-2 row">
-                <div class="filter-box__item row-3">
+                <div class="smtp-box__item row-3">
                     <label style="font-size: 12px; font-weight: bold;" for="keyword">Người nhận</label>
-                    <input class="form-control" id="keyword" value="quanly@wqm.vn" readonly />
+                    <input class="form-control" value="quanly@wqm.vn" readonly />
                 </div>
-                <div class="mt-2 row-3">
+                <div class="smtp-box__item mt-2 row-3">
                     <label style="font-size: 12px; font-weight: bold;" for="keyword">Nội dung</label>
                     <textarea style="border-radius: 0;" name="" id="" class="form-control" value="quanly@wqm.vn" readonly></textarea>
                 </div>
@@ -113,7 +113,10 @@
 
 
             <div class="config-update-button-box">
-                <button class="btn btn-outline-primary" type="button" id="notify-update-btn">
+                <button class="btn btn-outline-success" type="button" style="margin-right: 8px;">
+                    <span class="fw-medium text-uppercase">Gửi thử</span>
+                </button>
+                <button class="btn btn-outline-primary" type="button">
                     <span class="fw-medium text-uppercase">Cập nhật</span>
                 </button>
             </div>

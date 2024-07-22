@@ -68,6 +68,7 @@
                 <td scope="col"><b>Loại giấy phép</b></td>
                 <td scope="col"><b>Tên tổ chức/cá nhân</b></td>
                 <td scope="col"><b>Số điểm khai thác</b></td>
+                <td scope="col"><b>Trạng thái</b></td>
             </tr>
         </thead>
         <tbody>
@@ -78,6 +79,7 @@
                 <td id="license-loai-giay-phep"></td>
                 <td id="license-ten-to-chuc"></td>
                 <td id="license-diem-khai-thac"></td>
+                <td><a href="">Giám sát</a></td>
             </tr>
         </tbody>
     </table>
@@ -111,8 +113,18 @@
             <table class="table table-bordered table-striped">
                 <tbody><tr><td>Mã trạm</td><td>87-NM07</td></tr><tr><td>Số hiệu</td><td>NM07</td></tr><tr><td>Vị trí</td><td>Rạch Thông Tây</td></tr><tr><td>Kinh độ</td><td>105.749533333333 </td></tr><tr><td>Vĩ độ</td><td>10.3245666666667 </td></tr><tr><td>Loại trạm</td><td>Quan trắc nước mặt</td></tr><tr><td>Trạng thái</td><td>Đang hoạt động </td></tr></tbody>
             </table>
-            <div>
+            <div style="display: flex; justify-content: space-between;">
                 <p class="mb-2 mt-2">Chỉ số chất lượng nước hiện tại: <b id="license-wqi-text">69</b></p>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      30 ngày
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">7 ngày</a></li>
+                      <li><a class="dropdown-item" href="#">30 ngày</a></li>
+                      <li><a class="dropdown-item" href="#">3 tháng</a></li>
+                    </ul>
+                  </div>
             </div>
             
             <canvas id="license-wqi-chart"></canvas>

@@ -56,7 +56,7 @@ def get_monitoring_stations(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 
-    cur.execute(f"SELECT * FROM public.diem_quan_trac")
+    cur.execute(f"SELECT * FROM public.diem_quan_trac LIMIT 14")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()

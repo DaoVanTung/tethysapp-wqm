@@ -225,6 +225,10 @@ var map = new maplibregl.Map({
                 type: 'geojson',
                 data: geojson,
             },
+            "diem_khai_thac_nuoc": {
+                type: "vector",
+                tiles: ["https://martin.mkdc.vn/table.public.diem_khai_thac_nuoc.geom/{z}/{x}/{y}"],
+            },
         },
         layers: [
             {
@@ -234,7 +238,7 @@ var map = new maplibregl.Map({
                 minzoom: 0,
                 maxzoom: 22,
                 paint: {
-                    'raster-opacity': 0.8
+                    'raster-opacity': 0.5
                 }
             },
             {
@@ -257,6 +261,43 @@ var map = new maplibregl.Map({
 });
 
 map.addControl(new maplibregl.NavigationControl());
+
+map.on("load", async function () {
+    const imagePromises = [
+        map.loadImage("/static/wqm/images/diem_quan_trac.png"),
+        map.loadImage("/static/wqm/images/diem_khai_thac_nuoc.png"),
+    ];
+
+    Promise.all(imagePromises).then(images => {
+        map.addImage("diem_quan_trac", images[0].data);
+        map.addImage("diem_khai_thac_nuoc", images[1].data);
+
+        // Thêm layer polygon sau khi đã tải xong ảnh
+        map.addLayer(
+            {
+                id: "diem_khai_thac_nuoc_layer",
+                type: "symbol",
+                source: "diem_khai_thac_nuoc",
+                "source-layer": "table.public.diem_khai_thac_nuoc.geom",
+                layout: {
+                    "icon-image": "diem_khai_thac_nuoc",
+                    "icon-size": 1,
+                },
+            }
+        );
+
+        // Thay đổi con trỏ chuột khi di chuyển qua điểm
+        map.on("mouseenter", "diem_khai_thac_nuoc_layer", function () {
+            map.getCanvas().style.cursor = "pointer";
+        });
+
+        // Thay đổi con trỏ chuột về lại ban đầu khi rời khỏi điểm
+        map.on("mouseleave", "diem_khai_thac_nuoc_layer", function () {
+            map.getCanvas().style.cursor = "";
+        });
+
+    });
+});
 
 // Thay đổi con trỏ chuột khi di chuyển qua điểm
 map.on("mouseenter", "result_layer", function () {
