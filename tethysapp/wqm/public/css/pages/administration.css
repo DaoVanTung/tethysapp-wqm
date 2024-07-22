@@ -122,6 +122,42 @@ div.dt-container .dt-search input {
     margin-bottom: 8px;
 }
 
+
+#ms-point-data {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    width: 480px;
+    overflow: auto;
+}
+
+#ms-point-data tr td:first-child {
+    width: 160px;
+}
+
+.ms-point-data__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#ms-point-data__close-btn {
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+#ms-point-data table {
+    margin-bottom: 8px;
+}
+
+
 .filter-box {
     display: flex;
     gap: 8px;

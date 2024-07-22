@@ -1,6 +1,7 @@
 <div class="content-box__content" id="content-box__license">
     <div class="alert alert-info" role="alert">
-        <b>Tổng số Giấy phép: <span id="licenses-total"></span></b> - Còn hạn: <span id="licenses-valid"></span> - Sắp hết hạn: <span id="licenses-expiring-soon"></span> - Hết hạn: <span id="licenses-expired"></span>
+        <b>Tổng số Giấy phép: <span id="licenses-total"></span></b> - Còn hạn: <span id="licenses-valid"></span> - Sắp
+        hết hạn: <span id="licenses-expiring-soon"></span> - Hết hạn: <span id="licenses-expired"></span>
     </div>
     <div>
         <div class="filter-box">
@@ -36,12 +37,12 @@
                 </select>
             </div>
             <div class="filter-box__item">
-                <label for="license-monitor">Trạng thái giám sát</label>
-                <select id="license-monitor" class="form-control" aria-label="Default select example">
-                    <option selected>Tất cả</option>
-                    <option value="1">Đang giám sát</option>
-                    <option value="2">Không giám sát</option>
-                </select>
+                <label for="license-monitor" style="width: 100%;"></label>
+                <div class="d-flex" style="gap: 8px; ">
+                    <input type="checkbox" name="" id="license-monitor" value="1">
+                    <label for="license-monitor" style="width: 100%;">Đang giám sát</label>
+
+                </div>
             </div>
         </div>
         <table id="licenses-table" class="table table-bordered" cellspacing="8" width="100%"></table>
@@ -96,5 +97,24 @@
             <canvas id="total-flow-chart"></canvas>
             <p id="total-flow-analysis"></p>
         </div>
+
+        <div id="ms-point-data" class="d-none">
+            <div class="point-data__nav">
+                <h6>Thông tin điểm khai thác</h6>
+                <div id="ms-point-data__close-btn">
+                    <i class="bi bi-x"></i>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <tbody><tr><td>Mã trạm</td><td>87-NM07</td></tr><tr><td>Số hiệu</td><td>NM07</td></tr><tr><td>Vị trí</td><td>Rạch Thông Tây</td></tr><tr><td>Kinh độ</td><td>105.749533333333 </td></tr><tr><td>Vĩ độ</td><td>10.3245666666667 </td></tr><tr><td>Loại trạm</td><td>Quan trắc nước mặt</td></tr><tr><td>Trạng thái</td><td>Đang hoạt động </td></tr></tbody>
+            </table>
+            <div>
+                <p class="mb-2 mt-2">Chỉ số chất lượng nước hiện tại: <b id="license-wqi-text">69</b></p>
+            </div>
+            
+            <canvas id="license-wqi-chart"></canvas>
+        </div>
     </div>
 </div>
+

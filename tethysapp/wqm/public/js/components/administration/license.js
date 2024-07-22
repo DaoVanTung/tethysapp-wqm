@@ -78,11 +78,22 @@ function fill_licenses_to_table() {
                     let end_date = new Date(Date.parse(data));
 
                     if (end_date < today) {
-                        return `<span style="color: #000;">${end_date.toLocaleDateString("vi-VN")}</span>`;
+                        return `
+                        <span style="color: #dc3545;">
+                        <i class="bi bi-file-earmark-excel-fill"></i>
+                        ${end_date.toLocaleDateString("vi-VN")}
+                        
+                        </span>`;
                     } else if (end_date > today && end_date < next_30_day) {
-                        return `<span style="color: orange;">${end_date.toLocaleDateString("vi-VN")}</span>`;
+                        return `<span style="color: #ffc107;">
+                        <i class="bi bi-clock-fill"></i>
+                        ${end_date.toLocaleDateString("vi-VN")}
+                        </span>`;
                     } else {
-                        return `<span style="color: green;">${end_date.toLocaleDateString("vi-VN")}</span>`;
+                        return `<span style="color: green;">
+                        <i class="bi bi-file-earmark-check-fill"></i>
+                        ${end_date.toLocaleDateString("vi-VN")}
+                        </span>`;
                     }
                 },
             },
