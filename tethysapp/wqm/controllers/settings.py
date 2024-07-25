@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from tethys_sdk.routing import controller
 
-@controller(url='/administration')
+@controller(url='/settings')
 def administration(request):
     context = {}
 
-    return render(request, 'wqm/pages/administration.html', context)
+    return render(request, 'wqm/pages/settings.html', context)
