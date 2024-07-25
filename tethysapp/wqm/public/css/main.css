@@ -59,6 +59,10 @@ body > div:first-child {
     text-transform: uppercase;
 }
 
+.header-user__avatar {
+    margin-left: 16px;
+}
+
 .nav-bar {
     display: flex;
     list-style: none;
