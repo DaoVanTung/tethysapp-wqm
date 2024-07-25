@@ -4,14 +4,32 @@
 {% block content %}
 <div class="alert alert-warning">
     <div class="">
-        <p class="title">Bảng tổng quan</p>
-        <p class="sub-title">Tần suất: 24h/lần (Cập nhật lần cuối lúc 07:00 21/07/2024)</p>
+        <p class="alert__title">Bảng tổng quan</p>
+        <p class="alert__sub-title">Tần suất: 24h/lần (Cập nhật lần cuối lúc <span id="last-updated-time">07:00 21/07/2024</span>)</p>
     </div>
     <div>
         <button type="button" class="btn btn-success" id="sync-btn">
             <i class="bi bi-arrow-repeat"></i>
             Đồng bộ
         </button>
+    </div>
+</div>
+
+<div class="content__main">
+    <iframe class="dashboard-box" src="https://dashboard.mkdc.vn/superset/dashboard/p/wo4GgpRvPzX?standalone=3&show_filters=0" frameborder="0"></iframe>
+
+    <div id="dashboard-map">
+        <div id="map"></div>
+        <div class="legend">
+            <p class="mb-2"><b>Điểm khai thác nước</b></p>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_khai_thac.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm khai thác nước</span>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

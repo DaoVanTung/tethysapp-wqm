@@ -1,0 +1,51 @@
+.content {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    /* font-size: 14px; */
+}
+
+.content .btn {
+    border-radius: 0px;
+    font-size: 14px;
+}
+
+.content .alert {
+    border-radius: 0;
+    margin-bottom: 8px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content .alert p {
+    margin: 0;
+}
+
+.content .alert .alert__title {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.content .alert .alert__sub-title {
+    font-size: 14px;
+}
+
+.content__main {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+
+}
+
+.dashboard-box {
+    width: 30%;
+    height: 100%;
+}
+
+#dashboard-map {
+    position: relative;
+    height: 100%;
+    width: 70%;
+}

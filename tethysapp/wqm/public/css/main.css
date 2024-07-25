@@ -17,13 +17,11 @@ body {
     margin: 0 !important;
 }
 
-
-body>div:first-child {
+body > div:first-child {
     height: 100%;
     padding: 0 !important;
     margin: 0 !important;
 }
-
 
 .main {
     display: flex;
@@ -33,7 +31,7 @@ body>div:first-child {
 
 .header-bar {
     display: flex;
-    background-color: #13213E;
+    background-color: #13213e;
     height: 48px;
     align-items: center;
     padding: 0px 16px;
@@ -51,7 +49,6 @@ body>div:first-child {
 .header-bar__right {
     display: flex;
     align-items: center;
-
 }
 
 .header-bar__name {
@@ -67,7 +64,6 @@ body>div:first-child {
     list-style: none;
     margin: 0 0 0 0;
 }
-
 
 .nav-bar .nav-bar__item {
     padding: 0px 12px;
@@ -112,6 +108,11 @@ body>div:first-child {
 .dropdown-menu {
     max-height: 200px;
     overflow-y: auto;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
 }
 
 .legend {
