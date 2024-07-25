@@ -1,5 +1,6 @@
 // Lấy danh sách giấy phép
 var license_cache = [];
+var number_water_exploitation_points_cache = [];
 var license_table = null;
 
 //  Tổng giấy phép
@@ -40,22 +41,10 @@ function get_license_data() {
     });
 }
 
-function get_number_water_point_data() {
-    $.ajax({
-        'url': '/apps/wqm/api/licenses/',
-        'method': 'GET',
-        'success': function (res) {
-            license_cache = res['data'];
-            license_total = license_cache.length;
-
-            $("#license-loading-box").addClass("d-none");
-            $("#content-box__license").removeClass("d-none");
-
-    
-            fill_licenses_to_table();
-            analysis_licenses();
-        }
-    });
+function get_number_water_point_data(id) {
+    const license_data = number_water_exploitation_points_cache.find(obj => obj.giay_phep_tai_nguyen_nuoc_id === id);
+    let value = license_data ? license_data['count'] : 0;
+    return value;
 }
 
 function get_ms_data() {
@@ -66,7 +55,7 @@ function get_ms_data() {
             monitor_station_cache = res['data'];
             fill_monitor_station_to_table();
         }
-    });    
+    });
 }
 
 function show_content(content_id) {
@@ -91,7 +80,16 @@ function show_content(content_id) {
     $(`#${content_id}`).addClass('active');
 }
 
-get_license_data();
+$.ajax(
+    {
+        url: '/apps/wqm/api/licenses/number_water_exploitation_points/',
+        method: 'GET',
+        'success': function (res) {
+            number_water_exploitation_points_cache = res['data'];
+            get_license_data();
+        }
+    }
+);
 
 var license_map = create_map('license-map');
 add_water_point_layer(license_map, 0.35);

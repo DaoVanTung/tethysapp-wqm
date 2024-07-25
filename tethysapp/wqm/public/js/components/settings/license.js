@@ -161,11 +161,25 @@ function fill_licenses_to_table() {
             },
             {
                 data: "id",
+                title: "Điểm khai thác",
+                width: '160px',
+                render: (data, type, row) => {
+                    let value = get_number_water_point_data(data);
+                    return value;
+                },
+            },
+            {
+                data: "id",
                 title: "",
                 width: '100px',
                 searchable: false,
                 orderable: false,
                 render: (data, type, row) => {
+                    let value = get_number_water_point_data(data);
+                    
+                    if (value < 1) {
+                        return "";
+                    }
                     return `
                     <div class='d-flex' style="justify-content: center;">
                         <button type="button" class="btn btn-link" onclick="on_view_license_button_click('${data}')">Chi tiết</button>
@@ -234,16 +248,7 @@ function on_view_license_button_click(license_id) {
     $("#license-ngay-het-han").text(license_data["ngay_het_han"]);
     $("#license-loai-giay-phep").text(license_data["loai_giay_phep"]);
     $("#license-ten-to-chuc").text(license_data["ten_to_chuc_ca_nhan"]);
-    $("#license-diem-khai-thac").text('');
-
-    $.ajax({
-        'url': `/apps/wqm/api/licenses/${license_id}/water_exploitation_points`,
-        'method': 'GET',
-        'success': function (res) {
-            water_exploitation_points = res['data'];
-            $("#license-diem-khai-thac").text(water_exploitation_points.length);
-        }
-    });
+    $("#license-diem-khai-thac").text(get_number_water_point_data(license_id));
 }
 
 function on_close_license_detail_click() {

@@ -12,7 +12,7 @@ def get_licenses(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 
-    cur.execute('SELECT * FROM public.giay_phep_tai_nguyen_nuoc ')
+    cur.execute('SELECT * FROM public.giay_phep_tai_nguyen_nuoc')
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()
@@ -23,11 +23,47 @@ def get_licenses(request):
     # Chuyển đổi dữ liệu thành danh sách các từ điển
     result_list = [dict(zip(colnames, row)) for row in rows]
 
+    # cur.execute('SELECT giay_phep_tai_nguyen_nuoc_id, COUNT(*) FROM public.diem_khai_thac_nuoc GROUP BY giay_phep_tai_nguyen_nuoc_id')
+
+    # rows = cur.fetchall()
+
+    # for result in result_list:
+    #     row_data = next((doc for doc in rows if doc[0] == result['id']), None)
+    #     if row_data is None:
+    #         result['so_luong_diem_khai_thac'] = 0
+    #     else:
+    #         result['so_luong_diem_khai_thac'] = row_data[1]
+
     # Đóng kết nối và cursor sau khi hoàn thành
     cur.close()
     conn.close()
 
     return JsonResponse({'data': result_list})
+
+
+
+@controller(url='/api/licenses/number_water_exploitation_points')
+def get_licenses(request):
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    cur.execute('SELECT giay_phep_tai_nguyen_nuoc_id, COUNT(*) FROM public.diem_khai_thac_nuoc GROUP BY giay_phep_tai_nguyen_nuoc_id')
+
+    # Lấy tất cả các dòng kết quả
+    rows = cur.fetchall()
+
+    # Lấy tên các cột
+    colnames = [desc[0] for desc in cur.description]
+
+    # Chuyển đổi dữ liệu thành danh sách các từ điển
+    result_list = [dict(zip(colnames, row)) for row in rows]
+    
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'data': result_list})
+
 
 @controller(url='/api/licenses/{id}/water_exploitation_points')
 def get_license_water_exploitation_points(request, id):
