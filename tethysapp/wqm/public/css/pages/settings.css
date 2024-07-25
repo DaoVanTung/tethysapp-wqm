@@ -51,6 +51,19 @@
     font-size: 14px;
 }
 
+.content-box__sub-content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 0px 16px 16px 16px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-box__sub-content #license-map {
+    flex: 1;
+}
 
 .filter-box {
     display: flex;
@@ -94,4 +107,9 @@
 .filter-box__item.filter-box__buttons button i{
     margin-right: 4px;
     font-size: 16px;
+}
+
+.close-btn {
+    padding: 8px;
+    margin-bottom: 8px;
 }

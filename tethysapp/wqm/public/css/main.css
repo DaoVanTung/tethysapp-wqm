@@ -114,7 +114,7 @@ body > div:first-child {
     overflow-y: auto;
 }
 
-#map {
+.map {
     height: 100%;
     width: 100%;
 }

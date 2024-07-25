@@ -27,7 +27,7 @@ function create_map(map_container) {
                     minzoom: 0,
                     maxzoom: 22,
                     paint: {
-                        'raster-opacity': 0.5
+                        'raster-opacity': 0.7
                     }
                 },
             ],

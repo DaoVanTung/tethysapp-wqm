@@ -54,9 +54,13 @@
     </div>
 </div>
 
-<div class="content-box__content d-none" id="content-box__license-detail">
+<div class="content-box__sub-content d-none" id="content-box__license-detail">
     <div>
-        <button type="button" class="btn" onclick="on_close_license_detail_click()"><i class="bi bi-x"></i></button>
+        <button type="button" class="btn close-btn" onclick="on_close_license_detail_click()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+              </svg>
+        </button>
         <b style="font-size: 16px; margin-left: 4px;">Chi tiết Giấy phép</b>
     </div>
 
@@ -85,7 +89,5 @@
         </tbody>
     </table>
 
-    <div id="license-map">
-        
-    </div>
+    <div id="license-map"></div>
 </div>

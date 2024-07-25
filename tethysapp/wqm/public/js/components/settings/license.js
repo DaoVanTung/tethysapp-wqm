@@ -218,3 +218,37 @@ function add_filter_license_event() {
         }
     });
 }
+
+function on_view_license_button_click(license_id) {
+    $('#content-box__license').addClass('d-none');
+    $('#content-box__license-detail').removeClass('d-none');
+
+    // Thêm và áp dụng filter để lọc điểm khai thác của license_id
+    license_map.setFilter('diem_khai_thac_layer', ['==', ['get', 'giay_phep_tai_nguyen_nuoc_id'], license_id]);
+    $('#point-data').addClass('d-none');
+
+    // Lấy thông tin giấy phép
+    const license_data = license_cache.find(obj => obj.id === license_id);
+
+    // Điền vào bảng
+    $("#license-so-hieu").text(license_data["so_hieu_van_ban"]);
+    $("#license-ngay-ban-hanh").text(license_data["ngay_ban_hanh"]);
+    $("#license-ngay-het-han").text(license_data["ngay_het_han"]);
+    $("#license-loai-giay-phep").text(license_data["loai_giay_phep"]);
+    $("#license-ten-to-chuc").text(license_data["ten_to_chuc_ca_nhan"]);
+    $("#license-diem-khai-thac").text('');
+
+    $.ajax({
+        'url': `/apps/wqm/api/licenses/${license_id}/water_exploitation_points`,
+        'method': 'GET',
+        'success': function (res) {
+            water_exploitation_points = res['data'];
+            $("#license-diem-khai-thac").text(water_exploitation_points.length);
+        }
+    });
+}
+
+function on_close_license_detail_click() {
+    $('#content-box__license').removeClass('d-none');
+    $('#content-box__license-detail').addClass('d-none');
+}

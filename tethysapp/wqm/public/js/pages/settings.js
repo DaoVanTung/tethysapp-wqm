@@ -34,6 +34,23 @@ function get_license_data() {
             $("#license-loading-box").addClass("d-none");
             $("#content-box__license").removeClass("d-none");
 
+            fill_licenses_to_table();
+            analysis_licenses();
+        }
+    });
+}
+
+function get_number_water_point_data() {
+    $.ajax({
+        'url': '/apps/wqm/api/licenses/',
+        'method': 'GET',
+        'success': function (res) {
+            license_cache = res['data'];
+            license_total = license_cache.length;
+
+            $("#license-loading-box").addClass("d-none");
+            $("#content-box__license").removeClass("d-none");
+
     
             fill_licenses_to_table();
             analysis_licenses();
@@ -75,3 +92,6 @@ function show_content(content_id) {
 }
 
 get_license_data();
+
+var license_map = create_map('license-map');
+add_water_point_layer(license_map);
