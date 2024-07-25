@@ -6,4 +6,4 @@ def home(request):
     context = {
     }
 
-    return render(request, 'wqm/pages/home.html', context)
+    return render(request, 'wqm/pages/dashboard.html', context)
