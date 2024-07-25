@@ -2,15 +2,28 @@
 {% load static %}
 
 {% block content %}
-
+<div class="alert alert-warning">
+    <div class="">
+        <p class="title">Bảng tổng quan</p>
+        <p class="sub-title">Tần suất: 24h/lần (Cập nhật lần cuối lúc 07:00 21/07/2024)</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-success" id="sync-btn">
+            <i class="bi bi-arrow-repeat"></i>
+            Đồng bộ
+        </button>
+    </div>
+</div>
 {% endblock %}
 
 {% block styles %}
 {{ block.super }}
+<link href="{% static 'wqm/css/pages/dashboard.css' %}" rel="stylesheet" />
 
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
+<script src="{% static 'wqm/js/pages/dashboard.js' %}" type="text/javascript"></script>
 
 {% endblock %}
