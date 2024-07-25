@@ -1,0 +1,87 @@
+{% load static %}
+
+<div class="content-box__content" id="content-box__license">
+    <div class="alert alert-info" role="alert">
+        <b>Tổng số Giấy phép: <span id="license-total"></span></b> - Còn hạn: <span id="license-valid"></span> - Sắp hết hạn: <span id="license-expiring-soon"></span> - Hết hạn: <span id="license-expired"></span>
+    </div>
+    <div>
+        <div class="filter-box">
+            <div class="filter-box__item">
+                <label for="keyword">Từ khóa</label>
+                <input class="form-control" id="keyword" placeholder="Nhập từ khoá tìm kiếm" />
+            </div>
+            <div class="filter-box__item">
+                <label for="license-province">Tỉnh</label>
+                <select id="license-province" class="form-control" aria-label="Default select example">
+                    <option selected>Tất cả</option>
+                    <option value="80">Tỉnh Long An</option>
+                    <option value="82">Tỉnh Tiền Giang</option>
+                    <option value="83">Tỉnh Bến Tre</option>
+                    <option value="84">Tỉnh Trà Vinh</option>
+                    <option value="86">Tỉnh Vĩnh Long</option>
+                    <option value="87">Tỉnh Đồng Tháp</option>
+                    <option value="89">Tỉnh An Giang</option>
+                    <option value="91">Tỉnh Kiên Giang</option>
+                    <option value="92">Thành phố Cần Thơ</option>
+                    <option value="93">Tỉnh Hậu Giang</option>
+                    <option value="94">Tỉnh Sóc Trăng</option>
+                    <option value="95">Tỉnh Bạc Liêu</option>
+                    <option value="96">Tỉnh Cà Mau</option>
+                </select>
+            </div>
+            <div class="filter-box__item">
+                <label for="license-status">Trạng thái giấy phép</label>
+                <select id="license-status" class="form-control" aria-label="Default select example">
+                    <option selected>Tất cả</option>
+                    <option value="1">Còn hạn</option>
+                    <option value="2">Hết hạn</option>
+                </select>
+            </div>
+            <div class="filter-box__item">
+                <label for="license-monitor" style="width: 100%;"></label>
+                <div class="d-flex" style="gap: 8px; ">
+                    <input type="checkbox" name="" id="license-monitor" value="1">
+                    <label for="license-monitor" style="width: 100%;">Đang giám sát</label>
+
+                </div>
+            </div>
+        </div>
+        <table id="license-table" class="table table-bordered" cellspacing="8" width="100%"></table>
+    </div>
+</div>
+
+<div class="content-box__content d-none" id="content-box__license-detail">
+    <div>
+        <button type="button" class="btn" onclick="on_close_license_detail_click()"><i class="bi bi-x"></i></button>
+        <b style="font-size: 16px; margin-left: 4px;">Chi tiết Giấy phép</b>
+    </div>
+
+    <table class="table table-bordered" id="license-detail-table">
+        <thead>
+            <tr>
+                <td scope="col"><b>Số hiệu văn bản</b></td>
+                <td scope="col"><b>Ngày ban hành</b></td>
+                <td scope="col"><b>Ngày hết hạn</b></td>
+                <td scope="col"><b>Loại giấy phép</b></td>
+                <td scope="col"><b>Tên tổ chức/cá nhân</b></td>
+                <td scope="col"><b>Số điểm khai thác</b></td>
+                <td scope="col"><b>Trạng thái</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="license-so-hieu"></td>
+                <td id="license-ngay-ban-hanh"></td>
+                <td id="license-ngay-het-han"></td>
+                <td id="license-loai-giay-phep"></td>
+                <td id="license-ten-to-chuc"></td>
+                <td id="license-diem-khai-thac"></td>
+                <td><a href="">Giám sát</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="license-map">
+        
+    </div>
+</div>
