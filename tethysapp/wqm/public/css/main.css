@@ -145,3 +145,7 @@ body > div:first-child {
     padding: 4px 8px;
     margin-right: 4px;
 }
+
+div.dt-container .dt-search {
+    display: none;
+}

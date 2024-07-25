@@ -38,9 +38,11 @@ function fill_licenses_to_table() {
             "lengthMenu": "Số giấy phép cho mỗi trang _MENU_",
             "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ giấy phép",
             "search": "Tìm kiếm",
+            "infoEmpty": "Không có giấy phép nào được hiển thị",
+            "infoFiltered": "(được lọc từ tổng số _MAX_ giấy phép)"
         },
 
-        searching: false,
+        searching: true,
         pageLength: 25,
         order: [[0, 'asc']],
         columnDefs: [],
@@ -137,5 +139,18 @@ function fill_licenses_to_table() {
         ]
     });
 
-    // addSearchResultEvent();
+    add_search_result_event();
 }
+
+// Thêm sự kiện tìm kiếm
+function add_search_result_event() {
+    var search_input = $("#search-licene-input");
+    if (search_input.length) {
+        search_input.on("keyup", function () {
+            var search_keyword = search_input.val();
+
+            license_table.search(search_keyword).draw();
+        });
+    }
+}
+
