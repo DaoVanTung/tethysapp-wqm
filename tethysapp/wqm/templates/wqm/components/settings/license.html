@@ -1,6 +1,10 @@
 {% load static %}
 
-<div class="content-box__content" id="content-box__license">
+<div class="content-box__content loading-box" id="license-loading-box">
+    <div class="spinner-border text-info" role="status"></div>
+</div>
+
+<div class="content-box__content d-none" id="content-box__license">
     <div class="alert alert-info" role="alert">
         <b>Tổng số Giấy phép: <span id="license-total"></span></b> - Còn hạn: <span id="license-valid"></span> - Sắp hết hạn: <span id="license-expiring-soon"></span> - Hết hạn: <span id="license-expired"></span>
     </div>
@@ -13,7 +17,7 @@
             <div class="filter-box__item">
                 <label for="license-province">Tỉnh</label>
                 <select id="license-province" class="form-control" aria-label="Default select example">
-                    <option selected>Tất cả</option>
+                    <option value="-1" selected>Tất cả</option>
                     <option value="80">Tỉnh Long An</option>
                     <option value="82">Tỉnh Tiền Giang</option>
                     <option value="83">Tỉnh Bến Tre</option>
@@ -32,9 +36,9 @@
             <div class="filter-box__item">
                 <label for="license-status">Trạng thái giấy phép</label>
                 <select id="license-status" class="form-control" aria-label="Default select example">
-                    <option selected>Tất cả</option>
+                    <option value="-1" >Tất cả</option>
                     <option value="1">Còn hạn</option>
-                    <option value="2">Hết hạn</option>
+                    <option value="0">Hết hạn</option>
                 </select>
             </div>
             <div class="filter-box__item">

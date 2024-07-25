@@ -2,10 +2,10 @@ import psycopg2
 from django.http import JsonResponse
 from tethys_sdk.routing import controller
 
-HOST = '10.0.200.66'
+HOST = '10.0.200.60'
 DB_NAME = 'wqm'
 USERNAME = 'postgres'
-PASSWORD = 'Tecotec@2023#66'
+PASSWORD = 'Tecotec@MKDC#2023'
 
 @controller(url='/api/licenses')
 def get_licenses(request):

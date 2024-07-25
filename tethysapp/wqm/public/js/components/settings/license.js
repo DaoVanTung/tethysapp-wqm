@@ -41,12 +41,49 @@ function fill_licenses_to_table() {
             "infoEmpty": "Không có giấy phép nào được hiển thị",
             "infoFiltered": "(được lọc từ tổng số _MAX_ giấy phép)"
         },
-
         searching: true,
-        pageLength: 25,
-        order: [[0, 'asc']],
-        columnDefs: [],
+        pageLength: 10,
+        order: [[2, 'asc']],
+        columnDefs: [
+            { targets: 0, visible: false },
+            { targets: 1, visible: false },
+            { targets: 2, visible: false },
+
+        ],
+
         columns: [
+            {
+                data: "ma_tinh",
+                title: "Mã tỉnh",
+                render: (data, type, row, meta) => {
+                    return data;
+                },
+            },
+            {
+                data: "ngay_het_han",
+                title: "Trạng thái",
+                render: (data, type, row, meta) => {
+                    if (data == null) return "1";
+
+                    let end_date = new Date(Date.parse(data));
+                    if (end_date < today) {
+                        return "0";
+                    }
+
+                    return "1";
+                },
+            },
+            {
+                data: "giam_sat",
+                title: "Trạng thái giám sát",
+                render: (data, type, row, meta) => {
+                    if (data === true) {
+                        return "1";
+                    }
+
+                    return "0";
+                },
+            },
             {
                 "targets": 0,
                 title: "STT",
@@ -139,18 +176,45 @@ function fill_licenses_to_table() {
         ]
     });
 
-    add_search_result_event();
+    add_filter_license_event();
 }
 
 // Thêm sự kiện tìm kiếm
-function add_search_result_event() {
-    var search_input = $("#search-licene-input");
+function add_filter_license_event() {
+    let search_input = $("#search-licene-input");
     if (search_input.length) {
         search_input.on("keyup", function () {
-            var search_keyword = search_input.val();
-
+            let search_keyword = search_input.val();
             license_table.search(search_keyword).draw();
         });
     }
-}
 
+    $("#license-province").on('change', function () {
+        let province_code = $(this).val();
+        if (province_code === "-1") {
+            license_table.column(0).search('').draw();
+        } else {
+            license_table.column(0).search(province_code).draw();
+        }
+    });
+
+    $("#license-status").on('change', function () {
+        let license_status = $(this).val();
+
+        if (license_status === "-1") {
+            license_table.column(1).search('').draw();
+        } else {
+            license_table.column(1).search(license_status).draw();
+        }
+    });
+
+    $("#license-monitor").on('change', function () {
+        let license_monitor = $(this).val();
+
+        if ($(this).is(':checked')) {
+            license_table.column(2).search('1').draw();
+        } else {
+            license_table.column(2).search('').draw();
+        }
+    });
+}

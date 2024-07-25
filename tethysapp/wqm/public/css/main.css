@@ -149,3 +149,11 @@ body > div:first-child {
 div.dt-container .dt-search {
     display: none;
 }
+
+.loading-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0.8;
+}

@@ -30,6 +30,10 @@ function get_license_data() {
         'success': function (res) {
             license_cache = res['data'];
             license_total = license_cache.length;
+
+            $("#license-loading-box").addClass("d-none");
+            $("#content-box__license").removeClass("d-none");
+
     
             fill_licenses_to_table();
             analysis_licenses();
