@@ -1,6 +1,5 @@
 // Lấy danh sách giấy phép
 var license_cache = [];
-var number_water_exploitation_points_cache = [];
 var license_table = null;
 
 //  Tổng giấy phép
@@ -41,12 +40,6 @@ function get_license_data() {
     });
 }
 
-function get_number_water_point_data(id) {
-    const license_data = number_water_exploitation_points_cache.find(obj => obj.giay_phep_tai_nguyen_nuoc_id === id);
-    let value = license_data ? license_data['count'] : 0;
-    return value;
-}
-
 function get_ms_data() {
     $.ajax({
         'url': '/apps/wqm/api/monitoring_stations/',
@@ -80,16 +73,6 @@ function show_content(content_id) {
     $(`#${content_id}`).addClass('active');
 }
 
-$.ajax(
-    {
-        url: '/apps/wqm/api/licenses/number_water_exploitation_points/',
-        method: 'GET',
-        'success': function (res) {
-            number_water_exploitation_points_cache = res['data'];
-            get_license_data();
-        }
-    }
-);
-
+get_license_data();
 var license_map = create_map('license-map');
 add_water_point_layer(license_map, 0.35);
