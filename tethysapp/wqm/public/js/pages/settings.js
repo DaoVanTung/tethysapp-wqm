@@ -94,4 +94,4 @@ function show_content(content_id) {
 get_license_data();
 
 var license_map = create_map('license-map');
-add_water_point_layer(license_map);
+add_water_point_layer(license_map, 0.35);

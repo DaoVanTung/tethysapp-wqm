@@ -209,8 +209,6 @@ function add_filter_license_event() {
     });
 
     $("#license-monitor").on('change', function () {
-        let license_monitor = $(this).val();
-
         if ($(this).is(':checked')) {
             license_table.column(2).search('1').draw();
         } else {

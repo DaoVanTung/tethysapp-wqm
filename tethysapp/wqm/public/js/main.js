@@ -27,7 +27,7 @@ function create_map(map_container) {
                     minzoom: 0,
                     maxzoom: 22,
                     paint: {
-                        'raster-opacity': 0.7
+                        'raster-opacity': 0.6
                     }
                 },
             ],
@@ -81,7 +81,7 @@ function add_ms_layer(map) {
 }
 
 
-function add_water_point_layer(map) {
+function add_water_point_layer(map, icon_size) {
 
     const imagePromises = [
         map.loadImage("/static/wqm/images/diem_khai_thac.png"),
@@ -98,7 +98,7 @@ function add_water_point_layer(map) {
                 "source-layer": "table.public.diem_khai_thac_nuoc.geom",
                 layout: {
                     "icon-image": "diem_khai_thac_icon",
-                    "icon-size": 1,
+                    "icon-size": icon_size,
                 },
             }
         );
