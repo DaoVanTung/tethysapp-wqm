@@ -350,8 +350,8 @@ function show_water_point_info(tab_name, properties) {
     newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
     $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
-    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
+    // $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
+    // $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
 }
 
 $("#license-point-map-info__close-btn").on(`click`, function() {

@@ -232,12 +232,12 @@ def add_ms(request):
     return JsonResponse({'message': 'Monitoring station added successfully'})
 
 
-@controller(url='/api/monitoring_station/{station_code}/wqi/{day}')
-def get_ms_wqi_data(request, station_code, day):
+@controller(url='/api/monitoring_station/{sensor_code}/wqi/{day}')
+def get_ms_wqi_data(request, sensor_code, day):
     conn = psycopg2.connect(dbname=DB_NAME_SENSOR_DB, user=USERNAME_SENSOR_DB, password=PASSWORD_SENSOR_DB, host=HOST_SENSOR_DB)
     cur = conn.cursor()
 
-    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE ma_cam_bien = '{station_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
+    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE ma_cam_bien = '{sensor_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()

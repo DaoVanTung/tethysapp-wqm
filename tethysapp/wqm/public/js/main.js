@@ -53,13 +53,11 @@ function add_ms_layer(map, icon_size) {
     const imagePromises = [
         map.loadImage("/static/wqm/images/diem_quan_trac_0.png"),
         map.loadImage("/static/wqm/images/diem_quan_trac_1.png"),
-
     ];
 
     Promise.all(imagePromises).then(images => {
         map.addImage("diem_quan_trac_icon_0", images[0].data);
         map.addImage("diem_quan_trac_icon_1", images[1].data);
-
 
         map.addLayer(
             {
@@ -88,7 +86,6 @@ function add_ms_layer(map, icon_size) {
         });
     });
 }
-
 
 function add_water_point_layer(map, icon_size) {
 
