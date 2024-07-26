@@ -188,11 +188,23 @@ div.dt-container .dt-search {
     margin: 0px;
 }
 
+.point-map-info__nav #station-point-map-title {
+    margin: 0px;
+}
+
 #license-point-map-info__close-btn {
     padding: 8px;
 }
 
 #license-point-map-info__close-btn:hover {
+    cursor: pointer;
+}
+
+#station-point-map-info__close-btn {
+    padding: 8px;
+}
+
+#station-point-map-info__close-btn:hover {
     cursor: pointer;
 }
 

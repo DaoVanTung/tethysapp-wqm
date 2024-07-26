@@ -65,6 +65,10 @@
     flex: 1;
 }
 
+.content-box__sub-content #station-map {
+    flex: 1;
+}
+
 .filter-box {
     display: flex;
     gap: 8px;

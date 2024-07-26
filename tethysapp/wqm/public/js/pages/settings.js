@@ -25,7 +25,6 @@ var is_init_license_tab = true;
 var is_init_station_tab = false;
 var is_init_config_tab = false;
 
-
 $('.menu-box__item').on('click', function () {
     show_content($(this).attr('id'));
 });
@@ -88,18 +87,22 @@ function show_content(content_id) {
 function init_license_tab() {
     license_map = create_map('license-map');
     get_license_data();
-    add_ms_layer(license_map, 0.35);
-    add_water_point_layer(license_map, 0.35);
+    add_ms_layer(license_map, 0.5);
+    add_water_point_layer(license_map, 0.3);
     add_license_map_click_event(license_map);
 }
 
 function init_station_tab() {
     $("#station-loading-box").removeClass('d-none');
     get_ms_data();
+    station_map = create_map('station-map');
+    add_water_point_layer(station_map, 0.3);
+    add_ms_layer(station_map, 0.5);
+    add_station_map_click_event(station_map);
 }
 
 function init_config_tab() {
-    console.log('init config tab');
+    // console.log('init config tab');
 }
 
 init_license_tab();

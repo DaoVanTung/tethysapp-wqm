@@ -203,6 +203,31 @@ function on_change_station_tab(element_id) {
         } else {
             clear_form();
         }
+    } else if (element_id == 'content-box__station-map') {
+        station_map.setLayoutProperty('diem_khai_thac_layer', 'visibility', 'none');
+
+        $.ajax({
+            url: '/apps/wqm/api/water_exploitation_points/active',
+            type: 'GET',
+            success: function(res) {
+                active_water_points = res['data'];
+                
+                // Filter map theo tùy điểm
+                // console.log(active_water_points);
+
+                let wep_list = [];
+                res['data'].forEach(element => {
+                    wep_list.push(element['id']);
+                });
+    
+                station_map.setFilter('diem_khai_thac_layer', ['in', ['get', 'id'], ['literal', wep_list]]);
+                station_map.setLayoutProperty('diem_khai_thac_layer', 'visibility', 'visible');
+
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
     }
 }
 
@@ -420,7 +445,7 @@ $('#add-ms-form').on('submit', function(event) {
         enctype: "multipart/form-data",
 
         success: function(data) {
-            console.log('Success:', data);
+            // console.log('Success:', data);
             $("#content-box__station-add").removeClass('d-none');
             $("#station-loading-box").addClass('d-none');
             clear_form();
@@ -478,19 +503,19 @@ function show_modal_ms_detail(ms_id) {
     newRow.append(`<td>${trang_thai} </td>`);
     $('#ms-detail-modal tbody').append(newRow);
 
-    draw_ms_detail_chart(ms_data.ma_tram, 7);
+    draw_ms_detail_chart(ms_data.ma_tram, 7, 'wqi-detail-chart');
 
     $('#ms-detail-time-step').off('change');
 
     $("#ms-detail-time-step").on('change', function () {
         let day = $("#ms-detail-time-step").val();
-        draw_ms_detail_chart(ms_data.ma_tram, day);
+        draw_ms_detail_chart(ms_data.ma_tram, day, 'wqi-detail-chart');
     });
 }
 
 var ms_wqi_detail_chart;
 
-function draw_ms_detail_chart(ms_code, day) {
+function draw_ms_detail_chart(ms_code, day, element_id) {
     $.ajax({
         url: `/apps/wqm/api/monitoring_station/CB_${ms_code}/wqi/${day}/`,
         method: 'GET',
@@ -508,7 +533,95 @@ function draw_ms_detail_chart(ms_code, day) {
                 ms_wqi_detail_chart.destroy();
             } catch (e) { }
         
-            ms_wqi_detail_chart = draw_ms_wqi_chart(wqi, 'wqi-detail-chart');
+            ms_wqi_detail_chart = draw_ms_wqi_chart(wqi, element_id);
         }
+    });
+}
+
+function show_ms_map_info(properties) {
+
+    $(`#station-point-map-info tbody`).empty();
+    $(`#station-point-map-info .analysis-data`).empty();
+    $(`#station-point-map-info`).removeClass(`d-none`);
+    $(`#station-point-map-info #station-point-map-title`).text(`Thông tin điểm quan trắc`);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Mã trạm</td>`);
+    newRow.append(`<td>${properties.ma_tram !== undefined ? properties.ma_tram : ''}</td>`);
+    $(`#station-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Số hiệu</td>`);
+    newRow.append(`<td>${properties.so_hieu !== undefined ? properties.so_hieu : ''}</td>`);
+    $(`#license-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Vị trí</td>`);
+    newRow.append(`<td>${properties.vi_tri !== undefined ? properties.vi_tri : ''}</td>`);
+    $(`#station-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Kinh độ</td>`);
+    newRow.append(`<td>${properties.kinh_do !== undefined ? properties.kinh_do : ''}</td>`);
+    $(`#station-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Vĩ độ</td>`);
+    newRow.append(`<td>${properties.vi_do !== undefined ? properties.vi_do : ''}</td>`);
+    $(`#station-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Loại trạm</td>`);
+    newRow.append(`<td>${properties.loai_tram !== undefined ? properties.loai_tram : ''}</td>`);
+    $(`#station-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Trạng thái</td>`);
+    newRow.append(`<td>${properties.cau_hinh_id ? 'Hoạt động' : 'Ngưng hoạt động'}</td>`);
+    $(`#station-point-map-info tbody`).append(newRow);
+
+    $("#station-point-map-info .analysis-data").append(`
+        <div style="display: flex; justify-content: space-between;">
+            <p class="mb-2 mt-2">Chỉ số chất lượng nước hiện tại: <b id="station-wqi-text"></b></p>
+            <select id="station-point-data-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
+                <option value="7" selected>7 ngày</option>
+                <option value="30">30 ngày</option>
+                <option value="90">3 tháng</option>
+                <option value="180">6 tháng</option>
+                <option value="365">1 năm</option>
+            </select>
+        </div>    
+    `);
+
+    $("#station-point-data-time-step").on('change', function () {
+        let day = $("#station-point-data-time-step").val();
+        draw_ms_detail_chart(properties.ma_tram, day, 'station-wqi-chart');
+    });
+
+    $("#station-point-map-info .analysis-data").append('<canvas id="station-wqi-chart"></canvas>');
+
+    draw_ms_detail_chart(properties.ma_tram, 7, 'station-wqi-chart');
+
+}
+
+function add_station_map_click_event(station_map) {
+    station_map.on("click", function (e) {
+        var features = station_map.queryRenderedFeatures(e.point, { layers: ["diem_khai_thac_layer"] });
+        if (!features.length) {
+            return;
+        }
+    
+        var properties = features[0].properties;
+        show_water_point_info('station', properties);
+    });
+    
+    station_map.on("click", function (e) {
+        var features = station_map.queryRenderedFeatures(e.point, { layers: ["diem_quan_trac_layer"] });
+        if (!features.length) {
+            return;
+        }
+    
+        var properties = features[0].properties;
+        show_ms_map_info(properties);
     });
 }

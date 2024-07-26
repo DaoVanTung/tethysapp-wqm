@@ -215,6 +215,64 @@
 
 </div>
 
+
+<div class="content-box__sub-content d-none" id="content-box__station-map">
+    <div>
+        <button type="button" class="btn close-btn" onclick="on_close_btn_click('content-box__station-map')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+              </svg>
+        </button>
+        <b style="font-size: 16px; margin-left: 4px;">Bản đồ Điểm quan trắc</b>
+    </div>
+
+    <div id="station-map">
+        <div id="station-point-map-info" class="point-map-info d-none">
+            <div class="point-map-info__nav">
+                <h6 id="station-point-map-title"></h6>
+                <div id="station-point-map-info__close-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <tbody></tbody>
+            </table>
+
+            <div class="analysis-data">
+                
+            </div>
+        </div>
+
+        <div class="legend">
+            <p class="mb-2"><b>Chú thích</b></p>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_khai_thac.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm khai thác nước đang giám sát</span>
+            </div>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_quan_trac_0.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm quan trắc nước chưa hoạt động</span>
+            </div>
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_quan_trac_1.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm quan trắc nước đang hoạt động</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="ms-detail-modal">
     <div class="modal-dialog modal-dialog-centered">

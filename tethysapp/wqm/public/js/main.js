@@ -48,14 +48,18 @@ function hide_layer(layer_id) {
     map.setLayoutProperty(layer_id, 'visibility', 'none');
 }
 
-function add_ms_layer(map) {
+function add_ms_layer(map, icon_size) {
 
     const imagePromises = [
-        map.loadImage("/static/wqm/images/diem_quan_trac.png"),
+        map.loadImage("/static/wqm/images/diem_quan_trac_0.png"),
+        map.loadImage("/static/wqm/images/diem_quan_trac_1.png"),
+
     ];
 
     Promise.all(imagePromises).then(images => {
-        map.addImage("diem_quan_trac_icon", images[0].data);
+        map.addImage("diem_quan_trac_icon_0", images[0].data);
+        map.addImage("diem_quan_trac_icon_1", images[1].data);
+
 
         map.addLayer(
             {
@@ -64,8 +68,13 @@ function add_ms_layer(map) {
                 source: "diem_quan_trac",
                 "source-layer": "table.public.diem_quan_trac.geom",
                 layout: {
-                    "icon-image": "diem_quan_trac_icon",
-                    "icon-size": 0.4,
+                    "icon-image": [
+                        "case",
+                        ["!=", ["get", "cau_hinh_id"], null], // Kiểm tra nếu cau_hinh_id khác null
+                        "diem_quan_trac_icon_1",               // Nếu khác null, dùng icon 1
+                        "diem_quan_trac_icon_0"                // Nếu null, dùng icon 0
+                    ],
+                    "icon-size": icon_size,
                 },
             }
         );

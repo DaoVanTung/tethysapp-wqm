@@ -287,7 +287,7 @@ function add_license_map_click_event(license_map) {
         }
     
         var properties = features[0].properties;
-        show_water_point_info(properties);
+        show_water_point_info('license', properties);
     });
     
     license_map.on("click", function (e) {
@@ -301,102 +301,108 @@ function add_license_map_click_event(license_map) {
     });
 }
 
+function show_water_point_info(tab_name, properties) {
+    $(`#${tab_name}-point-map-info tbody`).empty();
+    $(`#${tab_name}-point-map-info .analysis-data`).empty();
+    $(`#${tab_name}-point-map-info`).removeClass(`d-none`);
+    $(`#${tab_name}-point-map-info #${tab_name}-point-map-title`).text(`Thông tin điểm khai thác`);
 
-function show_water_point_info(properties) {
-    $('#license-point-map-info tbody').empty();
-    $('#license-point-map-info .analysis-data').empty();
-    $('#license-point-map-info').removeClass('d-none');
-    $('#license-point-map-info #license-point-map-title').text('Thông tin điểm khai thác');
-
-    var newRow = $('<tr>');
-    newRow.append('<td>Tên công trình khai thác</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Tên công trình khai thác</td>`);
     newRow.append(`<td>${properties.ten_cong_trinh_khai_thac !== undefined ? properties.ten_cong_trinh_khai_thac : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Tên điểm khai thác</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Tên điểm khai thác</td>`);
     newRow.append(`<td>${properties.ten_diem_khai_thac !== undefined ? properties.ten_diem_khai_thac : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Địa chỉ chi tiết</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Địa chỉ chi tiết</td>`);
     newRow.append(`<td>${properties.dia_chi_chi_tiet !== undefined ? properties.dia_chi_chi_tiet : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
+    var newRow = $(`<tr>`);
     var luu_luong = properties.luu_luong_khai_thac === undefined ? 'Không xác định' : properties.luu_luong_khai_thac + ' m³/ngày';
-    newRow.append('<td>Lưu lượng cho phép</td>');
+    newRow.append(`<td>Lưu lượng cho phép</td>`);
     newRow.append(`<td>${luu_luong} </td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Mục đích sử dụng</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Mục đích sử dụng</td>`);
     newRow.append(`<td>${properties.muc_dich_su_dung !== undefined ? properties.muc_dich_su_dung : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Phương thức khai thác</td>');
-    newRow.append(`<td>${properties.phuong_thuc_khai_thac}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Phương thức khai thác</td>`);
+    newRow.append(`<td>${properties.phuong_thuc_khai_thac !== undefined ? properties.phuong_thuc_khai_thac : ''}</td>`);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
+    var newRow = $(`<tr>`);
     var che_do_khai_thac = properties.che_do_khai_thac === undefined ? 'Không xác định' : properties.che_do_khai_thac;
-    newRow.append('<td>Chế độ khai thác</td>');
+    newRow.append(`<td>Chế độ khai thác</td>`);
     newRow.append(`<td>${che_do_khai_thac} </td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
+    var newRow = $(`<tr>`);
     var nguon_nuoc_khai_thac = properties.nguon_nuoc_khai_thac === undefined ? 'Không xác định' : properties.nguon_nuoc_khai_thac;
-    newRow.append('<td>Nguồn nước khai thác</td>');
+    newRow.append(`<td>Nguồn nước khai thác</td>`);
     newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    $('#license-point-map-info .analysis-data').append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
-    $('#license-point-map-info .analysis-data').append('<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>');
-
-    // draw_water_flow_chart();
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
 }
 
-$("#license-point-map-info__close-btn").on('click', function() {
-    $("#license-point-map-info").addClass('d-none');
+$("#license-point-map-info__close-btn").on(`click`, function() {
+    $("#license-point-map-info").addClass(`d-none`);
+});
+
+$("#station-point-map-info__close-btn").on(`click`, function() {
+    $("#station-point-map-info").addClass(`d-none`);
 });
 
 function show_ms_info(properties) {
     // console.log(properties);
-    $('#license-point-map-info tbody').empty();
-    $('#license-point-map-info .analysis-data').empty();
-    $('#license-point-map-info').removeClass('d-none');
-    $('#license-point-map-info #license-point-map-title').text('Thông tin điểm quan trắc');
+    $(`#license-point-map-info tbody`).empty();
+    $(`#license-point-map-info .analysis-data`).empty();
+    $(`#license-point-map-info`).removeClass(`d-none`);
+    $(`#license-point-map-info #license-point-map-title`).text(`Thông tin điểm quan trắc`);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Mã trạm</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Mã trạm</td>`);
     newRow.append(`<td>${properties.ma_tram !== undefined ? properties.ma_tram : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#license-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Vị trí</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Số hiệu</td>`);
+    newRow.append(`<td>${properties.so_hieu !== undefined ? properties.so_hieu : ''}</td>`);
+    $(`#license-point-map-info tbody`).append(newRow);
+
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Vị trí</td>`);
     newRow.append(`<td>${properties.vi_tri !== undefined ? properties.vi_tri : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#license-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Kinh độ</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Kinh độ</td>`);
     newRow.append(`<td>${properties.kinh_do !== undefined ? properties.kinh_do : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#license-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Vĩ độ</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Vĩ độ</td>`);
     newRow.append(`<td>${properties.vi_do !== undefined ? properties.vi_do : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#license-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Loại trạm</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Loại trạm</td>`);
     newRow.append(`<td>${properties.loai_tram !== undefined ? properties.loai_tram : ''}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#license-point-map-info tbody`).append(newRow);
 
-    var newRow = $('<tr>');
-    newRow.append('<td>Trạng thái</td>');
+    var newRow = $(`<tr>`);
+    newRow.append(`<td>Trạng thái</td>`);
     newRow.append(`<td>${properties.cau_hinh_id ? 'Hoạt động' : 'Ngưng hoạt động'}</td>`);
-    $('#license-point-map-info tbody').append(newRow);
+    $(`#license-point-map-info tbody`).append(newRow);
 
     $("#license-point-map-info .analysis-data").append(`
         <div style="display: flex; justify-content: space-between;">
