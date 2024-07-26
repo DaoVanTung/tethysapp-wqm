@@ -126,8 +126,9 @@ body > div:first-child {
     background-color: white;
     border: 1px solid #ccc;
     padding: 10px;
+    padding-right: 16px;
     z-index: 10;
-    width: 300px;
+    /* width: 300px; */
 }
 
 .legend-item {
@@ -156,4 +157,51 @@ div.dt-container .dt-search {
     align-items: center;
     z-index: 100;
     opacity: 0.8;
+}
+
+.point-map-info {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    /* bottom: 8px; */
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    width: 480px;
+    overflow: auto;
+}
+
+.point-map-info tr td:first-child {
+    width: 160px;
+}
+
+.point-map-info__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.point-map-info__nav #license-point-map-title {
+    margin: 0px;
+}
+
+#license-point-map-info__close-btn {
+    padding: 8px;
+}
+
+#license-point-map-info__close-btn:hover {
+    cursor: pointer;
+}
+
+.point-map-info__close-btn {
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.point-map-info table {
+    margin-bottom: 8px;
 }

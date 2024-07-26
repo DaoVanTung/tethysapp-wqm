@@ -22,7 +22,6 @@ $('.menu-box__item').on('click', function () {
     show_content($(this).attr('id'));
 });
 
-
 function get_license_data() {
     $.ajax({
         'url': '/apps/wqm/api/licenses/',
@@ -73,6 +72,14 @@ function show_content(content_id) {
     $(`#${content_id}`).addClass('active');
 }
 
-get_license_data();
-var license_map = create_map('license-map');
-add_water_point_layer(license_map, 0.35);
+var license_map = null;
+
+function init_license_tab() {
+    license_map = create_map('license-map');
+    get_license_data();
+    add_ms_layer(license_map, 0.35);
+    add_water_point_layer(license_map, 0.35);
+    add_license_map_click_event(license_map);
+}
+
+init_license_tab();

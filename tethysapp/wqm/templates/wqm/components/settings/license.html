@@ -16,7 +16,7 @@
             </div>
             <div class="filter-box__item">
                 <label for="license-province">Tỉnh</label>
-                <select id="license-province" class="form-control" aria-label="Default select example">
+                <select id="license-province" class="form-control">
                     <option value="-1" selected>Tất cả</option>
                     <option value="80">Tỉnh Long An</option>
                     <option value="82">Tỉnh Tiền Giang</option>
@@ -35,7 +35,7 @@
             </div>
             <div class="filter-box__item">
                 <label for="license-status">Trạng thái giấy phép</label>
-                <select id="license-status" class="form-control" aria-label="Default select example">
+                <select id="license-status" class="form-control">
                     <option value="-1" >Tất cả</option>
                     <option value="1">Còn hạn</option>
                     <option value="0">Hết hạn</option>
@@ -84,10 +84,48 @@
                 <td id="license-loai-giay-phep"></td>
                 <td id="license-ten-to-chuc"></td>
                 <td id="license-diem-khai-thac"></td>
-                <td><a href="">Giám sát</a></td>
+                <td id="license-giam-sat"></td>
             </tr>
         </tbody>
     </table>
 
-    <div id="license-map"></div>
+    <div id="license-map">
+        <div id="license-point-map-info" class="point-map-info d-none">
+            <div class="point-map-info__nav">
+                <h6 id="license-point-map-title"></h6>
+                <div id="license-point-map-info__close-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <tbody></tbody>
+            </table>
+
+            <div class="analysis-data">
+                
+            </div>
+        </div>
+
+        <div class="legend">
+            <p class="mb-2"><b>Chú thích</b></p>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_khai_thac.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm khai thác nước</span>
+            </div>
+
+            <div class="legend-item">
+                <div>
+                    <img src="{% static 'wqm/images/diem_quan_trac.png' %}" width="16" />
+                </div>
+                <span class="legend-text">Điểm quan trắc nước</span>
+            </div>
+        </div>
+    </div>
+
 </div>

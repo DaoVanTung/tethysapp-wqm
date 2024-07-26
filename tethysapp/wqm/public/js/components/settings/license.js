@@ -234,6 +234,26 @@ function on_view_license_button_click(license_id) {
 
     // Thêm và áp dụng filter để lọc điểm khai thác của license_id
     license_map.setFilter('diem_khai_thac_layer', ['==', ['get', 'giay_phep_tai_nguyen_nuoc_id'], license_id]);
+
+    license_map.setLayoutProperty('diem_quan_trac_layer', 'visibility', 'none');
+
+    // Lấy danh sách điểm quan trắc liên kết với điểm khai thác này
+    $.ajax({
+        url: `/apps/wqm/api/license/${license_id}/monitoring_stations`,
+        method: 'GET',
+        success: function (res) {
+            console.log(res['data']);
+            let ms_list = [];
+            res['data'].forEach(element => {
+                ms_list.push(element['diem_quan_trac_id']);
+            });
+
+            license_map.setFilter('diem_quan_trac_layer', ['in', ['get', 'id'], ['literal', ms_list]]);
+            license_map.setLayoutProperty('diem_quan_trac_layer', 'visibility', 'visible');
+
+        }
+    });
+
     $('#point-data').addClass('d-none');
 
     // Lấy thông tin giấy phép
@@ -246,9 +266,236 @@ function on_view_license_button_click(license_id) {
     $("#license-loai-giay-phep").text(license_data["loai_giay_phep"]);
     $("#license-ten-to-chuc").text(license_data["ten_to_chuc_ca_nhan"]);
     $("#license-diem-khai-thac").text(license_data["so_luong_diem_khai_thac"]);
+
+    if (license_data["giam_sat"]) {
+        $("#license-giam-sat").text('Đang giám sát');
+    } else {
+        $("#license-giam-sat").html('<a href="#">Giám sát</a>');
+    }
+
 }
 
 function on_close_license_detail_click() {
     $('#content-box__license').removeClass('d-none');
     $('#content-box__license-detail').addClass('d-none');
 }
+
+
+function add_license_map_click_event(license_map) {
+    license_map.on("click", function (e) {
+        var features = license_map.queryRenderedFeatures(e.point, { layers: ["diem_khai_thac_layer"] });
+        if (!features.length) {
+            return;
+        }
+    
+        var properties = features[0].properties;
+        show_water_point_info(properties);
+    });
+    
+    license_map.on("click", function (e) {
+        var features = license_map.queryRenderedFeatures(e.point, { layers: ["diem_quan_trac_layer"] });
+        if (!features.length) {
+            return;
+        }
+    
+        var properties = features[0].properties;
+        show_ms_info(properties);
+    });
+}
+
+
+function show_water_point_info(properties) {
+    $('#license-point-map-info tbody').empty();
+    $('#license-point-map-info .analysis-data').empty();
+    $('#license-point-map-info').removeClass('d-none');
+    $('#license-point-map-info #license-point-map-title').text('Thông tin điểm khai thác');
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Tên công trình khai thác</td>');
+    newRow.append(`<td>${properties.ten_cong_trinh_khai_thac !== undefined ? properties.ten_cong_trinh_khai_thac : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Tên điểm khai thác</td>');
+    newRow.append(`<td>${properties.ten_diem_khai_thac !== undefined ? properties.ten_diem_khai_thac : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Địa chỉ chi tiết</td>');
+    newRow.append(`<td>${properties.dia_chi_chi_tiet !== undefined ? properties.dia_chi_chi_tiet : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    var luu_luong = properties.luu_luong_khai_thac === undefined ? 'Không xác định' : properties.luu_luong_khai_thac + ' m³/ngày';
+    newRow.append('<td>Lưu lượng cho phép</td>');
+    newRow.append(`<td>${luu_luong} </td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Mục đích sử dụng</td>');
+    newRow.append(`<td>${properties.muc_dich_su_dung !== undefined ? properties.muc_dich_su_dung : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Phương thức khai thác</td>');
+    newRow.append(`<td>${properties.phuong_thuc_khai_thac}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    var che_do_khai_thac = properties.che_do_khai_thac === undefined ? 'Không xác định' : properties.che_do_khai_thac;
+    newRow.append('<td>Chế độ khai thác</td>');
+    newRow.append(`<td>${che_do_khai_thac} </td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    var nguon_nuoc_khai_thac = properties.nguon_nuoc_khai_thac === undefined ? 'Không xác định' : properties.nguon_nuoc_khai_thac;
+    newRow.append('<td>Nguồn nước khai thác</td>');
+    newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    $('#license-point-map-info .analysis-data').append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
+    $('#license-point-map-info .analysis-data').append('<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>');
+
+    // draw_water_flow_chart();
+}
+
+$("#license-point-map-info__close-btn").on('click', function() {
+    $("#license-point-map-info").addClass('d-none');
+});
+
+function show_ms_info(properties) {
+    // console.log(properties);
+    $('#license-point-map-info tbody').empty();
+    $('#license-point-map-info .analysis-data').empty();
+    $('#license-point-map-info').removeClass('d-none');
+    $('#license-point-map-info #license-point-map-title').text('Thông tin điểm quan trắc');
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Mã trạm</td>');
+    newRow.append(`<td>${properties.ma_tram !== undefined ? properties.ma_tram : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Vị trí</td>');
+    newRow.append(`<td>${properties.vi_tri !== undefined ? properties.vi_tri : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Kinh độ</td>');
+    newRow.append(`<td>${properties.kinh_do !== undefined ? properties.kinh_do : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Vĩ độ</td>');
+    newRow.append(`<td>${properties.vi_do !== undefined ? properties.vi_do : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Loại trạm</td>');
+    newRow.append(`<td>${properties.loai_tram !== undefined ? properties.loai_tram : ''}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Trạng thái</td>');
+    newRow.append(`<td>${properties.trang_thai === 1 ? 'Hoạt động' : 'Ngưng hoạt động'}</td>`);
+    $('#license-point-map-info tbody').append(newRow);
+
+    $("#license-point-map-info .analysis-data").append(`
+        <div style="display: flex; justify-content: space-between;">
+            <p class="mb-2 mt-2">Chỉ số chất lượng nước hiện tại: <b id="license-wqi-text"></b></p>
+            
+            <select id="point-data-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
+                <option value="7" selected>7 ngày</option>
+                <option value="30">30 ngày</option>
+                <option value="90">3 tháng</option>
+                <option value="180">6 tháng</option>
+                <option value="365">1 năm</option>
+            </select>
+
+        </div>    
+    `);
+
+    $("#point-data-time-step").on('change', function () {
+        let day = $("#point-data-time-step").val();
+        get_ms_wqi_data(properties.ma_tram, day);
+
+    });
+
+    $("#license-point-map-info .analysis-data").append('<canvas id="license-wqi-chart"></canvas>');
+
+
+    // Lấy dữ liệu cảm biến
+    get_ms_wqi_data(properties.ma_tram, 7);
+}
+
+function get_ms_wqi_data(ms_code, day) {
+    $.ajax({
+        url: `/apps/wqm/api/monitoring_station/CB_${ms_code}/wqi/${day}/`,
+        method: 'GET',
+        success: function (res) {
+
+            let wqi = {};
+            res['data'].forEach(element => {
+                let date = element['thoi_gian'].split('T')[0];
+                wqi[date] = element['gia_tri'];
+            });
+
+            let lastElement = res['data'][res['data'].length - 1];
+            $("#license-wqi-text").text(lastElement['gia_tri']);
+
+
+            draw_ms_wqi_chart(wqi);
+        }
+    });
+}
+
+
+var ms_wqi_chart;
+
+function draw_ms_wqi_chart(data) {
+    const labels = Object.keys(data);
+    const values = Object.values(data);
+
+    var chartElement = document.getElementById("license-wqi-chart").getContext("2d");
+    try {
+        ms_wqi_chart.destroy();
+    } catch (e) { }
+
+    ms_wqi_chart = new Chart(chartElement, {
+        type: 'line',
+        data: {
+            labels: labels, 
+            datasets: [{
+                label: 'WQI',
+                data: values,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1,
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Ngày'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'WQI'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // Ẩn nhãn trên cùng
+                }
+            }
+        }
+    });
+}
+
