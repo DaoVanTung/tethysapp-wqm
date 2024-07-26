@@ -242,7 +242,6 @@ function on_view_license_button_click(license_id) {
         url: `/apps/wqm/api/license/${license_id}/monitoring_stations`,
         method: 'GET',
         success: function (res) {
-            console.log(res['data']);
             let ms_list = [];
             res['data'].forEach(element => {
                 ms_list.push(element['diem_quan_trac_id']);
@@ -433,7 +432,6 @@ function get_ms_wqi_data(ms_code, day) {
         url: `/apps/wqm/api/monitoring_station/CB_${ms_code}/wqi/${day}/`,
         method: 'GET',
         success: function (res) {
-
             let wqi = {};
             res['data'].forEach(element => {
                 let date = element['thoi_gian'].split('T')[0];
@@ -443,8 +441,11 @@ function get_ms_wqi_data(ms_code, day) {
             let lastElement = res['data'][res['data'].length - 1];
             $("#license-wqi-text").text(lastElement['gia_tri']);
 
-
-            draw_ms_wqi_chart(wqi);
+            try {
+                ms_wqi_chart.destroy();
+            } catch (e) { }
+        
+            ms_wqi_chart = draw_ms_wqi_chart(wqi, 'license-wqi-chart');
         }
     });
 }
@@ -452,16 +453,14 @@ function get_ms_wqi_data(ms_code, day) {
 
 var ms_wqi_chart;
 
-function draw_ms_wqi_chart(data) {
+function draw_ms_wqi_chart(data, element_id) {
+
     const labels = Object.keys(data);
     const values = Object.values(data);
 
-    var chartElement = document.getElementById("license-wqi-chart").getContext("2d");
-    try {
-        ms_wqi_chart.destroy();
-    } catch (e) { }
+    var chart_element = document.getElementById(element_id).getContext("2d");
 
-    ms_wqi_chart = new Chart(chartElement, {
+    return new Chart(chart_element, {
         type: 'line',
         data: {
             labels: labels, 

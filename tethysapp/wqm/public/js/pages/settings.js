@@ -15,8 +15,16 @@ var license_expiring_soon = 0;
 var license_expired = 0;
 
 // Lấy danh sách điểm quan trắc
-var monitor_station_cache = [];
-var monitor_station_table = null;
+var station_cache = [];
+var station_table = null;
+
+var license_map = null;
+var station_map = null;
+
+var is_init_license_tab = true;
+var is_init_station_tab = false;
+var is_init_config_tab = false;
+
 
 $('.menu-box__item').on('click', function () {
     show_content($(this).attr('id'));
@@ -44,8 +52,10 @@ function get_ms_data() {
         'url': '/apps/wqm/api/monitoring_stations/',
         'method': 'GET',
         'success': function (res) {
-            monitor_station_cache = res['data'];
-            fill_monitor_station_to_table();
+            station_cache = res['data'];
+            fill_station_to_table();
+
+            $("#station-loading-box").addClass('d-none');
         }
     });
 }
@@ -57,12 +67,16 @@ function show_content(content_id) {
         return;
     }
 
-    if (content_id === 'menu-station' && station_cache.length == 0) {
-        get_ms_data();
+    console.log('oke');
+
+    if (content_id === 'menu-station' && is_init_station_tab === false) {
+        init_station_tab();
+        is_init_station_tab = true;
     }
 
-    if (content_id === 'menu-station' && station_cache.length == 0) {
-        get_ms_data();
+    if (content_id === 'menu-config' && station_cache.length == 0) {
+        init_config_tab();
+        init_config_tab = true;
     }
 
     $('.menu-box__item.active').removeClass('active');
@@ -72,7 +86,6 @@ function show_content(content_id) {
     $(`#${content_id}`).addClass('active');
 }
 
-var license_map = null;
 
 function init_license_tab() {
     license_map = create_map('license-map');
@@ -80,6 +93,15 @@ function init_license_tab() {
     add_ms_layer(license_map, 0.35);
     add_water_point_layer(license_map, 0.35);
     add_license_map_click_event(license_map);
+}
+
+function init_station_tab() {
+    $("#station-loading-box").removeClass('d-none');
+    get_ms_data();
+}
+
+function init_config_tab() {
+    console.log('init config tab');
 }
 
 init_license_tab();

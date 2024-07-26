@@ -19,7 +19,7 @@ def get_licenses(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 
-    cur.execute('SELECT * FROM public.giay_phep_tai_nguyen_nuoc ORDER BY so_luong_diem_khai_thac ASC')
+    cur.execute('SELECT * FROM public.giay_phep_tai_nguyen_nuoc ORDER BY so_hieu_van_ban ASC, so_luong_diem_khai_thac ASC')
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()
@@ -86,7 +86,7 @@ def get_ms(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 
-    cur.execute(f"SELECT * FROM public.diem_quan_trac")
+    cur.execute(f"SELECT * FROM public.diem_quan_trac ORDER BY cau_hinh_id ASC, ma_tram ASC")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()
