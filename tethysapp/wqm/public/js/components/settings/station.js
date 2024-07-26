@@ -17,12 +17,27 @@ function fill_station_to_table() {
             "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ điểm quan trắc",
             "search": "Tìm kiếm",
         },
-
-        searching: false,
         pageLength: 25,
-        order: [[0, 'asc']],
-        columnDefs: [],
+        order: [[2, 'asc']],
+        columnDefs: [
+            { targets: 0, visible: false },
+            { targets: 1, visible: false },
+        ],
         columns: [
+            {
+                data: "ma_tinh",
+                title: "Mã tỉnh",
+                render: (data, type, row, meta) => {
+                    return data;
+                },
+            },
+            {
+                data: "trang_thai",
+                title: "trang_thai",
+                render: (data, type, row, meta) => {
+                    return data;
+                },
+            },
             {
                 "targets": 0,
                 title: "STT",
@@ -51,18 +66,30 @@ function fill_station_to_table() {
                 title: "Điểm khai thác nước liên quan",
                 width: '400px',
                 render: (data, type, row, meta) => {
-
-                    if (meta.row != 1) {
-                        return '';
+                    if (row['cau_hinh_id'] === null) {
+                        return "";
                     }
-                    return `
-                        <ul>
-                        <li>Trạm cấp nước tập trung Khu vực Tân Mỹ</li>
-                        <li>Trong khuôn viên cúa Trạm cấp nước thị trấn Phú Lộc</li>
-                        <li>Hệ cấp nước tập trung Trà Set</li>
-                        <li>Trạm cấp nước Tắc Cậu</li>
-                        </ul>
-                        `;
+
+                    const element_id = 'wep-' + row.id;
+                    // Lấy dữ liệu 30 ngày
+                    $.ajax({
+                        url: `/apps/wqm/api/monitoring_station/${row.id}/water_exploitation_points`,
+                        method: 'GET',
+                        success: function (res) {
+                            res['data'].forEach(element => {
+                                if (element['ten_cong_trinh_khai_thac'] != null) {
+
+                                    $(`#${element_id}`).append(
+                                        `<li style="text-align: start;">${element['ten_cong_trinh_khai_thac']}</li>`
+                                    );
+                                }
+
+                            });
+
+                        }
+                    });
+
+                    return `<ul id="${element_id}" style="max-height: 190px; overflow-x: auto;"></ul>`;
                 },
             },
             {
@@ -98,7 +125,6 @@ function fill_station_to_table() {
                         }
                     });
 
-
                     return `<div class="chart-container"><canvas id="${chart_id}"></canvas></div>`;
                 },
             },
@@ -117,5 +143,38 @@ function fill_station_to_table() {
                 },
             },
         ]
+    });
+
+    add_filter_station_event();
+}
+
+
+// Thêm sự kiện tìm kiếm
+function add_filter_station_event() {
+    let search_input = $("#search-station-input");
+    if (search_input.length) {
+        search_input.on("keyup", function () {
+            let search_keyword = search_input.val();
+            station_table.search(search_keyword).draw();
+        });
+    }
+
+    $("#station-province").on('change', function () {
+        let province_code = $(this).val();
+        if (province_code === "-1") {
+            station_table.column(0).search('').draw();
+        } else {
+            station_table.column(0).search(province_code).draw();
+        }
+    });
+
+    $("#station-status").on('change', function () {
+        let license_status = $(this).val();
+
+        if (license_status === "-1") {
+            station_table.column(1).search('').draw();
+        } else {
+            station_table.column(1).search(license_status).draw();
+        }
     });
 }

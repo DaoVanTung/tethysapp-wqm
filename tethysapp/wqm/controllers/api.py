@@ -131,7 +131,7 @@ def get_wep_of_ms(request, id):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 
-    cur.execute(f"SELECT * FROM public.lien_ket_diem_quan_trac_diem_khai_thac WHERE diem_quan_trac_id = '{id}'")
+    cur.execute(f"SELECT * FROM public.diem_khai_thac_nuoc WHERE id in (SELECT diem_khai_thac_id FROM public.lien_ket_diem_quan_trac_diem_khai_thac WHERE diem_quan_trac_id = '{id}')")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()

@@ -43,12 +43,11 @@ function fill_licenses_to_table() {
         },
         searching: true,
         pageLength: 10,
-        order: [[2, 'asc']],
+        order: [[3, 'asc']],
         columnDefs: [
             { targets: 0, visible: false },
             { targets: 1, visible: false },
             { targets: 2, visible: false },
-
         ],
 
         columns: [
