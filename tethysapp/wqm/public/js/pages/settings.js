@@ -67,8 +67,6 @@ function show_content(content_id) {
         return;
     }
 
-    console.log('oke');
-
     if (content_id === 'menu-station' && is_init_station_tab === false) {
         init_station_tab();
         is_init_station_tab = true;

@@ -1,4 +1,5 @@
 {% load static %}
+{% csrf_token %}
 
 <div class="content-box__content loading-box" id="station-loading-box">
     <div class="spinner-border text-info" role="status"></div>
@@ -42,14 +43,14 @@
                 </select>
             </div>
             <div class="filter-box__item filter-box__buttons">
-                <button class="btn btn-success" onclick="on_change_tab('content-box__station-station-add')">
+                <button class="btn btn-success" onclick="on_change_station_tab('content-box__station-add')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                       </svg>
                     Thêm mới
                 </button>
 
-                <button class="btn btn-info" onclick="on_change_tab('content-box__station-station-map')">
+                <button class="btn btn-info" onclick="on_change_station_tab('content-box__station-map')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe-central-south-asia" viewBox="0 0 16 16">
                         <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M4.882 1.731a.48.48 0 0 0 .14.291.487.487 0 0 1-.126.78l-.291.146a.7.7 0 0 0-.188.135l-.48.48a1 1 0 0 1-1.023.242l-.02-.007a1 1 0 0 0-.462-.04 7 7 0 0 1 2.45-2.027m-3 9.674.86-.216a1 1 0 0 0 .758-.97v-.184a1 1 0 0 1 .445-.832l.04-.026a1 1 0 0 0 .152-1.54L3.121 6.621a.414.414 0 0 1 .542-.624l1.09.818a.5.5 0 0 0 .523.047.5.5 0 0 1 .724.447v.455a.8.8 0 0 0 .131.433l.795 1.192a1 1 0 0 1 .116.238l.73 2.19a1 1 0 0 0 .949.683h.058a1 1 0 0 0 .949-.684l.73-2.189a1 1 0 0 1 .116-.238l.791-1.187A.45.45 0 0 1 11.743 8c.16 0 .306.084.392.218.557.875 1.63 2.282 2.365 2.282l.04-.001a7.003 7.003 0 0 1-12.658.905Z"/>
                       </svg>
@@ -59,5 +60,189 @@
         </div>
 
         <table id="station-table" class="table table-bordered" cellspacing="8" width="100%"></table>
+    </div>
+</div>
+
+<div class="content-box__content d-none" id="content-box__station-add">
+    <div>
+        <button type="button" class="btn close-btn" onclick="on_close_btn_click('content-box__station-add')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                  </svg>
+        </button>
+        <b style="font-size: 16px; margin-left: 4px;">Thêm mới điểm quan trắc</b>
+    </div>
+
+    <form id="add-ms-form" method="POST">
+        <div class="row">
+            <div class="col-md-3 form-item mb-3">
+                <label for="ms-code" class="form-label">Mã trạm</label>
+                <input type="text" name="ms-code" id="ms-code" class="form-control" />
+            </div>
+            <div class="col-md-3 form-item mb-3">
+                <label for="ms-number" class="form-label">Số hiệu</label>
+                <input type="text" name="ms-number" id="ms-number" class="form-control" />
+            </div>
+            <div class="col-md-3 form-item mb-3">
+                <label for="ms-long" class="form-label">Kinh độ</label>
+                <input type="number" name="ms-long" id="ms-long" class="form-control" step="0.0000001" />
+            </div>
+            <div class="col-md-3 form-item mb-3">
+                <label for="ms-lat" class="form-label">Vĩ độ</label>
+                <input type="number" name="ms-lat" id="ms-lat" class="form-control" step="0.0000001" />
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-location" class="form-label">Vị trí</label>
+                <input type="text" name="ms-location" id="ms-location" class="form-control" />
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-province" class="form-label">Tỉnh</label>
+                <select id="ms-province" class="form-select">
+                    <option value="80" selected>Tỉnh Long An</option>
+                    <option value="82">Tỉnh Tiền Giang</option>
+                    <option value="83">Tỉnh Bến Tre</option>
+                    <option value="84">Tỉnh Trà Vinh</option>
+                    <option value="86">Tỉnh Vĩnh Long</option>
+                    <option value="87">Tỉnh Đồng Tháp</option>
+                    <option value="89">Tỉnh An Giang</option>
+                    <option value="91">Tỉnh Kiên Giang</option>
+                    <option value="92">Thành phố Cần Thơ</option>
+                    <option value="93">Tỉnh Hậu Giang</option>
+                    <option value="94">Tỉnh Sóc Trăng</option>
+                    <option value="95">Tỉnh Bạc Liêu</option>
+                    <option value="96">Tỉnh Cà Mau</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-type" class="form-label">Loại trạm</label>
+                <select id="ms-type" class="form-select" aria-label="Chọn loại trạm">
+                    <option selected value="Quan trắc nước mặt">Điểm quan trắc nước mặt</option>
+                    <option value="Quan trắc nước dưới đất">Điểm quan trắc nước dưới đất</option>
+                </select>
+            </div>
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-type" class="form-label">Điểm khai thác nước</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle"
+                        style="background-color: #fff; border: 1px solid #dee2e6; color: #000; height: 33.5px; width: 100%; text-align: start;"
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="ms-water-point-text">Chọn điểm khai thác nước liên kết</span>
+                    </button>
+                    <ul id="ms-water-point" class="dropdown-menu" style="width: 100%; border-radius: 0; padding: 8px;">
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 form-item mb-3">
+                <label for="ms-config" class="form-label">Cấu hình</label>
+                <select id="ms-config" class="form-select" aria-label="Chọn cấu hình">
+                    <option selected value="">Không cấu hình</option>
+                </select>
+                <p style="font-size: 10px; color: #6d6d6d; margin-top: 4px;">Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Corporis ipsam ea repellendus exercitationem maxime voluptatibus esse quos iusto
+                    distinctio molestias in reiciendis perferendis fuga reprehenderit, nostrum, aperiam quod error quam!
+                </p>
+            </div>
+
+            <div id="table-params-config" class="d-none">
+                <p class="mb-2"><b>Bảng thông số theo cấu hình</b></p>
+                <div class="form-item">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-light">
+                            <th>STT</th>
+                            <th>Mã thông số</th>
+                            <th>Tên thông số</th>
+                            <th>Đơn vị đo</th>
+                            <th>Giá trị ngưỡng</th>
+    
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>pH</td>
+                                <td>Độ pH</td>
+                                <td></td>
+                                <td>0 - 14</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>COD</td>
+                                <td>Nhu cầu oxy sinh hoá</td>
+                                <td>mgO2/l</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>DO</td>
+                                <td>Nhiệt độ</td>
+                                <td>Độ C</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Hg</td>
+                                <td>Thủy ngân</td>
+                                <td>µg/L</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Coliform</td>
+                                <td>Coliform</td>
+                                <td>MPN</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+        <div class="d-flex" style="justify-content: end;">
+            <button type="submit" class="btn btn-success btn-block mt-3" id="create-station-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
+                    <path
+                        d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
+                </svg>
+                Lưu
+            </button>
+        </div>
+    </form>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ms-detail-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Thông tin điểm quan trắc</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <tbody></tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p class="mt-2 mb-2"><b>Giá trị WQI gần đây</b></p>
+                    <select id="ms-detail-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
+                        <option value="7" selected>7 ngày</option>
+                        <option value="30">30 ngày</option>
+                        <option value="90">3 tháng</option>
+                        <option value="180">6 tháng</option>
+                        <option value="365">1 năm</option>
+                    </select>
+                </div>
+                <canvas id="wqi-detail-chart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -395,13 +395,12 @@ function show_ms_info(properties) {
 
     var newRow = $('<tr>');
     newRow.append('<td>Trạng thái</td>');
-    newRow.append(`<td>${properties.trang_thai === 1 ? 'Hoạt động' : 'Ngưng hoạt động'}</td>`);
+    newRow.append(`<td>${properties.cau_hinh_id ? 'Hoạt động' : 'Ngưng hoạt động'}</td>`);
     $('#license-point-map-info tbody').append(newRow);
 
     $("#license-point-map-info .analysis-data").append(`
         <div style="display: flex; justify-content: space-between;">
             <p class="mb-2 mt-2">Chỉ số chất lượng nước hiện tại: <b id="license-wqi-text"></b></p>
-            
             <select id="point-data-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
                 <option value="7" selected>7 ngày</option>
                 <option value="30">30 ngày</option>
@@ -409,7 +408,6 @@ function show_ms_info(properties) {
                 <option value="180">6 tháng</option>
                 <option value="365">1 năm</option>
             </select>
-
         </div>    
     `);
 

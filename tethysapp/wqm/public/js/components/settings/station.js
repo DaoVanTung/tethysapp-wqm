@@ -32,10 +32,13 @@ function fill_station_to_table() {
                 },
             },
             {
-                data: "trang_thai",
-                title: "trang_thai",
+                data: "cau_hinh_id",
+                title: "cau_hinh_id",
                 render: (data, type, row, meta) => {
-                    return data;
+                    if (data) {
+                        return 1;
+                    }
+                    return 0;
                 },
             },
             {
@@ -148,7 +151,6 @@ function fill_station_to_table() {
     add_filter_station_event();
 }
 
-
 // Thêm sự kiện tìm kiếm
 function add_filter_station_event() {
     let search_input = $("#search-station-input");
@@ -175,6 +177,338 @@ function add_filter_station_event() {
             station_table.column(1).search('').draw();
         } else {
             station_table.column(1).search(license_status).draw();
+        }
+    });
+}
+
+let is_init_add_tab = false;
+let active_water_points = [];
+let station_configs = [];
+let monitoring_parameters_cache = [];
+
+function on_change_station_tab(element_id) {
+    $("#content-box__station").addClass('d-none');
+    $(`#${element_id}`).removeClass('d-none');
+
+    if (element_id == 'content-box__station-add') {
+        if (is_init_add_tab == false) {
+            is_init_add_tab = true;
+
+            // Lấy danh sách điểm được giám sát
+            get_active_water_points();
+
+            // Lấy danh sách cấu hình
+            get_station_configs();
+
+        } else {
+            clear_form();
+        }
+    }
+}
+
+function get_active_water_points() {
+    $.ajax({
+        url: '/apps/wqm/api/water_exploitation_points/active',
+        type: 'GET',
+        success: function(res) {
+            active_water_points = res['data'];
+            res['data'].forEach(element => {
+                $("#ms-water-point").append(
+                    `
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" value="${element.id}" id="ms-${element.id}">
+                            <label class="form-check-label" for="ms-${element.id}">
+                                ${element.ten_cong_trinh_khai_thac != null ? element.ten_cong_trinh_khai_thac : 'Không xác định'}
+                            </label>
+                        </div>
+                    </li>
+                    `
+                );
+            });
+
+            $('#ms-water-point').on('change', '.form-check-input', function() {
+                var checked_water_point = $('#ms-water-point .form-check-input:checked');
+
+                if (checked_water_point.length > 0) {
+                    $("#ms-water-point-text").text(`${checked_water_point.length} điểm khai thác nước đã chọn`);
+                } else {
+                    $("#ms-water-point-text").text(`Chọn điểm khai thác nước liên kết`);
+                }
+            });
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+function get_monitoring_parameters() {
+    if (monitoring_parameters_cache.length != 0) {
+        return Promise.resolve(); // Trả về một Promise đã được giải quyết ngay lập tức
+    }
+
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/apps/wqm/api/monitoring_parameters/',
+            type: 'GET',
+            success: function(res) {
+                monitoring_parameters_cache = res['data'];
+                resolve(); // Giải quyết Promise khi thành công
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                reject(error); // Từ chối Promise khi có lỗi
+            }
+        });
+    });
+}
+
+async function get_station_configs() {
+    try {
+        await get_monitoring_parameters();
+    } catch (error) {
+        console.error('Failed to fetch data:', error);
+    }
+
+    $.ajax({
+        url: '/apps/wqm/api/monitoring_station_configs/',
+        type: 'GET',
+        success: function(res) {
+            station_configs = res['data'];
+
+            res['data'].forEach(element => {
+                $("#ms-config").append(
+                    `
+                    <option value="${element.id}">[${element.thoi_gian}] ${element.ten_cau_hinh}</option>
+                    `
+                );
+            });
+
+            $("#ms-config").on('change', function() {
+                let config_id = $("#ms-config").val();
+                
+
+                if (config_id == '') {
+                    $("#table-params-config").addClass('d-none');
+                } else {
+                    $("#table-params-config").removeClass('d-none');
+                    let config_detail = station_configs.find(obj => obj.id === config_id);
+                    let params = config_detail['noi_dung']['thong_so'];
+
+                    $("#table-params-config tbody").empty();
+
+                    params.forEach((param, index)  => {
+                        let param_info = monitoring_parameters_cache.find(obj => obj.ma_thong_so === param);
+                        $("#table-params-config tbody").append(
+                            `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${param_info['ma_thong_so']}</td>
+                                <td>${param_info['ten_thong_so']}</td>
+                                <td>${param_info['don_vi']}</td>
+                                <td>${param_info['gia_tri_thap_nhat'] == null ? '' : param_info['gia_tri_thap_nhat']} - ${param_info['gia_tri_cao_nhat'] == null ? '' : param_info['gia_tri_cao_nhat']}</td>
+                            </tr>  `
+                        );
+                    });
+                }
+            });
+
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+function on_close_btn_click(element_id) {
+    $(`#${element_id}`).addClass('d-none');
+    $("#content-box__station").removeClass('d-none');
+}
+
+// Lấy mã thông báo CSRF từ cookie
+function get_cookie(name) {
+    let cookie_value = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Kiểm tra xem cookie có phải là mã thông báo CSRF không
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookie_value = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookie_value;
+}
+
+function clear_form() {
+    // Xóa tất cả các trường nhập liệu
+    $('#add-ms-form').find('input[type="text"], input[type="number"], select').val('');
+
+    // Xóa tất cả các checkbox
+    $('#add-ms-form').find('input[type="checkbox"]').prop('checked', false);
+
+    // Đặt giá trị mặc định cho các select nếu cần
+    $('#ms-province').val('80');  // Ví dụ: đặt về giá trị mặc định của tỉnh
+    $('#ms-type').val('Quan trắc nước mặt'); // Ví dụ: đặt về giá trị mặc định của loại trạm
+    $('#ms-config').val(''); // Ví dụ: đặt về giá trị mặc định của cấu hình
+    $("#ms-water-point-text").text(`Chọn điểm khai thác nước liên kết`);
+    $("#table-params-config").addClass(`d-none`);
+}
+
+function generate_UUID() {
+    // Tạo UUID version 4 ngẫu nhiên
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, 
+            v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+$('#add-ms-form').on('submit', function(event) {
+    event.preventDefault(); // Ngăn chặn việc submit form mặc định
+
+    $("#content-box__station-add").addClass('d-none');
+    $("#station-loading-box").removeClass('d-none');
+
+    const url = '/apps/wqm/api/monitoring_station/';
+    const form_data = new FormData();
+
+    // Mã trạm
+    let id = generate_UUID();
+    let station_code = $("#ms-code").val().trim();
+    let station_number = $("#ms-number").val().trim();
+    let station_long = parseFloat($("#ms-long").val().trim());
+    let station_lat = parseFloat($("#ms-lat").val().trim());
+    let station_location = $("#ms-location").val().trim();
+    let station_province = parseInt($("#ms-province").val().trim());
+    let station_type = $("#ms-type").val().trim();
+    let station_config = $("#ms-config").val().trim();
+
+    let data = {
+        id: id,
+        ma_tram: station_code,
+        so_hieu: station_number,
+        kinh_do: station_long,
+        vi_do: station_lat,
+        vi_tri: station_location,
+        ma_tinh: station_province,
+        loai_tram: station_type,
+    };
+
+    if (station_config !== '') {
+        data[cau_hinh_id] = station_config;
+    }
+
+    form_data.append(
+        "data",
+        JSON.stringify(data)
+    );
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: form_data,
+        headers: {
+            'X-CSRFToken': get_cookie('csrftoken') // Thêm mã thông báo CSRF vào header
+        },
+        processData: false,
+        contentType: false,
+        cache: false,
+        enctype: "multipart/form-data",
+
+        success: function(data) {
+            console.log('Success:', data);
+            $("#content-box__station-add").removeClass('d-none');
+            $("#station-loading-box").addClass('d-none');
+            clear_form();
+        },
+        error: function(error) {
+            console.error('Error:', error);
+            $("#content-box__station-add").removeClass('d-none');
+            $("#station-loading-box").addClass('d-none');
+
+        }
+    });
+});
+
+
+function show_modal_ms_detail(ms_id) {
+    const ms_data = station_cache.find(obj => obj.id === ms_id);
+
+    $('#ms-detail-modal tbody').empty();
+    $('#ms-detail-modal').removeClass('d-none');
+
+    // Tạo thẻ tr mới
+    var newRow = $('<tr>');
+    newRow.append('<td>Mã trạm</td>');
+    newRow.append(`<td>${ms_data.ma_tram}</td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Số hiệu</td>');
+    newRow.append(`<td>${ms_data.so_hieu}</td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Vị trí</td>');
+    newRow.append(`<td>${ms_data.vi_tri}</td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Kinh độ</td>');
+    newRow.append(`<td>${ms_data.kinh_do} </td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Vĩ độ</td>');
+    newRow.append(`<td>${ms_data.vi_do} </td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    newRow.append('<td>Loại trạm</td>');
+    newRow.append(`<td>${ms_data.loai_tram}</td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    var newRow = $('<tr>');
+    var trang_thai = ms_data.cau_hinh_id ? 'Đang hoạt động' : 'Không hoạt động';
+    newRow.append('<td>Trạng thái</td>');
+    newRow.append(`<td>${trang_thai} </td>`);
+    $('#ms-detail-modal tbody').append(newRow);
+
+    draw_ms_detail_chart(ms_data.ma_tram, 7);
+
+    $('#ms-detail-time-step').off('change');
+
+    $("#ms-detail-time-step").on('change', function () {
+        let day = $("#ms-detail-time-step").val();
+        draw_ms_detail_chart(ms_data.ma_tram, day);
+    });
+}
+
+var ms_wqi_detail_chart;
+
+function draw_ms_detail_chart(ms_code, day) {
+    $.ajax({
+        url: `/apps/wqm/api/monitoring_station/CB_${ms_code}/wqi/${day}/`,
+        method: 'GET',
+        success: function (res) {
+            let wqi = {};
+            res['data'].forEach(element => {
+                let date = element['thoi_gian'].split('T')[0];
+                wqi[date] = element['gia_tri'];
+            });
+    
+            // let lastElement = res['data'][res['data'].length - 1];
+            // $("#license-wqi-text").text(lastElement['gia_tri']);
+    
+            try {
+                ms_wqi_detail_chart.destroy();
+            } catch (e) { }
+        
+            ms_wqi_detail_chart = draw_ms_wqi_chart(wqi, 'wqi-detail-chart');
         }
     });
 }

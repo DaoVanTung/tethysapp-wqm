@@ -1,6 +1,9 @@
+import json
 import psycopg2
 from django.http import JsonResponse
 from tethys_sdk.routing import controller
+from django.views.decorators.csrf import csrf_exempt
+import uuid
 
 # Thông tin kết nối đến csdl
 HOST = '10.0.200.60'
@@ -43,6 +46,29 @@ def get_wep_of_license(request, id):
     cur = conn.cursor()
 
     cur.execute(f"SELECT * FROM public.diem_khai_thac_nuoc WHERE giay_phep_tai_nguyen_nuoc_id = '{id}'")
+
+    # Lấy tất cả các dòng kết quả
+    rows = cur.fetchall()
+
+    # Lấy tên các cột
+    colnames = [desc[0] for desc in cur.description]
+
+    # Chuyển đổi dữ liệu thành danh sách các từ điển
+    result_list = [dict(zip(colnames, row)) for row in rows]
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'data': result_list})
+
+
+@controller(url='/api/water_exploitation_points/active')
+def get_water_exploitation_points_active(request):
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    cur.execute(f"SELECT * FROM public.diem_khai_thac_nuoc WHERE giay_phep_tai_nguyen_nuoc_id in (SELECT id FROM public.giay_phep_tai_nguyen_nuoc WHERE giam_sat = true) ORDER BY ten_cong_trinh_khai_thac ASC")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()
@@ -102,6 +128,108 @@ def get_ms(request):
     conn.close()
 
     return JsonResponse({'data': result_list})
+
+
+@controller(url='/api/monitoring_station_configs')
+def get_ms(request):
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    cur.execute(f"SELECT * FROM public.cau_hinh_cam_bien ORDER BY thoi_gian DESC")
+
+    # Lấy tất cả các dòng kết quả
+    rows = cur.fetchall()
+
+    # Lấy tên các cột
+    colnames = [desc[0] for desc in cur.description]
+
+    # Chuyển đổi dữ liệu thành danh sách các từ điển
+    result_list = [dict(zip(colnames, row)) for row in rows]
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'data': result_list})
+
+
+
+@controller(url='/api/monitoring_parameters')
+def get_monitoring_parameters(request):
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    cur.execute(f"SELECT * FROM public.thong_so_quan_trac")
+
+    # Lấy tất cả các dòng kết quả
+    rows = cur.fetchall()
+
+    # Lấy tên các cột
+    colnames = [desc[0] for desc in cur.description]
+
+    # Chuyển đổi dữ liệu thành danh sách các từ điển
+    result_list = [dict(zip(colnames, row)) for row in rows]
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'data': result_list})
+
+def generate_random_uuid():
+    # Tạo UUID ngẫu nhiên
+    new_uuid = uuid.uuid4()
+    return str(new_uuid)
+
+@csrf_exempt
+@controller(url='/api/monitoring_station', method='POST')
+def add_ms(request):
+    # Kết nối đến cơ sở dữ liệu
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    data = {}
+    try:
+        data = json.loads(request.POST['data'])
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    # Lấy dữ liệu từ JSON
+    id = data.get('id')
+    ma_tram = data.get('ma_tram')
+    so_hieu = data.get('so_hieu')
+    kinh_do = data.get('kinh_do')
+    vi_do = data.get('vi_do')
+    vi_tri = data.get('vi_tri')
+    ma_tinh = data.get('ma_tinh')
+    cau_hinh_id = data.get('cau_hinh_id')
+
+    # Kiểm tra nếu tất cả các trường cần thiết đều có
+    # if not all([ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id]):
+    #     return JsonResponse({'error': 'Missing required fields'}, status=400)
+
+    # Xây dựng câu truy vấn SQL để chèn dữ liệu
+    query = """
+        INSERT INTO public.diem_quan_trac (id, ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    values = (id, ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id)
+
+    try:
+        # Thực hiện truy vấn
+        cur.execute(query, values)
+        conn.commit()  # Xác nhận thay đổi trong cơ sở dữ liệu
+    except psycopg2.Error as e:
+        conn.rollback()  # Hoàn tác nếu có lỗi
+        cur.close()
+        conn.close()
+        return JsonResponse({'error': f'Error inserting data: {e}'}, status=500)
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'message': 'Monitoring station added successfully'})
 
 
 @controller(url='/api/monitoring_station/{station_code}/wqi/{day}')

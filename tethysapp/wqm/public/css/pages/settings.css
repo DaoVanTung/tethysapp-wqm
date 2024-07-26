@@ -97,7 +97,7 @@
 
 
 .filter-box__item.filter-box__buttons button {
-    height: 36px;
+    height: 32.5px;
     border-radius: 0px;
     font-size: 14px;
     color: #fff;
@@ -112,4 +112,28 @@
 .close-btn {
     padding: 8px;
     margin-bottom: 8px;
+}
+
+.content-box__content form input, .content-box__content form select, .content-box__content form button {
+    border-radius: 0px;
+}
+
+.content-box__content #create-station-btn {
+    padding: 4px 24px;
+    margin: 0 !important;
+}
+
+
+#ms-detail-modal .modal-content{
+    font-size: 14px;
+    border-radius: 0;
+}
+
+#ms-detail-modal .modal-content h6{
+    margin: 0;
+}
+
+#ms-detail-modal .modal-content button{
+    font-size: 10px;
+    border-radius: 0;
 }
