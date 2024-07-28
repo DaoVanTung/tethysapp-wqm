@@ -43,6 +43,7 @@ body > div:first-child {
 
 .header-bar .logo {
     display: flex;
+    height: 24px;
 }
 
 .header-bar__left,
