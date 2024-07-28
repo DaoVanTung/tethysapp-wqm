@@ -99,6 +99,47 @@ function init_station_tab() {
     add_water_point_layer(station_map, 0.3);
     add_ms_layer(station_map, 0.5);
     add_station_map_click_event(station_map);
+
+    MapboxDraw.constants.classes.CONTROL_BASE  = 'maplibregl-ctrl';
+    MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
+    MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
+
+    const draw = new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+            point: true,
+            trash: true
+        }
+    });
+    station_map.addControl(draw);
+
+    // Lắng nghe sự kiện tạo điểm
+    station_map.on('draw.create', function (e) {
+        const point = e.features[0];
+        const coordinates = point.geometry.coordinates;
+
+        let popup_content =
+        `
+            <div style="padding: 4px">
+            <p><b>Kinh độ</b>: ${coordinates[0]}</p>
+            <p><b>Vĩ độ</b>: ${coordinates[1]}</p>
+            <button class="btn btn-success" style="height: 32px; width: 100%; border-radius: 0px; margin-top: 8px">
+                    Thêm mới
+                </button>
+            </div>
+        `;
+
+        const popup = new maplibregl.Popup({closeOnClick: false})
+            .setLngLat(coordinates)
+            .setHTML(popup_content)
+            .addTo(station_map);
+
+        // Xử lý sự kiện click vào nút "Thêm mới"
+        // addButton.addEventListener('click', () => {
+        //     alert('Điểm đã được thêm!');
+        //     popup.remove(); // Đóng popup sau khi nhấn nút
+        // });
+    });
 }
 
 function init_config_tab() {

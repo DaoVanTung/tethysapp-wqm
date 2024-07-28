@@ -130,6 +130,7 @@
                         <span id="ms-water-point-text">Chọn điểm khai thác nước liên kết</span>
                     </button>
                     <ul id="ms-water-point" class="dropdown-menu" style="width: 100%; border-radius: 0; padding: 8px;">
+                        <input type="text" style="height: 32px; border: 1px solid #ccc; width: 100%; border-radius: 0px; margin-bottom: 8px; padding: 4px;" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point">
                     </ul>
                 </div>
             </div>
@@ -286,20 +287,66 @@
                     <tbody></tbody>
                 </table>
 
+                <p class="mt-2 mb-2"><b>Điểm khai thác liên quan</b></p>
+
+                <ul id="ms-water-point" style=" width: 100%;border: 1px solid #ccc; border-radius: 0px; padding: 8px; margin: 0 0 16px 0; list-style-type: none;" data-popper-placement="bottom-start">
+                    <input type="text" style="height: 32px; border: 1px solid #ccc; width: 100%; border-radius: 0px; margin-bottom: 8px; padding: 4px;" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point">
+                
+                <li>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-6428-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc">
+                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc">
+                            Chợ Cờ Đỏ
+                        </label>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9628-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc">
+                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc">
+                            Trạm cấp nước tập trung KDCVL xã Đông Thuận, huyện Thới Lai
+                        </label>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9128-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc">
+                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc">
+                            Trạm cấp nước tập trung số 2 KDCVL xã Đông Thuận, huyện Thới Lai
+                        </label>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9028-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc">
+                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc">
+                            Trạm cấp nước tập trung số 4 KDCVL xã Đông Thuận, huyện Thới Lai
+                        </label>
+                    </div>
+                </li>
+                </ul>
+
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <p class="mt-2 mb-2"><b>Giá trị WQI gần đây</b></p>
-                    <select id="ms-detail-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
-                        <option value="7" selected>7 ngày</option>
-                        <option value="30">30 ngày</option>
-                        <option value="90">3 tháng</option>
-                        <option value="180">6 tháng</option>
-                        <option value="365">1 năm</option>
-                    </select>
+                        <select id="ms-detail-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
+                            <option value="7" selected>7 ngày</option>
+                            <option value="30">30 ngày</option>
+                            <option value="90">3 tháng</option>
+                            <option value="180">6 tháng</option>
+                            <option value="365">1 năm</option>
+                        </select>
+                        
                 </div>
                 <canvas id="wqi-detail-chart"></canvas>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="height: 32px;">Đóng</button>
+                <button class="btn btn-success" style="height: 32px;">
+                    Xuất dữ liệu
+                </button>
             </div>
         </div>
     </div>

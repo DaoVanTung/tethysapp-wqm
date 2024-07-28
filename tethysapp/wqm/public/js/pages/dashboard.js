@@ -1,5 +1,6 @@
 let map = create_map('map');
 let active_water_points = [];
+add_ms_layer_to_map();
 add_water_point_layer_to_map();
 add_dashboard_map_click_event(map);
 
@@ -7,7 +8,7 @@ function add_water_point_layer_to_map() {
     $.ajax({
         url: '/apps/wqm/api/water_exploitation_points/active',
         type: 'GET',
-        success: function(res) {
+        success: function (res) {
             active_water_points = res['data'];
 
             let wep_list = [];
@@ -18,10 +19,10 @@ function add_water_point_layer_to_map() {
             const imagePromises = [
                 map.loadImage("/static/wqm/images/diem_khai_thac.png"),
             ];
-            
+
             Promise.all(imagePromises).then(images => {
                 map.addImage("diem_khai_thac_icon", images[0].data);
-            
+
                 map.addLayer(
                     {
                         id: "diem_khai_thac_layer",
@@ -35,24 +36,21 @@ function add_water_point_layer_to_map() {
                         },
                     }
                 );
-            
+
                 map.on("mouseenter", "diem_khai_thac_layer", function () {
                     map.getCanvas().style.cursor = "pointer";
                 });
-            
+
                 map.on("mouseleave", "diem_khai_thac_layer", function () {
                     map.getCanvas().style.cursor = "";
                 });
-
-                add_ms_layer_to_map();
-
             });
 
         },
-        error: function(error) {
+        error: function (error) {
             console.error('Error:', error);
         }
-    });   
+    });
 }
 
 
@@ -66,25 +64,21 @@ function add_ms_layer_to_map() {
     Promise.all(imagePromises).then(images => {
         map.addImage("diem_quan_trac_icon_0", images[0].data);
         map.addImage("diem_quan_trac_icon_1", images[1].data);
-        
+
         map.addLayer(
             {
                 id: "diem_quan_trac_layer",
-                type: "symbol",
+                type: "circle",
                 source: "diem_quan_trac",
                 "source-layer": "table.public.diem_quan_trac.geom",
-                layout: {
-                    "icon-image": [
-                        "case",
-                        ["!=", ["get", "cau_hinh_id"], null],  // Kiểm tra nếu cau_hinh_id khác null
-                        "diem_quan_trac_icon_1",               // Nếu khác null, dùng icon 1
-                        "diem_quan_trac_icon_0"                // Nếu null, dùng icon 0
-                    ],
-                    "icon-size": 0.7,
+                paint: {
+                    "circle-radius": 8,
+                    "circle-color": "#00af50",
+                    "circle-opacity": 0.7,
                 },
                 filter: ["!=", ["get", "cau_hinh_id"], null],
                 minzoom: 0,
-    maxzoom: 24
+                maxzoom: 24
             }
         );
 
@@ -95,7 +89,7 @@ function add_ms_layer_to_map() {
         map.on("mouseleave", "diem_quan_trac_layer", function () {
             map.getCanvas().style.cursor = "";
         });
-    }); 
+    });
 }
 
 
@@ -105,17 +99,17 @@ function add_dashboard_map_click_event(dashboard_map) {
         if (!features.length) {
             return;
         }
-    
+
         var properties = features[0].properties;
         show_water_point_info('dashboard', properties);
     });
-    
+
     dashboard_map.on("click", function (e) {
         var features = dashboard_map.queryRenderedFeatures(e.point, { layers: ["diem_quan_trac_layer"] });
         if (!features.length) {
             return;
         }
-    
+
         var properties = features[0].properties;
         show_ms_info(properties);
     });
@@ -170,15 +164,15 @@ function show_water_point_info(tab_name, properties) {
     newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
     $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    // $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
-    // $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
 }
 
-$("#dashboard-point-map-info__close-btn").on(`click`, function() {
+$("#dashboard-point-map-info__close-btn").on(`click`, function () {
     $("#dashboard-point-map-info").addClass(`d-none`);
 });
 
-$("#station-point-map-info__close-btn").on(`click`, function() {
+$("#station-point-map-info__close-btn").on(`click`, function () {
     $("#station-point-map-info").addClass(`d-none`);
 });
 
@@ -268,7 +262,7 @@ function get_ms_wqi_data(ms_code, day) {
             try {
                 ms_wqi_chart.destroy();
             } catch (e) { }
-        
+
             ms_wqi_chart = draw_ms_wqi_chart(wqi, 'dashboard-wqi-chart');
         }
     });
@@ -287,7 +281,7 @@ function draw_ms_wqi_chart(data, element_id) {
     return new Chart(chart_element, {
         type: 'line',
         data: {
-            labels: labels, 
+            labels: labels,
             datasets: [{
                 label: 'WQI',
                 data: values,

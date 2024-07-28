@@ -42,41 +42,41 @@ function fill_wqi_lookup_to_table() {
 }
 
 
-$.ajax({
-    url: '/apps/wqm/api/parameters/',
-    method: 'GET',
-    success: function (res) {
-        console.log(res);
-        params_cache = res['data'];
-        fill_params_to_table();
-    },
-});
+// $.ajax({
+//     url: '/apps/wqm/api/parameters/',
+//     method: 'GET',
+//     success: function (res) {
+//         console.log(res);
+//         params_cache = res['data'];
+//         fill_params_to_table();
+//     },
+// });
 
-function fill_params_to_table() {
-    let data = params_cache;
-    let params_table_body = $("#params-table tbody");
+// function fill_params_to_table() {
+//     let data = params_cache;
+//     let params_table_body = $("#params-table tbody");
     
-    data.forEach(e => {
-        params_table_body.append(
-            `
-            <tr>
-                <td>
-                    <span class="">${e.ma_thong_so}</span>
-                </td>
-                <td>
-                    <span class="">${e.ten_thong_so}</span>
-                </td>
-                <td>
-                    <span class="">${e.don_vi}</span>
-                </td>
-                <td>
-                    <span class="">${e.gia_tri_thap_nhat != null ? e.gia_tri_thap_nhat : ''}</span>
-                </td>
-                <td>
-                    <span class="">${e.gia_tri_cao_nhat != null ? e.gia_tri_cao_nhat : ''}</span>
-                </td>
-            </tr>
-            `
-        );
-    });
-}
+//     data.forEach(e => {
+//         params_table_body.append(
+//             `
+//             <tr>
+//                 <td>
+//                     <span class="">${e.ma_thong_so}</span>
+//                 </td>
+//                 <td>
+//                     <span class="">${e.ten_thong_so}</span>
+//                 </td>
+//                 <td>
+//                     <span class="">${e.don_vi}</span>
+//                 </td>
+//                 <td>
+//                     <span class="">${e.gia_tri_thap_nhat != null ? e.gia_tri_thap_nhat : ''}</span>
+//                 </td>
+//                 <td>
+//                     <span class="">${e.gia_tri_cao_nhat != null ? e.gia_tri_cao_nhat : ''}</span>
+//                 </td>
+//             </tr>
+//             `
+//         );
+//     });
+// }

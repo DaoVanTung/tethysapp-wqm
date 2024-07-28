@@ -131,7 +131,7 @@ def get_ms(request):
 
 
 @controller(url='/api/monitoring_station_configs')
-def get_ms(request):
+def get_ms_config(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 

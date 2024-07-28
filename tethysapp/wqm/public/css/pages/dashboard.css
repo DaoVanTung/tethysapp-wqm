@@ -61,3 +61,40 @@
 #dashboard-point-map-info__close-btn:hover {
     cursor: pointer;
 }
+
+
+.time-demension {
+    display: flex;
+    align-items: center;
+}
+
+.slider-container {
+    flex: 1;
+    margin-left: 8px;
+    position: relative;
+}
+
+.slider-tooltip {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.play-button {
+    display: block;
+    margin: 10px auto;
+    padding: 0 8px;
+    font-size: 24px;
+}
+
+.ui-slider-range {
+    background-color: #ff8400;
+    height: 4px;
+}
+
+.slider {
+    background-color: #928484;
+    height: 4px;
+}

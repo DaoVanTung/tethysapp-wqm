@@ -190,18 +190,31 @@
 .smtp-box__item {
     display: flex;
     margin-bottom: 16px;
+    align-items: center;
 }
 
 .smtp-box__item label {
     width: 10%;
+    min-width: 100px;
 }
 
 .smtp-box__item input, .smtp-box__item textarea {
     width: 90%;
-    max-width: 500px;
+    /* max-width: 500px; */
     border-radius: 0;
 }
 
 .config-control__heading {
     margin: 12px 0 16px 0;
+}
+
+div.dt-container .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+div.dt-container .top {
+    margin-bottom: 8px;
 }

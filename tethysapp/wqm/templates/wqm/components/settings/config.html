@@ -4,7 +4,7 @@
     </div>
 
     <div class="config-control">
-        <h6 class="config-control__heading">Chỉ số Chất lượng nước</h6>
+        <h6 class="config-control__heading"><b>Chỉ số Chất lượng nước</b></h6>
         <div class="config-control__content">
             <table class="table table-bordered" id="wqi-lookup-table">
                 <thead>
@@ -28,62 +28,41 @@
         </div>
     </div>
 
-
-    
-
     <div class="config-control">
-        <h6 class="config-control__heading">Thông số quan trắc</h6>
-        <div class="config-control__content">
-            <table class="table table-bordered" id="params-table">
-                <thead>
-                    <tr>
-                        <th scope="col">Mã thông số</th>
-                        <th scope="col">Tên thông số</th>
-                        <th scope="col">Đơn vị đo</th>
-                        <th scope="col">Giá trị thấp nhất</th>
-                        <th scope="col">Giá trị cao nhất</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-
-            <div class="config-update-button-box">
-                <button class="btn btn-outline-primary" type="button" id="params-update-btn">
-                    <span class="fw-medium text-uppercase">Cập nhật</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="config-control">
-        <h6 class="config-control__heading">Gửi thông báo</h6>
+        <h6 class="config-control__heading"><b>Gửi thông báo</b></h6>
         <div class="config-control__content">
 
-            <div class="mb-2 row">
-                <div class="smtp-box__item row-3">
+            <div class="mb-2" style="margin-top: 32px; padding: 24px 16px; border: 1px solid #ccc; position: relative; width: 640px;">
+                <div style="position: absolute; padding: 4px 12px; background-color: #fff; top: -16px;">
+                    <p>Cấu hình email</p>
+                </div>
+                <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Mail Server</label>
                     <input class="form-control" value="hotro@wqm.vn" readonly />
                 </div>
-                <div class="smtp-box__item row-3">
+                <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Mật khẩu</label>
                     <input class="form-control" type="password" value="password" readonly />
                 </div>
-                <div class="smtp-box__item row-3">
-                    <label style="font-size: 12px; font-weight: bold;" >Chủ đề</label>
-                    <input class="form-control" value="THÔNG BÁO CHỈ SỐ CHẤT LƯỢNG NƯỚC" readonly />
-                </div>
-                <div class="smtp-box__item row-3">
+                <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Token</label>
                     <textarea style="border-radius: 0;" name="" id="" class="form-control" value="quanly@wqm.vn" readonly>eyJ4NXQiOiJNV0l5TkRJNVlqRTJaV1kxT0RNd01XSTNOR1ptTVRZeU5UTTJOVFZoWlRnMU5UTTNaVE5oTldKbVpERTFPVEE0TldFMVlUaGxNak5sTldFellqSXlZUSIsImtpZCI6Ik1XSXlOREk1WWpFMlpXWTFPRE13TVdJM05HWm1NVFl5TlRNMk5UVmhaVGcxTlRNM1pUTmhOV0ptWkRFMU9UQTROV0UxWVRobE1qTmxOV0V6WWpJeVlRX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ</textarea>
                 </div>
             </div>
-            <div class="d-flex mb-2 row">
-                <div class="smtp-box__item row-3">
+
+            <div class="mb-2" style="margin-top: 32px; padding: 24px 16px; border: 1px solid #ccc; position: relative; width: 640px;">
+                <div style="position: absolute; padding: 4px 12px; background-color: #fff; top: -16px;">
+                    <p>Nội dung</p>
+                </div>
+                <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Người nhận</label>
                     <input class="form-control" value="quanly@wqm.vn" readonly />
                 </div>
-                <div class="smtp-box__item mt-2 row-3">
+                <div class="smtp-box__item">
+                    <label style="font-size: 12px; font-weight: bold;" >Chủ đề</label>
+                    <input class="form-control" value="THÔNG BÁO CHỈ SỐ CHẤT LƯỢNG NƯỚC" readonly />
+                </div>
+                <div class="smtp-box__item mt-2">
                     <label style="font-size: 12px; font-weight: bold;" >Nội dung</label>
                     <textarea style="border-radius: 0;" name="" id="" class="form-control" value="quanly@wqm.vn" readonly></textarea>
                 </div>

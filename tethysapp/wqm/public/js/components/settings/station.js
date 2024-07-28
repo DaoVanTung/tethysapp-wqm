@@ -1,3 +1,5 @@
+
+
 const station_charts = {};
 
 function fill_station_to_table() {
@@ -17,6 +19,7 @@ function fill_station_to_table() {
             "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ điểm quan trắc",
             "search": "Tìm kiếm",
         },
+        dom: '<"top"i>rt<"bottom"flp><"clear">',
         pageLength: 25,
         order: [[2, 'asc']],
         columnDefs: [
@@ -79,6 +82,7 @@ function fill_station_to_table() {
                         url: `/apps/wqm/api/monitoring_station/${row.id}/water_exploitation_points`,
                         method: 'GET',
                         success: function (res) {
+                            $(`#${element_id}`).empty();
                             res['data'].forEach(element => {
                                 if (element['ten_cong_trinh_khai_thac'] != null) {
 
