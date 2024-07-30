@@ -286,17 +286,17 @@ function add_license_map_click_event(license_map) {
         if (!features.length) {
             return;
         }
-    
+
         var properties = features[0].properties;
         show_water_point_info('license', properties);
     });
-    
+
     license_map.on("click", function (e) {
         var features = license_map.queryRenderedFeatures(e.point, { layers: ["diem_quan_trac_layer"] });
         if (!features.length) {
             return;
         }
-    
+
         var properties = features[0].properties;
         show_ms_info(properties);
     });
@@ -351,20 +351,43 @@ function show_water_point_info(tab_name, properties) {
     newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
     $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b id="total-flow-text"></b></p>`);
+
+
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`
+        <div style="display: flex; justify-content: space-between;">
+            <p>Lưu lượng khai thác trong 24h qua: <b id="total-flow-text"></b></p>
+            <select id="point-data-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
+                <option value="7" selected>7 ngày</option>
+                <option value="30">30 ngày</option>
+                <option value="90">3 tháng</option>
+                <option value="180">6 tháng</option>
+                <option value="365">1 năm</option>
+            </select>
+        </div>
+    `);
+
     $(`#${tab_name}-point-map-info .analysis-data`).append(`<canvas id="total-flow-chart"></canvas>`);
-    
+
+
+    $("#point-data-time-step").on('change', function () {
+        let day = $("#point-data-time-step").val();
+        // get_ms_wqi_data(properties.ma_tram, day);
+        show_wl_data(properties.id, 'total-flow-chart', day);
+
+
+    });
+
     // $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
     // draw_water_flow_chart({}, 'total-flow-chart');
     show_wl_data(properties.id, 'total-flow-chart', 7);
 
 }
 
-$("#license-point-map-info__close-btn").on(`click`, function() {
+$("#license-point-map-info__close-btn").on(`click`, function () {
     $("#license-point-map-info").addClass(`d-none`);
 });
 
-$("#station-point-map-info__close-btn").on(`click`, function() {
+$("#station-point-map-info__close-btn").on(`click`, function () {
     $("#station-point-map-info").addClass(`d-none`);
 });
 
@@ -452,7 +475,7 @@ function get_ms_wqi_data(ms_code, day) {
             try {
                 ms_wqi_chart.destroy();
             } catch (e) { }
-        
+
             ms_wqi_chart = draw_ms_wqi_chart(wqi, 'license-wqi-chart');
         }
     });
@@ -470,7 +493,7 @@ function draw_ms_wqi_chart(data, element_id) {
     return new Chart(chart_element, {
         type: 'line',
         data: {
-            labels: labels, 
+            labels: labels,
             datasets: [{
                 label: 'WQI',
                 data: values,
@@ -525,7 +548,7 @@ function show_wl_data(ms_code, element_id, day) {
             try {
                 water_flow_chart.destroy();
             } catch (e) { }
-        
+
             water_flow_chart = draw_ms_wqi_chart(wl, element_id);
         }
     });
