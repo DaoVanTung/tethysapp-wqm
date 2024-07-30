@@ -237,7 +237,30 @@ def get_ms_wqi_data(request, sensor_code, day):
     conn = psycopg2.connect(dbname=DB_NAME_SENSOR_DB, user=USERNAME_SENSOR_DB, password=PASSWORD_SENSOR_DB, host=HOST_SENSOR_DB)
     cur = conn.cursor()
 
-    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE ma_cam_bien = '{sensor_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
+    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE thong_so = 'WQI' AND ma_cam_bien = '{sensor_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
+
+    # Lấy tất cả các dòng kết quả
+    rows = cur.fetchall()
+
+    # Lấy tên các cột
+    colnames = [desc[0] for desc in cur.description]
+
+    # Chuyển đổi dữ liệu thành danh sách các từ điển
+    result_list = [dict(zip(colnames, row)) for row in rows]
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'data': result_list})
+
+
+@controller(url='/api/water_station/{sensor_code}/wl/{day}')
+def get_ms_wqi_data(request, sensor_code, day):
+    conn = psycopg2.connect(dbname=DB_NAME_SENSOR_DB, user=USERNAME_SENSOR_DB, password=PASSWORD_SENSOR_DB, host=HOST_SENSOR_DB)
+    cur = conn.cursor()
+
+    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE thong_so = 'WL' AND ma_cam_bien = '{sensor_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()

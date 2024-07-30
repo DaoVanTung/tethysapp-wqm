@@ -351,11 +351,13 @@ function show_water_point_info(tab_name, properties) {
     newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
     $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>15000 m³</b></p>`);
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b id="total-flow-text"></b></p>`);
     $(`#${tab_name}-point-map-info .analysis-data`).append(`<canvas id="total-flow-chart"></canvas>`);
     
-    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
-    draw_water_flow_chart();
+    // $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
+    // draw_water_flow_chart({}, 'total-flow-chart');
+    show_wl_data(properties.id, 'total-flow-chart', 7);
+
 }
 
 $("#license-point-map-info__close-btn").on(`click`, function() {
@@ -418,7 +420,7 @@ function show_ms_info(properties) {
                 <option value="180">6 tháng</option>
                 <option value="365">1 năm</option>
             </select>
-        </div>    
+        </div>
     `);
 
     $("#point-data-time-step").on('change', function () {
@@ -428,7 +430,6 @@ function show_ms_info(properties) {
     });
 
     $("#license-point-map-info .analysis-data").append('<canvas id="license-wqi-chart"></canvas>');
-
 
     // Lấy dữ liệu cảm biến
     get_ms_wqi_data(properties.ma_tram, 7);
@@ -456,7 +457,6 @@ function get_ms_wqi_data(ms_code, day) {
         }
     });
 }
-
 
 var ms_wqi_chart;
 
@@ -506,39 +506,38 @@ function draw_ms_wqi_chart(data, element_id) {
 }
 
 
+function show_wl_data(ms_code, element_id, day) {
+    console.log('hehe');
+    $.ajax({
+        url: `/apps/wqm/api/water_station/${ms_code}/wl/${day}/`,
+        method: 'GET',
+        success: function (res) {
+            let wl = {};
+            console.log(res);
+            res['data'].forEach(element => {
+                let date = element['thoi_gian'].split('T')[0];
+                wl[date] = element['gia_tri'];
+            });
+
+            let lastElement = res['data'][res['data'].length - 1];
+            $("#total-flow-text").text(`${lastElement['gia_tri']} m³`);
+
+            try {
+                water_flow_chart.destroy();
+            } catch (e) { }
+        
+            water_flow_chart = draw_ms_wqi_chart(wl, element_id);
+        }
+    });
+}
+
 var water_flow_chart;
 
-function draw_water_flow_chart() {
-    const data = {
-        1: 6.82,
-        2: 5.83,
-        3: 5.73,
-        4: 8.24,
-        5: 7.62,
-        6: 1.25,
-        7: 6.01,
-        8: 7.28,
-        9: 5.92,
-        10: 6.76,
-        11: 10.47,
-        12: 6.41,
-        13: 2.87,
-        14: 5.01,
-        15: 5.22,
-        16: 5.34,
-        17: 5.17,
-        18: 8.92,
-        19: 11.53,
-        20: 5.78,
-        21: 6.16,
-        22: 5.85,
-        23: 6.79,
-        24: 5.93
-    };
+function draw_water_flow_chart(data, element_id) {
     const labels = Object.keys(data);
     const values = Object.values(data);
 
-    var chartElement = document.getElementById("total-flow-chart").getContext("2d");
+    var chartElement = document.getElementById(element_id).getContext("2d");
     try {
         water_flow_chart.destroy();
     } catch (e) { }
