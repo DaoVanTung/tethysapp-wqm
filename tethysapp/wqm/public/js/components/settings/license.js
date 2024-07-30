@@ -351,8 +351,11 @@ function show_water_point_info(tab_name, properties) {
     newRow.append(`<td>${nguon_nuoc_khai_thac} </td>`);
     $(`#${tab_name}-point-map-info tbody`).append(newRow);
 
-    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>150 m³</b></p>`)
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác trong 24h qua: <b>15000 m³</b></p>`);
+    $(`#${tab_name}-point-map-info .analysis-data`).append(`<canvas id="total-flow-chart"></canvas>`);
+    
     $(`#${tab_name}-point-map-info .analysis-data`).append(`<p>Lưu lượng khai thác nước tại điểm này đã tăng 70% trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.</p>`);
+    draw_water_flow_chart();
 }
 
 $("#license-point-map-info__close-btn").on(`click`, function() {
@@ -502,3 +505,78 @@ function draw_ms_wqi_chart(data, element_id) {
     });
 }
 
+
+var water_flow_chart;
+
+function draw_water_flow_chart() {
+    const data = {
+        1: 6.82,
+        2: 5.83,
+        3: 5.73,
+        4: 8.24,
+        5: 7.62,
+        6: 1.25,
+        7: 6.01,
+        8: 7.28,
+        9: 5.92,
+        10: 6.76,
+        11: 10.47,
+        12: 6.41,
+        13: 2.87,
+        14: 5.01,
+        15: 5.22,
+        16: 5.34,
+        17: 5.17,
+        18: 8.92,
+        19: 11.53,
+        20: 5.78,
+        21: 6.16,
+        22: 5.85,
+        23: 6.79,
+        24: 5.93
+    };
+    const labels = Object.keys(data);
+    const values = Object.values(data);
+
+    var chartElement = document.getElementById("total-flow-chart").getContext("2d");
+    try {
+        water_flow_chart.destroy();
+    } catch (e) { }
+
+    water_flow_chart = new Chart(chartElement, {
+        type: 'line',
+        data: {
+            labels: labels, // Trục x: giờ
+            datasets: [{
+                label: 'Lưu lượng nước',
+                data: values, // Trục y: lưu lượng
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1,
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Giờ'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Lưu lượng'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // Ẩn nhãn trên cùng
+                }
+            }
+        }
+    });
+}

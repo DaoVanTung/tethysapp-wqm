@@ -106,33 +106,35 @@ function fill_station_to_table() {
                 orderable: false,
                 width: '400px',
                 render: (data, type, row, meta) => {
-                    if (row['cau_hinh_id'] === null) {
-                        return "";
-                    }
 
                     const chart_id = 'chart-' + row.id;
+                    if (row['cau_hinh_id'] !== null) {
+                        // Lấy dữ liệu 30 ngày
+                        $.ajax({
+                            url: `/apps/wqm/api/monitoring_station/CB_${row.ma_tram}/wqi/30/`,
+                            method: 'GET',
+                            success: function (res) {
+                                let wqi = {};
+                                res['data'].forEach(element => {
+                                    let date = element['thoi_gian'].split('T')[0];
+                                    wqi[date] = element['gia_tri'];
+                                });
 
-                    // Lấy dữ liệu 30 ngày
-                    $.ajax({
-                        url: `/apps/wqm/api/monitoring_station/CB_${row.ma_tram}/wqi/30/`,
-                        method: 'GET',
-                        success: function (res) {
-                            let wqi = {};
-                            res['data'].forEach(element => {
-                                let date = element['thoi_gian'].split('T')[0];
-                                wqi[date] = element['gia_tri'];
-                            });
+                                if (station_charts[chart_id]) {
+                                    return;
+                                } else {
+                                    try {
+                                        station_charts[chart_id].destroy();
+                                    } catch (e) { }
+                                }
 
-
-                            try {
-                                station_charts[chart_id].destroy();
-                            } catch (e) { }
-
-                            station_charts[chart_id] = draw_ms_wqi_chart(wqi, chart_id);
-                        }
-                    });
-
-                    return `<div class="chart-container"><canvas id="${chart_id}"></canvas></div>`;
+                                $(`#chart-container-${chart_id}`).empty();
+                                $(`#chart-container-${chart_id}`).append(`<canvas id="${chart_id}"></canvas>`);
+                                station_charts[chart_id] = draw_ms_wqi_chart(wqi, chart_id);
+                            }
+                        });
+                    }
+                    return `<div id="chart-container-${chart_id}" class="chart-container"></div>`;
                 },
             },
             {
@@ -213,9 +215,9 @@ function on_change_station_tab(element_id) {
         $.ajax({
             url: '/apps/wqm/api/water_exploitation_points/active',
             type: 'GET',
-            success: function(res) {
+            success: function (res) {
                 active_water_points = res['data'];
-                
+
                 // Filter map theo tùy điểm
                 // console.log(active_water_points);
 
@@ -223,12 +225,12 @@ function on_change_station_tab(element_id) {
                 res['data'].forEach(element => {
                     wep_list.push(element['id']);
                 });
-    
+
                 station_map.setFilter('diem_khai_thac_layer', ['in', ['get', 'id'], ['literal', wep_list]]);
                 station_map.setLayoutProperty('diem_khai_thac_layer', 'visibility', 'visible');
 
             },
-            error: function(error) {
+            error: function (error) {
                 console.error('Error:', error);
             }
         });
@@ -239,7 +241,7 @@ function get_active_water_points() {
     $.ajax({
         url: '/apps/wqm/api/water_exploitation_points/active',
         type: 'GET',
-        success: function(res) {
+        success: function (res) {
             active_water_points = res['data'];
             res['data'].forEach(element => {
                 $("#ms-water-point").append(
@@ -256,7 +258,7 @@ function get_active_water_points() {
                 );
             });
 
-            $('#ms-water-point').on('change', '.form-check-input', function() {
+            $('#ms-water-point').on('change', '.form-check-input', function () {
                 var checked_water_point = $('#ms-water-point .form-check-input:checked');
 
                 if (checked_water_point.length > 0) {
@@ -266,7 +268,7 @@ function get_active_water_points() {
                 }
             });
         },
-        error: function(error) {
+        error: function (error) {
             console.error('Error:', error);
         }
     });
@@ -281,11 +283,11 @@ function get_monitoring_parameters() {
         $.ajax({
             url: '/apps/wqm/api/monitoring_parameters/',
             type: 'GET',
-            success: function(res) {
+            success: function (res) {
                 monitoring_parameters_cache = res['data'];
                 resolve(); // Giải quyết Promise khi thành công
             },
-            error: function(error) {
+            error: function (error) {
                 console.error('Error:', error);
                 reject(error); // Từ chối Promise khi có lỗi
             }
@@ -303,7 +305,7 @@ async function get_station_configs() {
     $.ajax({
         url: '/apps/wqm/api/monitoring_station_configs/',
         type: 'GET',
-        success: function(res) {
+        success: function (res) {
             station_configs = res['data'];
 
             res['data'].forEach(element => {
@@ -314,9 +316,9 @@ async function get_station_configs() {
                 );
             });
 
-            $("#ms-config").on('change', function() {
+            $("#ms-config").on('change', function () {
                 let config_id = $("#ms-config").val();
-                
+
 
                 if (config_id == '') {
                     $("#table-params-config").addClass('d-none');
@@ -327,7 +329,7 @@ async function get_station_configs() {
 
                     $("#table-params-config tbody").empty();
 
-                    params.forEach((param, index)  => {
+                    params.forEach((param, index) => {
                         let param_info = monitoring_parameters_cache.find(obj => obj.ma_thong_so === param);
                         $("#table-params-config tbody").append(
                             `
@@ -344,7 +346,7 @@ async function get_station_configs() {
             });
 
         },
-        error: function(error) {
+        error: function (error) {
             console.error('Error:', error);
         }
     });
@@ -389,14 +391,14 @@ function clear_form() {
 
 function generate_UUID() {
     // Tạo UUID version 4 ngẫu nhiên
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, 
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
             v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
 
-$('#add-ms-form').on('submit', function(event) {
+$('#add-ms-form').on('submit', function (event) {
     event.preventDefault(); // Ngăn chặn việc submit form mặc định
 
     $("#content-box__station-add").addClass('d-none');
@@ -448,13 +450,13 @@ $('#add-ms-form').on('submit', function(event) {
         cache: false,
         enctype: "multipart/form-data",
 
-        success: function(data) {
+        success: function (data) {
             // console.log('Success:', data);
             $("#content-box__station-add").removeClass('d-none');
             $("#station-loading-box").addClass('d-none');
             clear_form();
         },
-        error: function(error) {
+        error: function (error) {
             console.error('Error:', error);
             $("#content-box__station-add").removeClass('d-none');
             $("#station-loading-box").addClass('d-none');
@@ -529,14 +531,14 @@ function draw_ms_detail_chart(ms_code, day, element_id) {
                 let date = element['thoi_gian'].split('T')[0];
                 wqi[date] = element['gia_tri'];
             });
-    
+
             // let lastElement = res['data'][res['data'].length - 1];
             // $("#license-wqi-text").text(lastElement['gia_tri']);
-    
+
             try {
                 ms_wqi_detail_chart.destroy();
             } catch (e) { }
-        
+
             ms_wqi_detail_chart = draw_ms_wqi_chart(wqi, element_id);
         }
     });
@@ -614,17 +616,17 @@ function add_station_map_click_event(station_map) {
         if (!features.length) {
             return;
         }
-    
+
         var properties = features[0].properties;
         show_water_point_info('station', properties);
     });
-    
+
     station_map.on("click", function (e) {
         var features = station_map.queryRenderedFeatures(e.point, { layers: ["diem_quan_trac_layer"] });
         if (!features.length) {
             return;
         }
-    
+
         var properties = features[0].properties;
         show_ms_map_info(properties);
     });

@@ -3,6 +3,7 @@ let active_water_points = [];
 add_ms_layer_to_map();
 add_water_point_layer_to_map();
 add_dashboard_map_click_event(map);
+$("#last-updated-time").text(`07:00 ${new Date().toLocaleDateString('vi')}`);
 
 function add_water_point_layer_to_map() {
     $.ajax({
@@ -45,7 +46,6 @@ function add_water_point_layer_to_map() {
                     map.getCanvas().style.cursor = "";
                 });
             });
-
         },
         error: function (error) {
             console.error('Error:', error);
