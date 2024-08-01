@@ -1,3 +1,11 @@
+{% load static %}
+{% csrf_token %}
+
+<div class="content-box__content loading-box" id="config-loading-box">
+    <div class="spinner-border text-info" role="status"></div>
+</div>
+
+
 <div class="content-box__content" id="content-box__config">
     <div class="alert alert-info" role="alert">
         <b>Cấu hình hệ thống</b>
@@ -6,13 +14,14 @@
     <div class="config-control">
         <h6 class="config-control__heading"><b>Chỉ số Chất lượng nước</b></h6>
         <div class="config-control__content">
+
             <table class="table table-bordered" id="wqi-lookup-table">
                 <thead>
                     <tr>
                         <th scope="col">Tiêu đề</th>
-                        <th scope="col">Mô tả</th>
                         <th scope="col">Giá trị thấp nhất</th>
                         <th scope="col">Giá trị cao nhất</th>
+                        <th scope="col">Mô tả</th>
                         <th scope="col">Màu sắc</th>
                     </tr>
                 </thead>
@@ -23,6 +32,13 @@
             <div class="config-update-button-box">
                 <button class="btn btn-outline-primary" type="button" id="wqi-lookup-update-btn">
                     <span class="fw-medium text-uppercase">Cập nhật</span>
+                </button>
+
+                <button class="btn btn-outline-danger d-none" type="button" id="wqi-lookup-cancel-btn">
+                    <span class="fw-medium text-uppercase">Hủy bỏ</span>
+                </button>
+                <button class="btn btn-outline-success d-none" type="button" id="wqi-lookup-save-btn">
+                    <span class="fw-medium text-uppercase">Lưu</span>
                 </button>
             </div>
         </div>

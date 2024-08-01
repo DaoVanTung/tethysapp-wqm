@@ -11,7 +11,7 @@ class Wqm(TethysAppBase):
     description = ''
     package = 'wqm'  # WARNING: Do not change this value
     index = 'home'
-    icon = f'{package}/images/icon.gif'
+    icon = f'{package}/images/logo.png'
     root_url = 'wqm'
     color = '#27ae60'
     tags = ''

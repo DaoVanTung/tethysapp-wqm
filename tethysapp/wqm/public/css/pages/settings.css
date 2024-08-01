@@ -218,3 +218,24 @@ div.dt-container .bottom {
 div.dt-container .top {
     margin-bottom: 8px;
 }
+
+#wqi-lookup-table input {
+    border-radius: 0px;
+    border: none;
+    outline: none;
+    box-shadow: none !important;
+}
+
+#wqi-lookup-table input:focus {
+    outline: none !important;
+}
+
+
+#wqi-lookup-table input.active {
+    border-radius: 0px;
+    border: 1px solid #ccc;
+}
+
+#wqi-lookup-cancel-btn {
+    margin-right: 8px;
+}

@@ -256,7 +256,7 @@ def get_ms_wqi_data(request, sensor_code, day):
 
 
 @controller(url='/api/water_station/{sensor_code}/wl/{day}')
-def get_ms_wqi_data(request, sensor_code, day):
+def get_wl_data(request, sensor_code, day):
     conn = psycopg2.connect(dbname=DB_NAME_SENSOR_DB, user=USERNAME_SENSOR_DB, password=PASSWORD_SENSOR_DB, host=HOST_SENSOR_DB)
     cur = conn.cursor()
 
@@ -299,7 +299,7 @@ def get_wep_of_ms(request, id):
 
     return JsonResponse({'data': result_list})
 
-@controller(url='/api/wqi_lookup')
+@controller(url='/api/wqi_lookup', method='GET')
 def get_wqi_lookup(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
@@ -321,6 +321,36 @@ def get_wqi_lookup(request):
 
     return JsonResponse({'data': result_list})
 
+
+@csrf_exempt
+@controller(url='/api/update_wqi_lookup/', method='POST')
+def update_wqi_lookup(request):
+    # Kết nối đến cơ sở dữ liệu
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    data = {}
+    try:
+        data = json.loads(request.POST['data'])
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    for key in data:
+        value = data.get(key)
+        try:
+            cur.execute(f"UPDATE public.bang_tra_cuu_wqi SET mo_ta = '{value.get('mo_ta')}', mau_sac = '{value.get('mau_sac')}' WHERE id = {key}")
+            conn.commit()
+        except psycopg2.Error as e:
+            conn.rollback()
+            cur.close()
+            conn.close()
+            return JsonResponse({'error': f'Error inserting data: {e}'}, status=500)
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'message': 'Successfully'})
 
 @controller(url='/api/parameters')
 def get_parameters(request):

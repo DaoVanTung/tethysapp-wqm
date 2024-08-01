@@ -25,7 +25,7 @@ var is_init_license_tab = true;
 var is_init_station_tab = false;
 var is_init_config_tab = false;
 
-$('.menu-box__item').on('click', function () {
+$('.menu-box__item').on('click', function() {
     show_content($(this).attr('id'));
 });
 
@@ -33,7 +33,7 @@ function get_license_data() {
     $.ajax({
         'url': '/apps/wqm/api/licenses/',
         'method': 'GET',
-        'success': function (res) {
+        'success': function(res) {
             license_cache = res['data'];
             license_total = license_cache.length;
 
@@ -50,7 +50,7 @@ function get_ms_data() {
     $.ajax({
         'url': '/apps/wqm/api/monitoring_stations/',
         'method': 'GET',
-        'success': function (res) {
+        'success': function(res) {
             station_cache = res['data'];
             fill_station_to_table();
 
@@ -71,9 +71,9 @@ function show_content(content_id) {
         is_init_station_tab = true;
     }
 
-    if (content_id === 'menu-config' && station_cache.length == 0) {
+    if (content_id === 'menu-config' && is_init_config_tab === false) {
         init_config_tab();
-        init_config_tab = true;
+        is_init_config_tab = true;
     }
 
     $('.menu-box__item.active').removeClass('active');
@@ -100,7 +100,7 @@ function init_station_tab() {
     add_ms_layer(station_map, 0.5);
     add_station_map_click_event(station_map);
 
-    MapboxDraw.constants.classes.CONTROL_BASE  = 'maplibregl-ctrl';
+    MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
     MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
     MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
@@ -114,12 +114,12 @@ function init_station_tab() {
     station_map.addControl(draw);
 
     // Lắng nghe sự kiện tạo điểm
-    station_map.on('draw.create', function (e) {
+    station_map.on('draw.create', function(e) {
         const point = e.features[0];
         const coordinates = point.geometry.coordinates;
 
         let popup_content =
-        `
+            `
             <div style="padding: 4px">
             <p><b>Kinh độ</b>: ${coordinates[0]}</p>
             <p><b>Vĩ độ</b>: ${coordinates[1]}</p>
@@ -129,7 +129,9 @@ function init_station_tab() {
             </div>
         `;
 
-        const popup = new maplibregl.Popup({closeOnClick: false})
+        const popup = new maplibregl.Popup({
+                closeOnClick: false
+            })
             .setLngLat(coordinates)
             .setHTML(popup_content)
             .addTo(station_map);
@@ -142,8 +144,28 @@ function init_station_tab() {
     });
 }
 
+var wqi_lookup_cache;
+var params_cache;
+
 function init_config_tab() {
     // console.log('init config tab');
+
+    $("#config-loading-box").removeClass('d-none');
+
+    $.ajax({
+        url: '/apps/wqm/api/wqi_lookup/',
+        method: 'GET',
+        success: function(res) {
+            console.log(res);
+            wqi_lookup_cache = res['data'];
+            fill_wqi_lookup_to_table();
+            add_wqi_update_btn_click();
+            add_wqi_cancel_btn_click();
+            add_wqi_save_btn_click();
+
+            $("#config-loading-box").addClass('d-none');
+        },
+    });
 }
 
 init_license_tab();
