@@ -1,5 +1,4 @@
-{% load static %}
-{% csrf_token %}
+{% load static %} {% csrf_token %}
 
 <div class="content-box__content loading-box" id="station-loading-box">
     <div class="spinner-border text-info" role="status"></div>
@@ -45,15 +44,17 @@
             <div class="filter-box__item filter-box__buttons">
                 <button class="btn btn-success" onclick="on_change_station_tab('content-box__station-add')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                      </svg>
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                    </svg>
                     Thêm mới
                 </button>
 
                 <button class="btn btn-info" onclick="on_change_station_tab('content-box__station-map')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe-central-south-asia" viewBox="0 0 16 16">
-                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M4.882 1.731a.48.48 0 0 0 .14.291.487.487 0 0 1-.126.78l-.291.146a.7.7 0 0 0-.188.135l-.48.48a1 1 0 0 1-1.023.242l-.02-.007a1 1 0 0 0-.462-.04 7 7 0 0 1 2.45-2.027m-3 9.674.86-.216a1 1 0 0 0 .758-.97v-.184a1 1 0 0 1 .445-.832l.04-.026a1 1 0 0 0 .152-1.54L3.121 6.621a.414.414 0 0 1 .542-.624l1.09.818a.5.5 0 0 0 .523.047.5.5 0 0 1 .724.447v.455a.8.8 0 0 0 .131.433l.795 1.192a1 1 0 0 1 .116.238l.73 2.19a1 1 0 0 0 .949.683h.058a1 1 0 0 0 .949-.684l.73-2.189a1 1 0 0 1 .116-.238l.791-1.187A.45.45 0 0 1 11.743 8c.16 0 .306.084.392.218.557.875 1.63 2.282 2.365 2.282l.04-.001a7.003 7.003 0 0 1-12.658.905Z"/>
-                      </svg>
+                        <path
+                            d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M4.882 1.731a.48.48 0 0 0 .14.291.487.487 0 0 1-.126.78l-.291.146a.7.7 0 0 0-.188.135l-.48.48a1 1 0 0 1-1.023.242l-.02-.007a1 1 0 0 0-.462-.04 7 7 0 0 1 2.45-2.027m-3 9.674.86-.216a1 1 0 0 0 .758-.97v-.184a1 1 0 0 1 .445-.832l.04-.026a1 1 0 0 0 .152-1.54L3.121 6.621a.414.414 0 0 1 .542-.624l1.09.818a.5.5 0 0 0 .523.047.5.5 0 0 1 .724.447v.455a.8.8 0 0 0 .131.433l.795 1.192a1 1 0 0 1 .116.238l.73 2.19a1 1 0 0 0 .949.683h.058a1 1 0 0 0 .949-.684l.73-2.189a1 1 0 0 1 .116-.238l.791-1.187A.45.45 0 0 1 11.743 8c.16 0 .306.084.392.218.557.875 1.63 2.282 2.365 2.282l.04-.001a7.003 7.003 0 0 1-12.658.905Z"
+                        />
+                    </svg>
                     Xem trên bản đồ
                 </button>
             </div>
@@ -63,12 +64,12 @@
     </div>
 </div>
 
-<div class="content-box__content d-none" id="content-box__station-add">
+<div class="content-box__sub-content d-none" id="content-box__station-add">
     <div>
         <button type="button" class="btn close-btn" onclick="on_close_btn_click('content-box__station-add')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                  </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+            </svg>
         </button>
         <b style="font-size: 16px; margin-left: 4px;">Thêm mới điểm quan trắc</b>
     </div>
@@ -124,13 +125,17 @@
             <div class="col-md-6 form-item mb-3">
                 <label for="ms-type" class="form-label">Điểm khai thác nước</label>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle"
+                    <button
+                        class="btn btn-secondary dropdown-toggle"
                         style="background-color: #fff; border: 1px solid #dee2e6; color: #000; height: 33.5px; width: 100%; text-align: start;"
-                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
                         <span id="ms-water-point-text">Chọn điểm khai thác nước liên kết</span>
                     </button>
                     <ul id="ms-water-point" class="dropdown-menu" style="width: 100%; border-radius: 0; padding: 8px;">
-                        <input type="text" style="height: 32px; border: 1px solid #ccc; width: 100%; border-radius: 0px; margin-bottom: 8px; padding: 4px;" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point">
+                        <input type="text" style="height: 32px; border: 1px solid #ccc; width: 100%; border-radius: 0px; margin-bottom: 8px; padding: 4px;" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point" />
                     </ul>
                 </div>
             </div>
@@ -152,7 +157,6 @@
                             <th>Tên thông số</th>
                             <th>Đơn vị đo</th>
                             <th>Giá trị ngưỡng</th>
-    
                         </thead>
                         <tbody>
                             <tr>
@@ -194,31 +198,27 @@
                     </table>
                 </div>
             </div>
-            
         </div>
         <div class="d-flex" style="justify-content: end;">
             <button type="submit" class="btn btn-success btn-block mt-3" id="create-station-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                    class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
                     <path
-                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
-                    <path
-                        d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
+                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"
+                    />
+                    <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
                 </svg>
                 Lưu
             </button>
         </div>
     </form>
-
 </div>
-
 
 <div class="content-box__sub-content d-none" id="content-box__station-map">
     <div>
         <button type="button" class="btn close-btn" onclick="on_close_btn_click('content-box__station-map')">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-              </svg>
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+            </svg>
         </button>
         <b style="font-size: 16px; margin-left: 4px;">Bản đồ Điểm quan trắc</b>
     </div>
@@ -229,7 +229,7 @@
                 <h6 id="station-point-map-title"></h6>
                 <div id="station-point-map-info__close-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                     </svg>
                 </div>
             </div>
@@ -238,9 +238,7 @@
                 <tbody></tbody>
             </table>
 
-            <div class="analysis-data">
-                
-            </div>
+            <div class="analysis-data"></div>
         </div>
 
         <div class="legend">
@@ -267,7 +265,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Modal -->
@@ -285,62 +282,61 @@
 
                 <p class="mt-2 mb-2"><b>Điểm khai thác liên quan</b></p>
 
-                <ul id="ms-water-point" style=" width: 100%;border: 1px solid #ccc; border-radius: 0px; padding: 8px; margin: 0 0 16px 0; list-style-type: none;" data-popper-placement="bottom-start">
-                    <input type="text" style="height: 32px; border: 1px solid #ccc; width: 100%; border-radius: 0px; margin-bottom: 8px; padding: 4px;" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point-modal">
-                
-                <li>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-6428-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc">
-                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc">
-                            Chợ Cờ Đỏ
-                        </label>
-                    </div>
-                </li>
-                
-                <li>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9628-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc">
-                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc">
-                            Trạm cấp nước tập trung KDCVL xã Đông Thuận, huyện Thới Lai
-                        </label>
-                    </div>
-                </li>
-                
-                <li>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9128-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc">
-                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc">
-                            Trạm cấp nước tập trung số 2 KDCVL xã Đông Thuận, huyện Thới Lai
-                        </label>
-                    </div>
-                </li>
-                
-                <li>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9028-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc">
-                        <label class="form-check-label" for="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc">
-                            Trạm cấp nước tập trung số 4 KDCVL xã Đông Thuận, huyện Thới Lai
-                        </label>
-                    </div>
-                </li>
+                <ul id="ms-water-point-modal" data-popper-placement="bottom-start">
+                    <input type="text" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point-modal" />
+
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-6428-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc" />
+                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc">
+                                Chợ Cờ Đỏ
+                            </label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9628-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc" />
+                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc">
+                                Trạm cấp nước tập trung KDCVL xã Đông Thuận, huyện Thới Lai
+                            </label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9128-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc" />
+                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc">
+                                Trạm cấp nước tập trung số 2 KDCVL xã Đông Thuận, huyện Thới Lai
+                            </label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9028-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc" />
+                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc">
+                                Trạm cấp nước tập trung số 4 KDCVL xã Đông Thuận, huyện Thới Lai
+                            </label>
+                        </div>
+                    </li>
                 </ul>
 
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <p class="mt-2 mb-2"><b>Giá trị WQI gần đây</b></p>
-                        <select id="ms-detail-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
-                            <option value="7" selected>7 ngày</option>
-                            <option value="30">30 ngày</option>
-                            <option value="90">3 tháng</option>
-                            <option value="180">6 tháng</option>
-                            <option value="365">1 năm</option>
-                        </select>
-                        
+                    <select id="ms-detail-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
+                        <option value="7" selected>7 ngày</option>
+                        <option value="30">30 ngày</option>
+                        <option value="90">3 tháng</option>
+                        <option value="180">6 tháng</option>
+                        <option value="365">1 năm</option>
+                    </select>
                 </div>
                 <canvas id="wqi-detail-chart"></canvas>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="height: 32px;">Đóng</button>
-                <button class="btn btn-success" style="height: 32px;">
+                <button class="btn btn-success" style="height: 32px;" id="export-ms-data">
                     Xuất dữ liệu
                 </button>
             </div>

@@ -520,7 +520,7 @@ function show_modal_ms_detail(ms_id) {
 }
 
 var ms_wqi_detail_chart;
-
+var temp_ms_data;
 function draw_ms_detail_chart(ms_code, day, element_id) {
     $.ajax({
         url: `/apps/wqm/api/monitoring_station/CB_${ms_code}/wqi/${day}/`,
@@ -540,6 +540,7 @@ function draw_ms_detail_chart(ms_code, day, element_id) {
             } catch (e) { }
 
             ms_wqi_detail_chart = draw_ms_wqi_chart(wqi, element_id);
+            temp_ms_data = wqi;
         }
     });
 }
@@ -607,7 +608,6 @@ function show_ms_map_info(properties) {
     $("#station-point-map-info .analysis-data").append('<canvas id="station-wqi-chart"></canvas>');
 
     draw_ms_detail_chart(properties.ma_tram, 7, 'station-wqi-chart');
-
 }
 
 function add_station_map_click_event(station_map) {
@@ -630,4 +630,33 @@ function add_station_map_click_event(station_map) {
         var properties = features[0].properties;
         show_ms_map_info(properties);
     });
+}
+
+$("#export-ms-data").on('click', function () {
+    export_data_to_csv(temp_ms_data);
+});
+
+function export_data_to_csv(data) {
+    const csv_rows = [];
+
+    csv_rows.push('Date,Value');
+
+    for (const [key, value] of Object.entries(data)) {
+        csv_rows.push(`${key},${value}`);
+    }
+
+    const csv = csv_rows.join('\n');
+
+    // Tạo một đối tượng Blob từ chuỗi CSV
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
+    // Tạo liên kết tải xuống
+    const link = $('<a></a>');
+    const url = URL.createObjectURL(blob);
+    link.attr('href', url);
+    link.attr('download', 'data.csv');
+    link.css('visibility', 'hidden');
+    $('body').append(link);
+    link[0].click();
+    link.remove();
 }

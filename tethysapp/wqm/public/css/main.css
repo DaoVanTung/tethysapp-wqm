@@ -219,10 +219,25 @@ div.dt-container .dt-search {
     margin-bottom: 8px;
 }
 
-
 .modal {
     background-color: rgba(204,204,204,0.5);
 }
 .modal-backdrop {
     display: none;
+}
+
+.maplibregl-popup-content {
+    padding: 4px;
+}
+.maplibregl-popup-content > div {
+    padding: 4px;
+    margin-top: 16px;
+}
+
+.maplibregl-popup-close-button {
+    padding: 4px 8px;
+}
+
+.content-box__sub-content input, .content-box__sub-content select, .content-box__sub-content button {
+    border-radius: 0px;
 }

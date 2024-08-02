@@ -92,6 +92,10 @@ function init_license_tab() {
     add_license_map_click_event(license_map);
 }
 
+// Giá trị lat long tạm thời khi thêm mới điểm khai thác
+let temp_lat;
+let temp_long;
+
 function init_station_tab() {
     $("#station-loading-box").removeClass('d-none');
     get_ms_data();
@@ -111,6 +115,7 @@ function init_station_tab() {
             trash: true
         }
     });
+
     station_map.addControl(draw);
 
     // Lắng nghe sự kiện tạo điểm
@@ -121,13 +126,16 @@ function init_station_tab() {
         let popup_content =
             `
             <div style="padding: 4px">
-            <p><b>Kinh độ</b>: ${coordinates[0]}</p>
-            <p><b>Vĩ độ</b>: ${coordinates[1]}</p>
-            <button class="btn btn-success" style="height: 32px; width: 100%; border-radius: 0px; margin-top: 8px">
-                    Thêm mới
+            <p><b>Kinh độ</b>: ${coordinates[0].toFixed(6)}</p>
+            <p><b>Vĩ độ</b>: ${coordinates[1].toFixed(6)}</p>
+            <button class="btn btn-success" style="height: 32px; width: 100%; border-radius: 0px; margin-top: 8px" onclick="add_ms_from_map()">
+                    Thêm mới điểm khai thác
                 </button>
             </div>
         `;
+
+        temp_lat = coordinates[1].toFixed(6);
+        temp_long = coordinates[0].toFixed(6);
 
         const popup = new maplibregl.Popup({
                 closeOnClick: false
@@ -142,6 +150,15 @@ function init_station_tab() {
         //     popup.remove(); // Đóng popup sau khi nhấn nút
         // });
     });
+}
+
+function add_ms_from_map() {
+    clear_form();
+    $("#content-box__station-map").addClass('d-none');
+    $("#content-box__station-add").removeClass('d-none');
+
+    $("#ms-long").val(temp_long);
+    $("#ms-lat").val(temp_lat);
 }
 
 var wqi_lookup_cache;
@@ -169,3 +186,17 @@ function init_config_tab() {
 }
 
 init_license_tab();
+
+$(document).ready(function() {
+    $('#search-ms-water-point-modal').on('input', function() {
+        var searchValue = $(this).val().toLowerCase();
+        $('#ms-water-point li').each(function() {
+            var listItemText = $(this).text().toLowerCase();
+            if (listItemText.indexOf(searchValue) !== -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+});
