@@ -4,8 +4,6 @@ const station_charts = {};
 
 function fill_station_to_table() {
     let data = station_cache;
-    console.log(data);
-
 
     if (station_table !== null) {
         station_table.destroy();
@@ -590,7 +588,7 @@ function show_modal_ms_detail(ms_id) {
             cache: false,
             enctype: "multipart/form-data",
             success: function (res) {
-                console.log(res);
+
             },
         });
 

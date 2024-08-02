@@ -112,7 +112,6 @@ function add_wqi_save_btn_click() {
             cache: false,
             enctype: "multipart/form-data",
             success: function (res) {
-                console.log(res);
             },
         });
     });

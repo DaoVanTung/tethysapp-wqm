@@ -118,3 +118,18 @@ function add_water_point_layer(map, icon_size) {
         });
     });
 }
+
+function describe_water_flow(currentFlow, flow24hAgo) {
+    const increasePercentage = ((currentFlow - flow24hAgo) / flow24hAgo) * 100;
+    let description;
+    
+    if (increasePercentage > 30) {
+        description = `Lưu lượng khai thác nước tại điểm này đã <b>tăng ${increasePercentage.toFixed(2)}%</b> trong vòng 24 giờ qua, cho thấy khả năng nhu cầu sử dụng nước bất thường tăng cao hoặc sự gia tăng đáng kể trong hoạt động khai thác.`;
+    } else if (increasePercentage < -30) {
+        description = `Lưu lượng khai thác nước tại điểm này đã <b>giảm ${Math.abs(increasePercentage).toFixed(2)}%</b> trong vòng 24 giờ qua, cho thấy có thể có sự giảm sút trong nhu cầu sử dụng nước hoặc hoạt động khai thác.`;
+    } else {
+        description = `Lưu lượng khai thác nước tại điểm này không thay đổi nhiều trong vòng 24 giờ qua, cho thấy sự ổn định trong nhu cầu sử dụng nước và hoạt động khai thác.`;
+    }
+
+    return description;
+}

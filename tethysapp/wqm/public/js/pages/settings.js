@@ -165,15 +165,12 @@ var wqi_lookup_cache;
 var params_cache;
 
 function init_config_tab() {
-    // console.log('init config tab');
-
     $("#config-loading-box").removeClass('d-none');
 
     $.ajax({
         url: '/apps/wqm/api/wqi_lookup/',
         method: 'GET',
         success: function(res) {
-            console.log(res);
             wqi_lookup_cache = res['data'];
             fill_wqi_lookup_to_table();
             add_wqi_update_btn_click();
