@@ -123,6 +123,16 @@ def get_ms(request):
     # Chuyển đổi dữ liệu thành danh sách các từ điển
     result_list = [dict(zip(colnames, row)) for row in rows]
 
+    # Lấy danh sách 
+
+    cur.execute(f"SELECT diem_quan_trac_id, diem_khai_thac_id, ten_cong_trinh_khai_thac FROM public.lien_ket_diem_quan_trac_diem_khai_thac INNER join diem_khai_thac_nuoc on lien_ket_diem_quan_trac_diem_khai_thac.diem_khai_thac_id = diem_khai_thac_nuoc.id")
+    lk = cur.fetchall()
+    
+    for item in result_list:
+        diem_khai_thac = [ {dkt[1]: dkt[2]} for dkt in lk if dkt[0] == item['id']]
+        item['diem_khai_thac'] = diem_khai_thac
+        cur.execute(f"SELECT * FROM public.lien_ket_diem_quan_trac_diem_khai_thac")
+
     # Đóng kết nối và cursor sau khi hoàn thành
     cur.close()
     conn.close()
@@ -203,6 +213,9 @@ def add_ms(request):
     vi_tri = data.get('vi_tri')
     ma_tinh = data.get('ma_tinh')
     cau_hinh_id = data.get('cau_hinh_id')
+    diem_khai_thac = data.get('diem_khai_thac')
+
+    print(diem_khai_thac)
 
     # Kiểm tra nếu tất cả các trường cần thiết đều có
     # if not all([ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id]):
@@ -224,12 +237,48 @@ def add_ms(request):
         cur.close()
         conn.close()
         return JsonResponse({'error': f'Error inserting data: {e}'}, status=500)
+    
+    for item in diem_khai_thac:
+        cur.execute(f"INSERT INTO public.lien_ket_diem_quan_trac_diem_khai_thac VALUES('{id}', '{item}')")
+        conn.commit()  # Xác nhận thay đổi trong cơ sở dữ liệu
 
     # Đóng kết nối và cursor sau khi hoàn thành
     cur.close()
     conn.close()
 
     return JsonResponse({'message': 'Monitoring station added successfully'})
+
+
+
+@csrf_exempt
+@controller(url='/api/update_monitoring_station', method='POST')
+def update_ms(request):
+    # Kết nối đến cơ sở dữ liệu
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    data = {}
+    try:
+        data = json.loads(request.POST['data'])
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    # Lấy dữ liệu từ JSON
+    id = data.get('id')
+    diem_khai_thac = data.get('diem_khai_thac')
+
+    cur.execute(f"DELETE FROM public.lien_ket_diem_quan_trac_diem_khai_thac WHERE diem_quan_trac_id = '{id}'")
+    conn.commit()  # Xác nhận thay đổi trong cơ sở dữ liệu
+
+    for item in diem_khai_thac:
+        cur.execute(f"INSERT INTO public.lien_ket_diem_quan_trac_diem_khai_thac VALUES('{id}', '{item}')")
+        conn.commit()  # Xác nhận thay đổi trong cơ sở dữ liệu
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'message': 'Monitoring station update successfully'})
 
 
 @controller(url='/api/monitoring_station/{sensor_code}/wqi/{day}')

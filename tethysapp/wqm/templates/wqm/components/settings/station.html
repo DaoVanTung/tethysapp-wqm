@@ -159,41 +159,6 @@
                             <th>Giá trị ngưỡng</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>pH</td>
-                                <td>Độ pH</td>
-                                <td></td>
-                                <td>0 - 14</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>COD</td>
-                                <td>Nhu cầu oxy sinh hoá</td>
-                                <td>mgO2/l</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>DO</td>
-                                <td>Nhiệt độ</td>
-                                <td>Độ C</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Hg</td>
-                                <td>Thủy ngân</td>
-                                <td>µg/L</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Coliform</td>
-                                <td>Coliform</td>
-                                <td>MPN</td>
-                                <td></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -284,42 +249,6 @@
 
                 <ul id="ms-water-point-modal" data-popper-placement="bottom-start">
                     <input type="text" placeholder="Tìm kiếm điểm khai thác nước" id="search-ms-water-point-modal" />
-
-                    <li>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-6428-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc" />
-                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-6428-e6ca35b5aebc">
-                                Chợ Cờ Đỏ
-                            </label>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9628-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc" />
-                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-9628-e6ca35b5aebc">
-                                Trạm cấp nước tập trung KDCVL xã Đông Thuận, huyện Thới Lai
-                            </label>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9128-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc" />
-                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-9128-e6ca35b5aebc">
-                                Trạm cấp nước tập trung số 2 KDCVL xã Đông Thuận, huyện Thới Lai
-                            </label>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" value="c11cb382-9385-44f5-9028-e6ca35b5aebc" id="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc" />
-                            <label class="form-check-label" for="ms-c11cb382-9385-44f5-9028-e6ca35b5aebc">
-                                Trạm cấp nước tập trung số 4 KDCVL xã Đông Thuận, huyện Thới Lai
-                            </label>
-                        </div>
-                    </li>
                 </ul>
 
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -338,6 +267,9 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="height: 32px;">Đóng</button>
                 <button class="btn btn-success" style="height: 32px;" id="export-ms-data">
                     Xuất dữ liệu
+                </button>
+                <button class="btn btn-info" style="height: 32px;" id="update-ms-data">
+                    Cập nhật
                 </button>
             </div>
         </div>

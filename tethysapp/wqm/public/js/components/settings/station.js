@@ -4,6 +4,8 @@ const station_charts = {};
 
 function fill_station_to_table() {
     let data = station_cache;
+    console.log(data);
+
 
     if (station_table !== null) {
         station_table.destroy();
@@ -68,35 +70,19 @@ function fill_station_to_table() {
                 },
             },
             {
-                data: "id",
-                title: "Điểm khai thác nước liên quan",
+                data: "diem_khai_thac",
+                title: "Điểm khai thác liên quan",
                 width: '400px',
                 render: (data, type, row, meta) => {
-                    if (row['cau_hinh_id'] === null) {
-                        return "";
-                    }
+                    let html_text = '';
+                    data.forEach(element => {
+                        Object.entries(element).forEach(([key, value]) => {
+                            html_text += `<li style="text-align: start;">${value}</li>`;
 
-                    const element_id = 'wep-' + row.id;
-                    // Lấy dữ liệu 30 ngày
-                    $.ajax({
-                        url: `/apps/wqm/api/monitoring_station/${row.id}/water_exploitation_points`,
-                        method: 'GET',
-                        success: function (res) {
-                            $(`#${element_id}`).empty();
-                            res['data'].forEach(element => {
-                                if (element['ten_cong_trinh_khai_thac'] != null) {
-
-                                    $(`#${element_id}`).append(
-                                        `<li style="text-align: start;">${element['ten_cong_trinh_khai_thac']}</li>`
-                                    );
-                                }
-
-                            });
-
-                        }
+                        });
                     });
 
-                    return `<ul id="${element_id}" style="max-height: 190px; overflow-x: auto;"></ul>`;
+                    return `<ul id="wep-${row.id}-render" style="max-height: 190px; overflow-x: auto;">${html_text}</ul>`;
                 },
             },
             {
@@ -151,7 +137,8 @@ function fill_station_to_table() {
                     `;
                 },
             },
-        ]
+        ],
+
     });
 
     add_filter_station_event();
@@ -192,6 +179,7 @@ let active_water_points = [];
 let station_configs = [];
 let monitoring_parameters_cache = [];
 
+get_active_water_points();
 function on_change_station_tab(element_id) {
     $("#content-box__station").addClass('d-none');
     $(`#${element_id}`).removeClass('d-none');
@@ -201,7 +189,7 @@ function on_change_station_tab(element_id) {
             is_init_add_tab = true;
 
             // Lấy danh sách điểm được giám sát
-            get_active_water_points();
+            // get_active_water_points();
 
             // Lấy danh sách cấu hình
             get_station_configs();
@@ -217,9 +205,6 @@ function on_change_station_tab(element_id) {
             type: 'GET',
             success: function (res) {
                 active_water_points = res['data'];
-
-                // Filter map theo tùy điểm
-                // console.log(active_water_points);
 
                 let wep_list = [];
                 res['data'].forEach(element => {
@@ -238,6 +223,10 @@ function on_change_station_tab(element_id) {
 }
 
 function get_active_water_points() {
+    if (active_water_points.length > 0) {
+        return;
+    }
+
     $.ajax({
         url: '/apps/wqm/api/water_exploitation_points/active',
         type: 'GET',
@@ -256,7 +245,24 @@ function get_active_water_points() {
                     </li>
                     `
                 );
+
+                $("#ms-water-point-modal").append(
+                    `
+                    <li>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" value="${element.id}" id="ms-modal-${element.id}">
+                            <label class="form-check-label" for="ms-modal-${element.id}">
+                                ${element.ten_cong_trinh_khai_thac != null ? element.ten_cong_trinh_khai_thac : 'Không xác định'}
+                            </label>
+                        </div>
+                    </li>
+                    `
+                );
             });
+
+            $('#ms-water-point').off('change');
+            $('#search-ms-water-point').off('input');
+
 
             $('#ms-water-point').on('change', '.form-check-input', function () {
                 var checked_water_point = $('#ms-water-point .form-check-input:checked');
@@ -266,6 +272,18 @@ function get_active_water_points() {
                 } else {
                     $("#ms-water-point-text").text(`Chọn điểm khai thác nước liên kết`);
                 }
+            });
+
+            $('#search-ms-water-point').on('input', function () {
+                var searchValue = $(this).val().toLowerCase();
+                $('#ms-water-point li').each(function () {
+                    var listItemText = $(this).text().toLowerCase();
+                    if (listItemText.indexOf(searchValue) !== -1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
             });
         },
         error: function (error) {
@@ -417,6 +435,10 @@ $('#add-ms-form').on('submit', function (event) {
     let station_province = parseInt($("#ms-province").val().trim());
     let station_type = $("#ms-type").val().trim();
     let station_config = $("#ms-config").val().trim();
+    let link_water_points = $('#ms-water-point input[type="checkbox"]:checked').map(function () {
+        return this.value;
+    }).get();
+
 
     let data = {
         id: id,
@@ -427,6 +449,8 @@ $('#add-ms-form').on('submit', function (event) {
         vi_tri: station_location,
         ma_tinh: station_province,
         loai_tram: station_type,
+        cau_hinh_id: station_config,
+        diem_khai_thac: link_water_points,
     };
 
     if (station_config !== '') {
@@ -451,7 +475,6 @@ $('#add-ms-form').on('submit', function (event) {
         enctype: "multipart/form-data",
 
         success: function (data) {
-            // console.log('Success:', data);
             $("#content-box__station-add").removeClass('d-none');
             $("#station-loading-box").addClass('d-none');
             clear_form();
@@ -464,7 +487,6 @@ $('#add-ms-form').on('submit', function (event) {
         }
     });
 });
-
 
 function show_modal_ms_detail(ms_id) {
     const ms_data = station_cache.find(obj => obj.id === ms_id);
@@ -508,6 +530,89 @@ function show_modal_ms_detail(ms_id) {
     newRow.append('<td>Trạng thái</td>');
     newRow.append(`<td>${trang_thai} </td>`);
     $('#ms-detail-modal tbody').append(newRow);
+    $('#ms-water-point-modal input[type="checkbox"]').prop('checked', false);
+
+    let init_checked_value = [];
+    ms_data.diem_khai_thac.forEach(element => {
+        Object.entries(element).forEach(([key, value]) => {
+            init_checked_value.push(key);
+            $(`#ms-water-point-modal #ms-modal-${key}`).prop('checked', true);
+        });
+    });
+
+    $("#update-ms-data").addClass('d-none');
+    $("#update-ms-data").off('click');
+
+    $("#update-ms-data").on('click', function () {
+
+        let checkboxData = [];
+
+        $(`#wep-${ms_data.id}-render`).empty();
+        $('#ms-water-point-modal input[type="checkbox"]').each(function () {
+            let checkboxId = $(this).attr('id');
+            let label = $('label[for="' + checkboxId + '"]').text().trim();
+            checkboxData.push({ id: checkboxId, label: label });
+
+            $(`#wep-${ms_data.id}-render`).append(
+                `
+                    <li style="text-align: start;">${label}</li>
+                `
+            );
+
+        });
+        ms_data.diem_khai_thac = checkboxData;
+
+        let link_water_points = $('#ms-water-point-modal input[type="checkbox"]:checked').map(function () {
+            return this.value;
+        }).get();
+
+        let update_data = {
+            id: ms_data.id,
+            diem_khai_thac: link_water_points,
+        }
+
+        const form_data = new FormData();
+        form_data.append(
+            "data",
+            JSON.stringify(update_data)
+        );
+
+        // Gọi api cập nhật
+        $.ajax({
+            url: '/apps/wqm/api/update_monitoring_station/',
+            type: 'POST',
+            data: form_data,
+            headers: {
+                'X-CSRFToken': get_cookie('csrftoken')
+            },
+            processData: false,
+            contentType: false,
+            cache: false,
+            enctype: "multipart/form-data",
+            success: function (res) {
+                console.log(res);
+            },
+        });
+
+        $("#update-ms-data").addClass('d-none');
+
+    });
+
+    $('#ms-water-point-modal input[type="checkbox"]').off('change');
+    $('#ms-water-point-modal input[type="checkbox"]').on('change', function () {
+        let checkedValues = [];
+
+        $('#ms-water-point-modal input[type="checkbox"]:checked').each(function () {
+            checkedValues.push($(this).val());
+        });
+
+        if (arrays_equal(checkedValues, init_checked_value)) {
+            $("#update-ms-data").addClass('d-none');
+        } else {
+            $("#update-ms-data").removeClass('d-none');
+        }
+    });
+
 
     draw_ms_detail_chart(ms_data.ma_tram, 7, 'wqi-detail-chart');
 
@@ -517,6 +622,20 @@ function show_modal_ms_detail(ms_id) {
         let day = $("#ms-detail-time-step").val();
         draw_ms_detail_chart(ms_data.ma_tram, day, 'wqi-detail-chart');
     });
+}
+
+function arrays_equal(arr1, arr2) {
+    // Kiểm tra độ dài của hai mảng
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    // Sắp xếp hai mảng để so sánh
+    arr1.sort();
+    arr2.sort();
+
+    // So sánh từng phần tử
+    return arr1.every((value, index) => value === arr2[index]);
 }
 
 var ms_wqi_detail_chart;

@@ -94,8 +94,6 @@ function add_wqi_save_btn_click() {
             JSON.stringify(data)
         );
 
-        console.log(check_change);
-
         $("#wqi-lookup-cancel-btn").click();
 
         if (!check_change) {return;}
