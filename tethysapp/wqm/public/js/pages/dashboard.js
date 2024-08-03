@@ -5,6 +5,40 @@ add_water_point_layer_to_map();
 add_dashboard_map_click_event(map);
 $("#last-updated-time").text(`07:00 ${new Date().toLocaleDateString('vi')}`);
 
+let wqi_lookup;
+$.ajax({
+    url: '/apps/wqm/api/wqi_lookup/',
+    method: 'GET',
+    success: function (res) {
+        wqi_lookup = res['data'];
+
+        wqi_lookup.forEach(e => {
+            $("#dashboard-map-legend").append(
+                `
+                <div class="legend-item">
+                    <div class="tag-circle" style="background-color:${e['mau_sac']};"></div>
+                    <span class="legend-text">${e['mo_ta']}</span>
+                </div>
+                `
+            );
+        });
+    },
+});
+
+
+function get_color_from_WQI(wqi) {
+    let result = '';
+    if (wqi_lookup) {
+        wqi_lookup.forEach(e => {
+            if (e['gia_tri_thap_nhat'] <= wqi && wqi <= e['gia_tri_cao_nhat']) {
+                result = e['mau_sac'];
+            }
+        });
+    }
+
+    return result;
+}
+
 function add_water_point_layer_to_map() {
     $.ajax({
         url: '/apps/wqm/api/water_exploitation_points/active',
@@ -73,8 +107,7 @@ function add_ms_layer_to_map() {
                 "source-layer": "table.public.diem_quan_trac.geom",
                 paint: {
                     "circle-radius": 8,
-                    "circle-color": "#00af50",
-                    "circle-opacity": 0.7,
+                    "circle-opacity": 0.9,
                 },
                 filter: ["!=", ["get", "cau_hinh_id"], null],
                 minzoom: 0,
@@ -91,7 +124,6 @@ function add_ms_layer_to_map() {
         });
     });
 }
-
 
 function add_dashboard_map_click_event(dashboard_map) {
     dashboard_map.on("click", function (e) {
@@ -288,9 +320,7 @@ function get_ms_wqi_data(ms_code, day) {
     });
 }
 
-
 var ms_wqi_chart;
-
 function draw_ms_wqi_chart(data, element_id) {
 
     const labels = Object.keys(data);
@@ -337,8 +367,7 @@ function draw_ms_wqi_chart(data, element_id) {
 }
 
 var water_flow_chart;
-
-function show_wl_data(ms_code, tab_name, element_id, day) { 
+function show_wl_data(ms_code, tab_name, element_id, day) {
     $.ajax({
         url: `/apps/wqm/api/water_station/${ms_code}/wl/${day}/`,
         method: 'GET',
@@ -363,3 +392,42 @@ function show_wl_data(ms_code, tab_name, element_id, day) {
         }
     });
 }
+
+let ms_active = [];
+let layerLoaded = false;
+let filter = [
+    'match',
+    ['get', 'id'],
+    '1', '#0000ff',
+    '2', '#ff0000', 
+    '3', '#ffff00',
+]
+
+// Sử dụng sự kiện 'idle' để bắt sự kiện khi tất cả tài nguyên đã được load
+map.on('idle', () => {
+    // Kiểm tra nếu layer đã được load
+    if (!layerLoaded && map.getLayer('diem_quan_trac_layer')) {
+        layerLoaded = true;
+
+        $.ajax({
+            url: `/apps/wqm/api/monitoring_stations/active/`,
+            method: 'GET',
+            success: function (res) {
+                ms_active = res['data'];
+
+                const features = map.queryRenderedFeatures({ layers: ['diem_quan_trac_layer'] });
+                features.forEach(feature => {
+
+                    const result = ms_active.find(item => item.id === feature.properties.id);
+                    let last_value = result['du_lieu_quan_trac'][result['du_lieu_quan_trac'].length - 1];
+
+                    filter.push(feature.properties.id);
+                    filter.push(get_color_from_WQI(last_value[1]));
+                });
+                
+                filter.push('#ccc');
+                map.setPaintProperty('diem_quan_trac_layer', 'circle-color', filter);
+            }
+        });
+    }
+});

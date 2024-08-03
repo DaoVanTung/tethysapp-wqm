@@ -16,17 +16,21 @@
 </div>
 
 <div class="content__main">
-    <iframe class="dashboard-box" src="https://dashboard.mkdc.vn/superset/dashboard/p/wo4GgpRvPzX?standalone=3&show_filters=0" frameborder="0"></iframe>
+    <iframe class="dashboard-box"
+        src="https://dashboard.mkdc.vn/superset/dashboard/p/wo4GgpRvPzX?standalone=3&show_filters=0"
+        frameborder="0"></iframe>
     <div id="dashboard-map">
-       
+
         <div id="map" class="map"></div>
 
         <div id="dashboard-point-map-info" class="point-map-info d-none">
             <div class="point-map-info__nav">
                 <h6 id="dashboard-point-map-title"></h6>
                 <div id="dashboard-point-map-info__close-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path
+                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                     </svg>
                 </div>
             </div>
@@ -36,11 +40,11 @@
             </table>
 
             <div class="analysis-data">
-                
+
             </div>
         </div>
 
-        <div class="legend">
+        <div class="legend" id="dashboard-map-legend">
             <p class="mb-2"><b>Chú giải</b></p>
 
             <div class="legend-item">
@@ -49,44 +53,16 @@
                 </div>
                 <span class="legend-text">Điểm khai thác nước</span>
             </div>
-<!-- 
-            <div class="legend-item">
-                <div>
-                    <img src="{% static 'wqm/images/diem_quan_trac_1.png' %}" width="16" />
-                </div>
-                <span class="legend-text">Điểm quan trắc nước đang hoạt động</span>
-            </div> -->
             <p class="mt-4 mb-2"><b>Điểm quan trắc</b></p>
-            <div class="legend-item">
-                <div class="tag-circle" style="background-color:#802323;"></div>
-                <span class="legend-text">Ô nhiễm nặng</span>
-            </div>
-            <div class="legend-item">
-                <div class="tag-circle" style="background-color:#fe0000;"></div>
-                <span class="legend-text">Kém</span>
-            </div>
-            <div class="legend-item">
-                <div class="tag-circle" style="background-color:#f4b083;"></div>
-                <span class="legend-text">Xấu</span>
-            </div>
-            <div class="legend-item">
-                <div class="tag-circle" style="background-color:#ffff00;"></div>
-                <span class="legend-text">Trung bình</span>
-            </div>
-            <div class="legend-item">
-                <div class="tag-circle" style="background-color:#00af50;"></div>
-                <span class="legend-text">Tốt</span>
-            </div>
-            <div class="legend-item">
-                <div class="tag-circle" style="background-color:#01b0f1;"></div>
-                <span class="legend-text">Rất tốt</span>
-            </div>
+            
 
-            <div class="time-demension">
+            <!-- <div class="time-demension">
                 <button id="play-button" class="btn play-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
-                      </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path
+                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
+                    </svg>
                 </button>
                 <div id="slider-container" class="slider-container">
                     <div id="slider" class="slider"></div>
@@ -94,7 +70,7 @@
                         <span id="slider-tooltip-text"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>

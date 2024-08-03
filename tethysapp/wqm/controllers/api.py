@@ -129,13 +129,46 @@ def get_ms(request):
     lk = cur.fetchall()
     
     for item in result_list:
-        diem_khai_thac = [ {dkt[1]: dkt[2]} for dkt in lk if dkt[0] == item['id']]
+        diem_khai_thac = [{dkt[1]: dkt[2]} for dkt in lk if dkt[0] == item['id']]
         item['diem_khai_thac'] = diem_khai_thac
-        cur.execute(f"SELECT * FROM public.lien_ket_diem_quan_trac_diem_khai_thac")
 
     # Đóng kết nối và cursor sau khi hoàn thành
     cur.close()
     conn.close()
+
+    return JsonResponse({'data': result_list})
+
+
+
+@controller(url='/api/monitoring_stations/active')
+def get_ms_active(request):
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    cur.execute(f"SELECT * FROM public.diem_quan_trac WHERE cau_hinh_id is not null")
+
+    # Lấy tất cả các dòng kết quả
+    rows = cur.fetchall()
+
+    # Lấy tên các cột
+    colnames = [desc[0] for desc in cur.description]
+
+    # Chuyển đổi dữ liệu thành danh sách các từ điển
+    result_list = [dict(zip(colnames, row)) for row in rows]
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+    
+
+    # Lấy thêm dữ liệu quan trắc 30 ngày gần đây
+    conn = psycopg2.connect(dbname=DB_NAME_SENSOR_DB, user=USERNAME_SENSOR_DB, password=PASSWORD_SENSOR_DB, host=HOST_SENSOR_DB)
+    cur = conn.cursor()
+
+    for item in result_list:
+        cur.execute(f"SELECT thoi_gian, gia_tri FROM public.ket_qua_tinh_toan WHERE thong_so = 'WQI' AND ma_cam_bien = 'CB_{item['ma_tram']}' AND thoi_gian >= NOW() - INTERVAL '30 days' ORDER BY thoi_gian ASC")
+        du_lieu_quan_trac = cur.fetchall()
+        item['du_lieu_quan_trac'] = du_lieu_quan_trac
 
     return JsonResponse({'data': result_list})
 
@@ -309,7 +342,7 @@ def get_wl_data(request, sensor_code, day):
     conn = psycopg2.connect(dbname=DB_NAME_SENSOR_DB, user=USERNAME_SENSOR_DB, password=PASSWORD_SENSOR_DB, host=HOST_SENSOR_DB)
     cur = conn.cursor()
 
-    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE thong_so = 'WL' AND ma_cam_bien = '{sensor_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
+    cur.execute(f"SELECT * FROM public.ket_qua_tinh_toan WHERE thong_so = 'WF' AND ma_cam_bien = '{sensor_code}' AND thoi_gian >= NOW() - INTERVAL '{day} days' ORDER BY thoi_gian ASC")
 
     # Lấy tất cả các dòng kết quả
     rows = cur.fetchall()

@@ -49,7 +49,6 @@ function hide_layer(layer_id) {
 }
 
 function add_ms_layer(map, icon_size) {
-
     const imagePromises = [
         map.loadImage("/static/wqm/images/diem_quan_trac_0.png"),
         map.loadImage("/static/wqm/images/diem_quan_trac_1.png"),
@@ -132,4 +131,11 @@ function describe_water_flow(currentFlow, flow24hAgo) {
     }
 
     return description;
+}
+
+
+function decode_HTML_entities(text) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    return doc.documentElement.textContent.replaceAll("'", '"');
 }

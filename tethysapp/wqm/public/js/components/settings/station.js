@@ -556,19 +556,16 @@ function show_modal_ms_detail(ms_id) {
                     <li style="text-align: start;">${label}</li>
                 `
             );
-
         });
         ms_data.diem_khai_thac = checkboxData;
 
         let link_water_points = $('#ms-water-point-modal input[type="checkbox"]:checked').map(function () {
             return this.value;
         }).get();
-
         let update_data = {
             id: ms_data.id,
             diem_khai_thac: link_water_points,
         }
-
         const form_data = new FormData();
         form_data.append(
             "data",
@@ -591,9 +588,7 @@ function show_modal_ms_detail(ms_id) {
 
             },
         });
-
         $("#update-ms-data").addClass('d-none');
-
     });
 
     $('#ms-water-point-modal input[type="checkbox"]').off('change');
