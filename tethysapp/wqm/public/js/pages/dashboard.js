@@ -6,6 +6,14 @@ add_dashboard_map_click_event(map);
 $("#last-updated-time").text(`07:00 ${new Date().toLocaleDateString('vi')}`);
 
 let wqi_lookup;
+
+let ms_active = [];
+let layerLoaded = false;
+let filter = [
+    'match',
+    ['get', 'id'],
+]
+
 $.ajax({
     url: '/apps/wqm/api/wqi_lookup/',
     method: 'GET',
@@ -17,14 +25,69 @@ $.ajax({
                 `
                 <div class="legend-item">
                     <div class="tag-circle" style="background-color:${e['mau_sac']};"></div>
-                    <span class="legend-text">${e['mo_ta']}</span>
+                    <span class="legend-text">${e['mo_ta']} (${e['gia_tri_thap_nhat']} - ${e['gia_tri_cao_nhat']})</span>
                 </div>
                 `
             );
         });
+
+        // Sử dụng sự kiện 'idle' để bắt sự kiện khi tất cả tài nguyên đã được load
+        map.on('idle', () => {
+            // Kiểm tra nếu layer đã được load
+            if (!layerLoaded && map.getLayer('diem_quan_trac_layer')) {
+                layerLoaded = true;
+
+                $.ajax({
+                    url: `/apps/wqm/api/monitoring_stations/active/`,
+                    method: 'GET',
+                    success: function (res) {
+                        ms_active = res['data'];
+
+                        const features = map.queryRenderedFeatures({ layers: ['diem_quan_trac_layer'] });
+                        features.forEach(feature => {
+
+                            const result = ms_active.find(item => item.id === feature.properties.id);
+                            let last_value = result['du_lieu_quan_trac'][result['du_lieu_quan_trac'].length - 1];
+
+                            filter.push(feature.properties.id);
+                            filter.push(get_color_from_WQI(last_value[1]));
+
+                        });
+
+                        filter.push('#ccc');
+                        map.setPaintProperty('diem_quan_trac_layer', 'circle-color', filter);
+
+                        $("#dashboard-map-legend").append(
+                            `
+                            <div class="time-demension">
+                                <button id="play-button" class="btn play-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-play-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
+                                    </svg>
+                                </button>
+                                <div id="slider-container" class="slider-container">
+                                    <div id="slider" class="slider"></div>
+                                    <div id="slider-tooltip" class="slider-tooltip">
+                                        <span id="slider-tooltip-text"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        );
+
+                        init_slider();
+
+                    }
+                });
+
+
+            }
+        });
+
     },
 });
-
 
 function get_color_from_WQI(wqi) {
     let result = '';
@@ -38,6 +101,18 @@ function get_color_from_WQI(wqi) {
 
     return result;
 }
+
+function updateColor(id, wqi) {
+    // Tìm vị trí của id trong mảng filter
+    for (let i = 1; i < filter.length; i += 1) {
+        
+        if (filter[i] === id) {
+            filter[i + 1] = get_color_from_WQI(wqi);
+            return; 
+        }
+    }
+}
+
 
 function add_water_point_layer_to_map() {
     $.ajax({
@@ -123,6 +198,125 @@ function add_ms_layer_to_map() {
             map.getCanvas().style.cursor = "";
         });
     });
+}
+
+function formatData(data) {
+    // Tạo một object rỗng để lưu trữ dữ liệu
+    let formattedObject = {};
+
+    // Duyệt qua từng phần tử trong dữ liệu
+    data.forEach(item => {
+        // Chuyển đổi ngày thành định dạng yyyy-mm-dd
+        let date = new Date(item[0]);
+        let formattedDate = date.toISOString().split('T')[0];
+
+        // Thêm dữ liệu vào object với ngày làm key
+        formattedObject[formattedDate] = item[1];
+    });
+
+    // Trả về object đã được định dạng
+    return formattedObject;
+}
+
+function formatDateString(date) {
+    let year = date.getFullYear();
+    let month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    let day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+function init_slider() {
+    $(document).ready(function () {
+        let data_for_slider = {};
+        let ms_active_id = [];
+
+        ms_active.forEach(element => {
+            // let data_for_slider = {};
+            // ms_active_id.push(element['id']);
+            data_for_slider[element['id']] = formatData(element['du_lieu_quan_trac']);
+        });
+
+        var current = 0;
+        var isPlaying = false;
+        var step = 1;
+        var intervalId;
+        var dayMilliseconds = 24 * 60 * 60 * 1000; // Số mili giây trong một ngày
+
+        // Khởi tạo ngày bắt đầu và ngày kết thúc (30 ngày trước ngày hôm nay)
+        var today = new Date();
+        var dataTime = [];
+        for (var i = 30; i >= 0; i--) {
+            dataTime.push(new Date(today.getTime() - (i * dayMilliseconds)));
+        }
+
+        $("#slider-tooltip-text").text(formatDateString(dataTime[0]));
+
+        function updateSliderColor(value, max) {
+            var percentage = (value / max) * 100;
+            $(".ui-slider-range").css("width", percentage + "%");
+        }
+
+        function handlerTimeSlider(date_string) {
+            for (let key in data_for_slider) {
+                updateColor(key, data_for_slider[key][date_string]);
+            }
+        
+            map.setPaintProperty('diem_quan_trac_layer', 'circle-color', filter);
+        }
+
+        $("#slider").slider({
+            range: "min",
+            min: 0,
+            max: dataTime.length - 1,
+            step: step,
+            value: 0,
+            slide: function (event, ui) {
+                current = ui.value;
+                let dateString = formatDateString(dataTime[current]);
+                $("#slider-tooltip-text").text(dateString);
+                updateSliderColor(current, dataTime.length - 1);
+                handlerTimeSlider(dateString);
+                // handlerTimeSlider(dataTime[current], supportMap); // Hàm này có thể thêm nếu cần thiết
+            },
+        });
+
+        // Xử lý sự kiện khi nhấn nút play
+        $("#play-button").click(function () {
+            if (!isPlaying) {
+                isPlaying = true;
+                $("#play-button").html('<svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/></svg>');
+                var end = dataTime.length - 1;
+
+                if (current === end) {
+                    current = 0;
+                }
+
+                function run() {
+                    current += step;
+                    $("#slider").slider("value", current); // Cập nhật giá trị của slider
+                    let dateString = formatDateString(dataTime[current]);
+                    $("#slider-tooltip-text").text(dateString);
+                    updateSliderColor(current, dataTime.length - 1);
+                    handlerTimeSlider(dateString);
+
+                    if (current < end && isPlaying) {
+                        intervalId = setTimeout(run, 300);
+                    } else {
+                        isPlaying = false;
+                        $("#play-button").html('<svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/></svg>');
+                    }
+                }
+
+                run(); // Bắt đầu chạy
+            } else {
+                isPlaying = false;
+                clearTimeout(intervalId);
+                $("#play-button").html('<svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/></svg>');
+            }
+        });
+    });
+
 }
 
 function add_dashboard_map_click_event(dashboard_map) {
@@ -392,42 +586,3 @@ function show_wl_data(ms_code, tab_name, element_id, day) {
         }
     });
 }
-
-let ms_active = [];
-let layerLoaded = false;
-let filter = [
-    'match',
-    ['get', 'id'],
-    '1', '#0000ff',
-    '2', '#ff0000', 
-    '3', '#ffff00',
-]
-
-// Sử dụng sự kiện 'idle' để bắt sự kiện khi tất cả tài nguyên đã được load
-map.on('idle', () => {
-    // Kiểm tra nếu layer đã được load
-    if (!layerLoaded && map.getLayer('diem_quan_trac_layer')) {
-        layerLoaded = true;
-
-        $.ajax({
-            url: `/apps/wqm/api/monitoring_stations/active/`,
-            method: 'GET',
-            success: function (res) {
-                ms_active = res['data'];
-
-                const features = map.queryRenderedFeatures({ layers: ['diem_quan_trac_layer'] });
-                features.forEach(feature => {
-
-                    const result = ms_active.find(item => item.id === feature.properties.id);
-                    let last_value = result['du_lieu_quan_trac'][result['du_lieu_quan_trac'].length - 1];
-
-                    filter.push(feature.properties.id);
-                    filter.push(get_color_from_WQI(last_value[1]));
-                });
-                
-                filter.push('#ccc');
-                map.setPaintProperty('diem_quan_trac_layer', 'circle-color', filter);
-            }
-        });
-    }
-});
