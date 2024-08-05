@@ -108,8 +108,8 @@ def get_ms_of_license(request, id):
     return JsonResponse({'data': result_list})
 
 
-@controller(url='/api/ms_data')
-def get_ms(request):
+@controller(url='/api/monitoring_stations')
+def get_monitoring_stations(request):
     conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
     cur = conn.cursor()
 

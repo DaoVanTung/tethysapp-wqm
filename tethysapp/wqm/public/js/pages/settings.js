@@ -31,9 +31,9 @@ $('.menu-box__item').on('click', function() {
 
 function get_license_data() {
     $.ajax({
-        'url': '/apps/wqm/api/licenses/',
-        'method': 'GET',
-        'success': function(res) {
+        url: '/apps/wqm/api/licenses/',
+        method: 'GET',
+        success: function(res) {
             license_cache = res['data'];
             license_total = license_cache.length;
 
@@ -48,9 +48,9 @@ function get_license_data() {
 
 function get_ms_data() {
     $.ajax({
-        'url': '/apps/wqm/api/ms_data/',
-        'method': 'GET',
-        'success': function(res) {
+        url: '/apps/wqm/api/monitoring_stations/',
+        method: 'GET',
+        success: function(res) {
             station_cache = res['data'];
             fill_station_to_table();
 
