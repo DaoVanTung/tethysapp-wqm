@@ -415,7 +415,38 @@ function generate_UUID() {
 }
 
 $('#add-ms-form').on('submit', function (event) {
-    event.preventDefault(); // Ngăn chặn việc submit form mặc định
+    event.preventDefault();
+
+    // Biến kiểm tra trạng thái hợp lệ của form
+    let isValid = true;
+
+    // Xóa các thông báo lỗi cũ
+    $(".error-message").remove();
+
+    // Kiểm tra từng trường
+    if ($("#ms-code").val().trim() === "") {
+        isValid = false;
+        $("#ms-code").after('<span class="error-message" style="color: red;">Vui lòng nhập mã trạm</span>');
+    }
+
+    if ($("#ms-long").val().trim() === "" || isNaN($("#ms-long").val()) || $("#ms-long").val() < -180 || $("#ms-long").val() > 180) {
+        isValid = false;
+        $("#ms-long").after('<span class="error-message" style="color: red;">Vui lòng nhập kinh độ hợp lệ (giữa -180 và 180)</span>');
+    }
+
+    if ($("#ms-lat").val().trim() === "" || isNaN($("#ms-lat").val()) || $("#ms-lat").val() < -90 || $("#ms-lat").val() > 90) {
+        isValid = false;
+        $("#ms-lat").after('<span class="error-message" style="color: red;">Vui lòng nhập vĩ độ hợp lệ (giữa -90 và 90)</span>');
+    }
+
+    if ($("#ms-location").val().trim() === "") {
+        isValid = false;
+        $("#ms-location").after('<span class="error-message" style="color: red;">Vui lòng nhập vị trí</span>');
+    }
+
+    if (!isValid) {
+        return;
+    }
 
     $("#content-box__station-add").addClass('d-none');
     $("#station-loading-box").removeClass('d-none');
@@ -476,11 +507,16 @@ $('#add-ms-form').on('submit', function (event) {
             $("#content-box__station-add").removeClass('d-none');
             $("#station-loading-box").addClass('d-none');
             clear_form();
+            get_ms_data();
+            alert("Thêm điểm quan trắc thành công!");
+            // Thêm cache
+
         },
         error: function (error) {
-            console.error('Error:', error);
             $("#content-box__station-add").removeClass('d-none');
             $("#station-loading-box").addClass('d-none');
+            // Alert thêm thất bại
+            alert("Thêm điểm quan trắc thất bại!");
 
         }
     });

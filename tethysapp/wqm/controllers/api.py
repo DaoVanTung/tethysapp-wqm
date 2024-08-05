@@ -130,7 +130,7 @@ def get_monitoring_stations(request):
     lk = cur.fetchall()
     
     for item in result_list:
-        diem_khai_thac = [{dkt[1]: dkt[2]} for dkt in lk if dkt[0] == item['id']]
+        diem_khai_thac = [{str(dkt[1]): dkt[2]} for dkt in lk if dkt[0] == item['id']]
         item['diem_khai_thac'] = diem_khai_thac
 
     # Đóng kết nối và cursor sau khi hoàn thành
@@ -249,8 +249,6 @@ def add_ms(request):
     cau_hinh_id = data.get('cau_hinh_id')
     diem_khai_thac = data.get('diem_khai_thac')
 
-    print(diem_khai_thac)
-
     # Kiểm tra nếu tất cả các trường cần thiết đều có
     # if not all([ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id]):
     #     return JsonResponse({'error': 'Missing required fields'}, status=400)
@@ -258,9 +256,9 @@ def add_ms(request):
     # Xây dựng câu truy vấn SQL để chèn dữ liệu
     query = """
         INSERT INTO public.diem_quan_trac (id, ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
-    values = (id, ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id)
+    values = (id, ma_tram, so_hieu, kinh_do, vi_do, vi_tri, ma_tinh, cau_hinh_id if cau_hinh_id != '' else None)
 
     try:
         # Thực hiện truy vấn
