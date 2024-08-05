@@ -48,7 +48,7 @@ function get_license_data() {
 
 function get_ms_data() {
     $.ajax({
-        'url': '/apps/wqm/api/monitoring_stations/',
+        'url': '/apps/wqm/api/ms_data/',
         'method': 'GET',
         'success': function(res) {
             station_cache = res['data'];
