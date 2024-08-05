@@ -117,3 +117,40 @@ function add_wqi_save_btn_click() {
     });
 
 }
+
+let email_config_cache;
+// Lấy email thông báo
+function get_email_config() {
+    $.ajax({
+        url: '/apps/wqm/api/email_config/',
+        method: 'GET',
+        success: function (res) {
+
+            $("#station-point-data-time-step").empty();
+            email_config_cache = res['data'];
+            email_config_cache.forEach(element => {
+                $("#station-point-data-time-step").append(
+                    `
+                    <option value="${element['id']}" selected>${element['ten_cau_hinh']}</option>
+                    `
+                );
+            });
+
+            // Thêm sự kiện thay đổi
+            $("#station-point-data-time-step").on('change', function() {
+                let value = $("#station-point-data-time-step").val();
+                let item = email_config_cache.find(item => item.id == value);
+
+                $("#email-config-from").val(item['email_gui']);
+                $("#email-config-to").val(item['email_nhan']);
+                $("#email-config-password").val(item['mat_khau']);
+                $("#email-config-token").val(item['token']);
+                $("#email-config-subject").val(item['chu_de']);
+                $("#email-config-content").val(item['noi_dung']);
+
+            });
+
+            $('#station-point-data-time-step').val(email_config_cache[0]['id']).trigger('change');
+        },
+    });
+}

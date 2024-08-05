@@ -5,7 +5,6 @@
     <div class="spinner-border text-info" role="status"></div>
 </div>
 
-
 <div class="content-box__content" id="content-box__config">
     <div class="alert alert-info" role="alert">
         <b>Cấu hình hệ thống</b>
@@ -49,8 +48,6 @@
         <div class="config-control__content">
 
             <select id="station-point-data-time-step" class="form-control" style="height: 32px; width: auto; border-radius: 0;">
-                <option value="30" selected>Thông báo tổng hợp chỉ số chất lượng nước </option>
-                <option value="90">Thông báo tổng hợp lưu lượng khai thác </option>
             </select>
 
             <div class="mb-2" style="margin-top: 32px; padding: 24px 16px; border: 1px solid #ccc; position: relative; width: 640px;">
@@ -59,15 +56,15 @@
                 </div>
                 <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Mail Server</label>
-                    <input class="form-control" value="hotro@wqm.vn" readonly />
+                    <input class="form-control" value="hotro@wqm.vn" id="email-config-from" />
                 </div>
                 <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Mật khẩu</label>
-                    <input class="form-control" type="password" value="password" readonly />
+                    <input class="form-control" type="text" id="email-config-password" value="password" readonly />
                 </div>
                 <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Token</label>
-                    <textarea style="border-radius: 0;" name="" id="" class="form-control" value="quanly@wqm.vn" readonly>eyJ4NXQiOiJNV0l5TkRJNVlqRTJaV1kxT0RNd01XSTNOR1ptTVRZeU5UTTJOVFZoWlRnMU5UTTNaVE5oTldKbVpERTFPVEE0TldFMVlUaGxNak5sTldFellqSXlZUSIsImtpZCI6Ik1XSXlOREk1WWpFMlpXWTFPRE13TVdJM05HWm1NVFl5TlRNMk5UVmhaVGcxTlRNM1pUTmhOV0ptWkRFMU9UQTROV0UxWVRobE1qTmxOV0V6WWpJeVlRX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ</textarea>
+                    <textarea style="border-radius: 0;" id="email-config-token" class="form-control" value="quanly@wqm.vn" readonly>eyJ4NXQiOiJNV0l5TkRJNVlqRTJaV1kxT0RNd01XSTNOR1ptTVRZeU5UTTJOVFZoWlRnMU5UTTNaVE5oTldKbVpERTFPVEE0TldFMVlUaGxNak5sTldFellqSXlZUSIsImtpZCI6Ik1XSXlOREk1WWpFMlpXWTFPRE13TVdJM05HWm1NVFl5TlRNMk5UVmhaVGcxTlRNM1pUTmhOV0ptWkRFMU9UQTROV0UxWVRobE1qTmxOV0V6WWpJeVlRX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ</textarea>
                 </div>
             </div>
 
@@ -77,19 +74,17 @@
                 </div>
                 <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Người nhận</label>
-                    <input class="form-control" value="quanly@wqm.vn" readonly />
+                    <input class="form-control" id="email-config-to" value="quanly@wqm.vn" readonly />
                 </div>
                 <div class="smtp-box__item">
                     <label style="font-size: 12px; font-weight: bold;" >Chủ đề</label>
-                    <input class="form-control" value="THÔNG BÁO CHỈ SỐ CHẤT LƯỢNG NƯỚC" readonly />
+                    <input class="form-control" id="email-config-subject" value="THÔNG BÁO CHỈ SỐ CHẤT LƯỢNG NƯỚC" readonly />
                 </div>
                 <div class="smtp-box__item mt-2">
                     <label style="font-size: 12px; font-weight: bold;" >Nội dung</label>
-                    <textarea style="border-radius: 0;" name="" id="" class="form-control" value="quanly@wqm.vn" readonly></textarea>
+                    <textarea style="border-radius: 0;" id="email-config-content" class="form-control" value="quanly@wqm.vn" readonly></textarea>
                 </div>
             </div>
-
-
             <div class="config-update-button-box">
                 <button class="btn btn-outline-success" type="button" style="margin-right: 8px;">
                     <span class="fw-medium text-uppercase">Gửi thử</span>

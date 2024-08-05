@@ -176,6 +176,7 @@ function init_config_tab() {
             add_wqi_update_btn_click();
             add_wqi_cancel_btn_click();
             add_wqi_save_btn_click();
+            get_email_config();
 
             $("#config-loading-box").addClass('d-none');
         },

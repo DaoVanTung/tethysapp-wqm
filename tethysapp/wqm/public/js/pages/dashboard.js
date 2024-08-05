@@ -76,26 +76,21 @@ $.ajax({
                             </div>
                             `
                         );
-
                         init_slider();
-
                     }
                 });
-
-
             }
         });
-
     },
 });
 
 function get_color_from_WQI(wqi) {
-    let result = '';
+    let result = '#ccc';
     if (wqi_lookup) {
         wqi_lookup.forEach(e => {
             if (e['gia_tri_thap_nhat'] <= wqi && wqi <= e['gia_tri_cao_nhat']) {
                 result = e['mau_sac'];
-            }
+            }   
         });
     }
 
@@ -105,14 +100,12 @@ function get_color_from_WQI(wqi) {
 function updateColor(id, wqi) {
     // Tìm vị trí của id trong mảng filter
     for (let i = 1; i < filter.length; i += 1) {
-        
         if (filter[i] === id) {
             filter[i + 1] = get_color_from_WQI(wqi);
             return; 
         }
     }
 }
-
 
 function add_water_point_layer_to_map() {
     $.ajax({
@@ -162,8 +155,6 @@ function add_water_point_layer_to_map() {
     });
 }
 
-
-// Lấy điểm quan trắc đang hoạt động
 function add_ms_layer_to_map() {
     const imagePromises = [
         map.loadImage("/static/wqm/images/diem_quan_trac_0.png"),
@@ -316,7 +307,6 @@ function init_slider() {
             }
         });
     });
-
 }
 
 function add_dashboard_map_click_event(dashboard_map) {
@@ -404,7 +394,6 @@ function show_water_point_info(tab_name, properties) {
     `);
 
     $(`#${tab_name}-point-map-info .analysis-data`).append(`<canvas id="${tab_name}-total-flow-chart"></canvas>`);
-
 
     $("#point-data-time-step").on('change', function () {
         let day = $("#point-data-time-step").val();
