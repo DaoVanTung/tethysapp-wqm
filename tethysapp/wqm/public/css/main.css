@@ -241,3 +241,15 @@ div.dt-container .dt-search {
 .content-box__sub-content input, .content-box__sub-content select, .content-box__sub-content button {
     border-radius: 0px;
 }
+
+.email-update-input {
+    box-shadow: none !important;
+}
+
+.email-update-input:hover {
+    cursor: default;
+}
+
+.email-update-input.active:hover {
+    cursor: auto;
+}

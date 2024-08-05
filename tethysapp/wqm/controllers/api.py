@@ -479,3 +479,32 @@ def get_email_config(request):
     conn.close()
 
     return JsonResponse({'data': result_list})
+
+
+@csrf_exempt
+@controller(url='/api/update_email_config/', method='POST')
+def update_email_config(request):
+    # Kết nối đến cơ sở dữ liệu
+    conn = psycopg2.connect(dbname=DB_NAME, user=USERNAME, password=PASSWORD, host=HOST)
+    cur = conn.cursor()
+
+    data = {}
+    try:
+        data = json.loads(request.POST['data'])
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    try:
+        cur.execute(f"UPDATE public.cau_hinh_thong_bao SET email_nhan = '{data['email_from']}', email_gui = '{data['email_to']}', mat_khau = '{data['password']}', chu_de = '{data['subject']}', noi_dung = '{data['content']}'  WHERE id = '{data['id']}'")
+        conn.commit()
+    except psycopg2.Error as e:
+        conn.rollback()
+        cur.close()
+        conn.close()
+        return JsonResponse({'error': f'Error inserting data: {e}'}, status=500)
+
+    # Đóng kết nối và cursor sau khi hoàn thành
+    cur.close()
+    conn.close()
+
+    return JsonResponse({'message': 'Successfully'})

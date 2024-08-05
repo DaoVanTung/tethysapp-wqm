@@ -139,3 +139,38 @@ function decode_HTML_entities(text) {
     const doc = parser.parseFromString(text, 'text/html');
     return doc.documentElement.textContent.replaceAll("'", '"');
 }
+
+function sendEmail(config) {
+    // console.log(from_email);
+    // console.log(to_email);
+    // console.log(password_email);
+    // console.log(subject_email);
+    // console.log(template_email);
+    // console.log(token_email);
+
+    let contentEmail = `
+        Kết quả đánh giá rủi ro cấp nước ${resultTitle} (${resultTime}) cho thấy ${riskValues[0]} xã có chỉ số rủi ro cấp nước ở mức Thấp, ${riskValues[1]} xã có chỉ số rủi ro cấp nước Vừa, ${riskValues[2]} xã có chỉ số rủi ro cấp nước Cao và ${riskValues[3]} xã có chỉ số rủi ro cấp nước Rất cao.
+    `;
+
+    $.ajax({
+        url: `https://api.mkdc.com.vn/emonre/1.0.0?fromMail=${from_email}&fromPassword=${password_email}&tomail=${to_email}&fromSubject=${subject_email}`,
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token_email}` 
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+            "content": `${contentEmail}`,
+        }),
+        success: function(data) {
+            // console.log('Email sent successfully:', data);
+            $("#success-send-email").modal('show');
+        },
+        error: function(xhr, status, error) {
+            // console.error('Error sending email:', error);
+            $("#failure-send-email").modal('show');
+
+        }
+    });
+}
